@@ -1,0 +1,60 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const title = 'Pagina non trovata — Performa';
+const description = 'La pagina che stai cercando non esiste o è stata spostata.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="notfound">
+    <div class="container-narrow">
+      <p class="code">404</p>
+      <h1>Questa pagina non esiste.</h1>
+      <p class="lead">
+        Il link è vecchio, la pagina è stata rimossa, o hai sbagliato a digitare.
+        Nessuna di queste tre ragioni è colpa tua.
+      </p>
+      <div class="ctas">
+        <a href="/" class="btn btn--primary">Torna alla home</a>
+        <a href="/contatti" class="btn btn--secondary">Segnala un link rotto</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="scss">
+  .notfound {
+    padding-block: var(--p-space-24);
+    text-align: center;
+  }
+
+  .code {
+    font-family: var(--p-font-mono);
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--p-accent);
+    line-height: 1;
+    margin-block-end: var(--p-space-4);
+  }
+
+  h1 {
+    font-size: var(--p-fs-h1);
+    font-weight: 700;
+    margin-block-end: var(--p-space-4);
+  }
+
+  .lead {
+    color: var(--p-fg-muted);
+    font-size: 1.125rem;
+    max-width: 32rem;
+    margin-inline: auto;
+    margin-block-end: var(--p-space-8);
+  }
+
+  .ctas {
+    display: flex;
+    gap: var(--p-space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+</style>

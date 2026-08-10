@@ -1,0 +1,182 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+
+const title = 'Contatti — Performa';
+const description =
+  'Scrivici in italiano, rispondiamo entro il giorno successivo. Nessun form, nessuna call di qualificazione. Portaci il tuo Excel di allocazione peggiore o solo la curiosità.';
+
+// TODO: sostituire con email definitiva quando fornita dal commerciale
+const email = 'contatto@performa.example';
+const mailto = `mailto:${email}?subject=Info%20Performa%20—%20il%20tuo%20studio%20di%20controllo%20di%20gestione`;
+
+const contactLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: 'Contatti Performa',
+  description,
+  inLanguage: 'it-IT',
+};
+
+const startingQuestions = [
+  {
+    q: 'Sono un consulente con 5-10 clienti PMI. Come funziona?',
+    a: 'Un solo account gestisce N organizzazioni cliente con isolamento totale dei dati. Template industriali per Manifattura, Ospitalità, Servizi, RSA come punto di partenza. Deep-copy tra scenari per riusare i modelli tra clienti simili.',
+  },
+  {
+    q: 'Ho già un Excel di allocazione. Posso migrarlo?',
+    a: 'Sì. Si importa il piano dei conti da Excel o CSV, si ricostruiscono nodi e regole (spesso più semplice che tradurre le formule di Excel), si valida il ricalcolo confrontando i totali. La prima migrazione dura in genere 1-3 settimane a seconda della complessità.',
+  },
+  {
+    q: 'Copilot AI, cosa fa esattamente?',
+    a: 'Aiuta durante la costruzione del modello: suggerisce driver, spiega perché un calcolo dà un certo numero, propone come mappare voci di costo su attività. Non è un chatbot generico — conosce lo schema di dati di Performa e il tuo modello attivo.',
+  },
+  {
+    q: 'Il prodotto è in produzione o è ancora in beta?',
+    a: 'In produzione presso clienti reali. Oltre € 300 milioni di costi già allocati con Performa, modelli fino a 369 nodi e 340 regole di allocazione attive in scenari live.',
+  },
+];
+---
+
+<BaseLayout title={title} description={description} jsonLd={contactLd}>
+  <section class="section section--intro">
+    <div class="container-narrow intro">
+      <span class="eyebrow">Contatti</span>
+      <h1 class="display intro__title">
+        Scrivici in italiano.<br />
+        <em>Rispondiamo</em> entro il giorno successivo.
+      </h1>
+      <p class="intro__lead">
+        Nessun form da compilare, nessuna call di qualificazione da mezz'ora
+        prima di parlare con qualcuno. Portaci il tuo Excel di allocazione
+        peggiore, un modello che vuoi rifare da capo, o solo la curiosità.
+      </p>
+
+      <div class="intro__cta">
+        <a href={mailto} class="btn btn--accent btn--lg">
+          {email}
+          <Icon name="arrow-right" size={18} />
+        </a>
+      </div>
+      <p class="intro__note">
+        Il click apre il tuo client email precompilato. Nessun tracciamento,
+        nessun cookie.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--faq" aria-labelledby="faq-heading">
+    <div class="container-narrow">
+      <div class="section__head">
+        <span class="eyebrow">Da dove partire</span>
+        <h2 id="faq-heading" class="section-title">
+          Le domande su cui ci scrivono più spesso.
+        </h2>
+        <p class="section-lead">
+          Se una di queste ti risuona, clicca sulla mail qui sopra e mettila
+          come oggetto — capiamo subito da dove partire.
+        </p>
+      </div>
+
+      <ul class="faq">
+        {
+          startingQuestions.map((item) => (
+            <li class="faq__item">
+              <h3 class="faq__q display">{item.q}</h3>
+              <p class="faq__a">{item.a}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="scss">
+  .section--intro {
+    padding-block: clamp(4rem, 8vw, 7rem) clamp(3rem, 5vw, 4rem);
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-4);
+    align-items: flex-start;
+  }
+
+  .intro__title {
+    font-size: clamp(2.25rem, 4vw + 0.75rem, 4rem);
+    line-height: var(--p-lh-tight);
+    color: var(--p-fg);
+
+    :global(em) {
+      color: var(--p-accent);
+      font-style: italic;
+    }
+  }
+
+  .intro__lead {
+    font-size: var(--p-fs-body-lg);
+    color: var(--p-fg-muted);
+    line-height: 1.55;
+    text-wrap: pretty;
+    max-width: 36rem;
+  }
+
+  .intro__cta {
+    margin-block-start: var(--p-space-4);
+  }
+
+  .intro__note {
+    color: var(--p-fg-subtle);
+    font-size: var(--p-fs-small);
+    margin-block-start: var(--p-space-3);
+  }
+
+  .section--faq {
+    padding-block: clamp(3rem, 6vw, 5rem);
+    background: var(--p-bg-elevated);
+    border-block: 1px solid var(--p-border);
+  }
+
+  .section__head {
+    max-width: 44rem;
+    margin-block-end: var(--p-space-12);
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-4);
+    align-items: flex-start;
+  }
+
+  .faq {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-8);
+  }
+
+  .faq__item {
+    padding-block-start: var(--p-space-6);
+    border-block-start: 1px solid var(--p-border);
+
+    &:first-child {
+      padding-block-start: 0;
+      border-block-start: none;
+    }
+  }
+
+  .faq__q {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--p-fg);
+    margin-block-end: var(--p-space-3);
+    line-height: var(--p-lh-snug);
+  }
+
+  .faq__a {
+    color: var(--p-fg-muted);
+    line-height: 1.55;
+  }
+</style>

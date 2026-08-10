@@ -1,0 +1,32 @@
+# Performa marketing site — crawler policy
+# Aggiornare Sitemap con dominio finale quando disponibile.
+
+User-agent: *
+Allow: /
+
+# AI crawlers — permessi esplicitamente (GEO)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://performa.example/sitemap-index.xml

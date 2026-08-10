@@ -1,0 +1,586 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+
+const title = 'Confronto — Performa vs alternative';
+const description =
+  'Come Performa si posiziona rispetto a piattaforme EPM enterprise, FP&A generalisti, software ABC internazionali, altre soluzioni SaaS italiane ed Excel. Comparativa per categoria, non per marca.';
+
+// Categorie del landscape — per marca solo Cluster A/B/C (nominare italiani/myRevelo direttamente non serve, deciso col PO)
+const clusters = [
+  {
+    label: 'Piattaforme EPM enterprise',
+    names: 'SAP PaPM, Oracle PCMCS, OneStream, CCH Tagetik, IBM Cognos',
+    forte: 'Potenza illimitata, integrazione ERP dello stesso vendor, referenze corporate globali.',
+    debole: 'Licenze da €100k+/anno, implementazione 6-18 mesi con consulenti certificati, TCO su 3 anni €300k-1M+, team dedicati indispensabili.',
+    quando: 'Corporate multinazionali con team FP&A dedicati e budget di implementazione a sei zeri.',
+    performa: 'Non attaccante: se sei nella loro fascia, hanno strutture di supporto e integrazioni che Performa non replica.',
+  },
+  {
+    label: 'FP&A generalisti "a modelli"',
+    names: 'Anaplan, Board, Workday Adaptive, Prophix, Vena, Jedox',
+    forte: 'Piattaforme flessibili e potenti nel planning, budgeting e forecasting. Community di modeler estese.',
+    debole: 'ABC non è nativo: va costruito con formule e ipercubi. Il modello ABC diventa un progetto interno che dura 6+ mesi e dipende dal "guru" che l\'ha scritto.',
+    quando: 'Aziende che hanno bisogno di una piattaforma FP&A completa (planning + consolidato + budget + reporting) e trattano l\'ABC come un sotto-caso.',
+    performa: 'Coesistenza. Se hai già Anaplan o Board e ci modelli il resto: usa quelli per l\'ABC. Se non li hai e ti serve solo ABC, Performa costa e pesa una frazione.',
+  },
+  {
+    label: 'Software ABC internazionali',
+    names: 'CostPerform (NL), MyABCM (BR), PlaidCloud (US)',
+    forte: 'Pionieri della metodologia ABC (CostPerform dagli anni \'90), scala globale, verticali pre-costruiti.',
+    debole: 'Nessuna presenza commerciale strutturata in Italia. No interfaccia italiana, no partner locali, no piano dei conti IT4 nativo, no residenza dati IT.',
+    quando: 'Aziende internazionali che hanno bisogno di un tool ABC globale su più giurisdizioni.',
+    performa: 'Sul mercato italiano il nostro vantaggio è la localizzazione completa: lingua, normativa, residenza dati Azure Italia, partner locali.',
+  },
+  {
+    label: 'Altre soluzioni SaaS italiane di controllo di gestione',
+    names: 'Vari vendor italiani',
+    forte: 'Presenza sul mercato italiano, lingua e supporto locale.',
+    debole: 'Nella nostra ricognizione: nessuno copre in modo integrato timesheet dipendente, driver calcolati sofisticati, allocation patterns riusabili e copertura completa dei costi (personale + ammortamenti + imputazioni manuali oltre alle fatture). Modelli ABC parziali.',
+    quando: 'Se ti basta un aggregatore di fatture con vista per cliente/prodotto.',
+    performa: 'Se hai bisogno di un modello ABC completo con timesheet, ammortamenti, driver calcolati, allocation patterns e drill-down — le differenze diventano evidenti già in fase di demo comparativa.',
+  },
+  {
+    label: 'Excel + macro + PowerBI',
+    names: 'L\'incumbent reale',
+    forte: 'Costo apparente zero, familiarità totale, controllo pieno.',
+    debole: 'Non versionato, non auditabile, single-user in pratica, non riproducibile a distanza di mesi, muore quando cambia la persona che l\'ha scritto. La manutenzione costa più della licenza di un tool serio.',
+    quando: 'Se sei mono-prodotto, con tre driver di costo che non cambiano mai, e il modello ABC lo aggiorni una volta l\'anno.',
+    performa: '**Il nostro competitor reale.** Tutti i clienti Performa attivi oggi arrivano da Excel — non da un altro SaaS. Il vero switch è "esci dai fogli".',
+  },
+];
+
+const matrix = [
+  { dimension: 'ABC nativo (attività + driver come primitiva)', perf: '✓', epm: '~', fpa: '✗', abc_intl: '✓', italiani: '~', excel: '~' },
+  { dimension: 'Time-to-value', perf: 'Settimane', epm: '6-18 mesi', fpa: '3-9 mesi', abc_intl: '3-6 mesi', italiani: 'Settimane', excel: 'Immediato ma fragile' },
+  { dimension: 'TCO 3 anni indicativo', perf: '< €30k', epm: '€300k-1M+', fpa: '€60k-300k', abc_intl: '€50k-200k', italiani: '€10k-50k', excel: 'Nascosto ma alto' },
+  { dimension: 'Multi-tenant per consulenti', perf: '✓ nativo', epm: '✗', fpa: '✗', abc_intl: '~', italiani: '~', excel: '✗' },
+  { dimension: 'Timesheet integrato → regole', perf: '✓', epm: '~', fpa: '~', abc_intl: '~', italiani: '✗ (tipicamente)', excel: '✗ (manuale)' },
+  { dimension: 'Driver calcolati (Sum, Count, GroupSum, Residual)', perf: '✓', epm: '✓', fpa: '~', abc_intl: '✓', italiani: '✗ (tipicamente)', excel: '~ (formule fragili)' },
+  { dimension: 'Copertura costi oltre fatturato elettronico', perf: '✓', epm: '✓', fpa: '✓', abc_intl: '✓', italiani: '~ (limitato)', excel: '~ (manuale)' },
+  { dimension: 'Drill-down fino a riga di prima nota', perf: '✓', epm: '✓', fpa: '~', abc_intl: '✓', italiani: '~', excel: '✗' },
+  { dimension: 'Scenari isolati versionati', perf: '✓', epm: '✓', fpa: '✓', abc_intl: '✓', italiani: '✗ (tipicamente)', excel: '✗' },
+  { dimension: 'Localizzazione IT + residenza dati Italia', perf: '✓', epm: '~', fpa: '~', abc_intl: '✗', italiani: '✓', excel: 'N/A' },
+  { dimension: 'Copilot AI in prodotto', perf: '✓', epm: '~', fpa: '~', abc_intl: '~', italiani: '~', excel: '✗' },
+];
+
+const cols = [
+  { key: 'perf', label: 'Performa', highlight: true },
+  { key: 'excel', label: 'Excel' },
+  { key: 'italiani', label: 'Italiani (altri SaaS)' },
+  { key: 'fpa', label: 'FP&A' },
+  { key: 'abc_intl', label: 'ABC internaz.' },
+  { key: 'epm', label: 'EPM enterprise' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="section section--intro">
+    <div class="container">
+      <div class="intro">
+        <span class="eyebrow">Confronto</span>
+        <h1 class="display intro__title">
+          Il confronto <em>onesto</em>.<br />
+          Per categoria, non per marca.
+        </h1>
+        <p class="intro__lead">
+          Cinque famiglie di alternative reali per chi sta valutando Performa,
+          con l'onestà di dire dove Performa <strong>non</strong> è la scelta
+          giusta. Il vero competitor è Excel: tutti i clienti Performa attivi
+          oggi arrivano da lì.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cluster -->
+  <section class="section section--clusters" aria-labelledby="clusters-heading">
+    <div class="container">
+      <div class="section__head">
+        <span class="eyebrow">Le cinque famiglie</span>
+        <h2 id="clusters-heading" class="section-title">
+          Chi si presenta al cliente <em>insieme a noi</em>.
+        </h2>
+      </div>
+
+      <ul class="clusters">
+        {
+          clusters.map((c, i) => (
+            <li class="cluster">
+              <div class="cluster__num" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </div>
+              <div class="cluster__body">
+                <h3 class="cluster__label display">{c.label}</h3>
+                <p class="cluster__names">{c.names}</p>
+                <div class="cluster__grid">
+                  <div class="cluster__cell">
+                    <span class="cluster__cell-label">Forza</span>
+                    <p>{c.forte}</p>
+                  </div>
+                  <div class="cluster__cell">
+                    <span class="cluster__cell-label">Debolezza per il nostro target</span>
+                    <p>{c.debole}</p>
+                  </div>
+                  <div class="cluster__cell">
+                    <span class="cluster__cell-label">Quando è la scelta giusta</span>
+                    <p>{c.quando}</p>
+                  </div>
+                  <div class="cluster__cell cluster__cell--emph">
+                    <span class="cluster__cell-label">Performa vs</span>
+                    <p set:html={c.performa.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')} />
+                  </div>
+                </div>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Matrix -->
+  <section class="section section--matrix" aria-labelledby="matrix-heading">
+    <div class="container">
+      <div class="section__head">
+        <span class="eyebrow">Matrice</span>
+        <h2 id="matrix-heading" class="section-title">
+          Undici dimensioni, sei categorie.
+        </h2>
+        <p class="section-lead">
+          Nessuna colonna vince su tutto. La matrice serve a de-selezionare le
+          categorie non adatte al tuo caso, non a proclamare vincitori.
+        </p>
+      </div>
+
+      <div class="matrix-wrap">
+        <table class="matrix">
+          <thead>
+            <tr>
+              <th scope="col" class="matrix__row-head-th">Dimensione</th>
+              {
+                cols.map((c) => (
+                  <th scope="col" class={c.highlight ? 'matrix__col--highlight' : ''}>
+                    {c.label}
+                  </th>
+                ))
+              }
+            </tr>
+          </thead>
+          <tbody>
+            {
+              matrix.map((row) => (
+                <tr>
+                  <th scope="row" class="matrix__row-head">{row.dimension}</th>
+                  {
+                    cols.map((c) => (
+                      <td class={c.highlight ? 'matrix__col--highlight' : ''}>
+                        {row[c.key as keyof typeof row]}
+                      </td>
+                    ))
+                  }
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <p class="matrix-note">
+        Legenda: ✓ nativo · ~ presente ma limitato / va costruito · ✗ assente.
+        Fonti pubbliche: siti vendor, Gartner Peer Insights, PeerSpot,
+        documentazione ufficiale. Ricognizione condotta agosto 2026.
+      </p>
+    </div>
+  </section>
+
+  <!-- Anti-vendita -->
+  <section class="section section--anti">
+    <div class="container-narrow anti">
+      <span class="eyebrow eyebrow--dark">Onestà come arma</span>
+      <h2 class="display anti__title">
+        Quando <em>non</em> siamo la scelta giusta.
+      </h2>
+      <ul class="anti__list">
+        <li>
+          Se ti serve <strong>consolidato di gruppo</strong> con eliminazioni
+          statutarie, budget e forecast integrati, planning IFRS: hai bisogno
+          di una piattaforma EPM completa (SAP, Oracle, OneStream, Tagetik).
+        </li>
+        <li>
+          Se sei già su <strong>Anaplan, Board, Adaptive</strong>: modella
+          l'ABC lì dentro. Sostituire una piattaforma di planning per fare ABC
+          non ha senso.
+        </li>
+        <li>
+          Se sei <strong>mono-prodotto</strong> o hai tre driver di costo che
+          non cambiano mai: Excel ti basta ancora.
+        </li>
+        <li>
+          Se vuoi un aggregatore <strong>solo dalle fatture elettroniche</strong>
+          senza modellare timesheet, ammortamenti e imputazioni manuali:
+          esistono soluzioni italiane più leggere di Performa.
+        </li>
+      </ul>
+      <p class="anti__closer">
+        Performa esiste per chi sta in mezzo: il <strong>consulente di
+        controllo di gestione</strong> che serve molte PMI, il <strong>CFO
+        che vuole un modello ABC serio</strong> senza acquistare un'intera
+        piattaforma EPM. I modelli in produzione oggi arrivano fino a 369 nodi
+        e 340 regole di allocazione — la scala regge.
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section section--cta">
+    <div class="container-narrow">
+      <div class="cta">
+        <span class="eyebrow eyebrow--inverse">Il passo dopo</span>
+        <h2 class="display cta__title">
+          Portaci il tuo caso reale.
+        </h2>
+        <p class="cta__lead">
+          Se stavi valutando una delle cinque famiglie qui sopra, mandaci il
+          contesto: proviamo a de-posizionarci onestamente prima ancora di
+          venderci.
+        </p>
+        <a href="/contatti" class="btn btn--accent btn--lg">
+          Scrivici
+          <Icon name="arrow-right" size={18} />
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="scss">
+  .section__head {
+    max-width: 44rem;
+    margin-block-end: clamp(3rem, 5vw, 4.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-4);
+    align-items: flex-start;
+  }
+
+  .section--intro {
+    padding-block: clamp(4rem, 8vw, 7rem) clamp(3rem, 5vw, 4rem);
+  }
+
+  .intro {
+    max-width: 48rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-4);
+  }
+
+  .intro__title {
+    font-size: clamp(2.5rem, 4vw + 1rem, 4.5rem);
+    line-height: var(--p-lh-tight);
+    color: var(--p-fg);
+
+    :global(em) {
+      color: var(--p-accent);
+      font-style: italic;
+    }
+  }
+
+  .intro__lead {
+    font-size: var(--p-fs-body-lg);
+    color: var(--p-fg-muted);
+    line-height: 1.55;
+
+    strong {
+      color: var(--p-fg);
+    }
+  }
+
+  // ---------- Clusters ----------
+  .section--clusters {
+    padding-block: clamp(3rem, 6vw, 5rem);
+    background: var(--p-bg-elevated);
+    border-block: 1px solid var(--p-border);
+  }
+
+  .clusters {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-6);
+  }
+
+  .cluster {
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    gap: clamp(1rem, 2vw, 2rem);
+    padding: var(--p-space-8);
+    background: var(--p-bg);
+    border: 1px solid var(--p-border);
+    border-radius: var(--p-radius-lg);
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+      gap: var(--p-space-3);
+    }
+  }
+
+  .cluster__num {
+    font-family: var(--p-font-mono);
+    font-size: 1.5rem;
+    color: var(--p-accent);
+    font-weight: 500;
+  }
+
+  .cluster__label {
+    font-size: 1.5rem;
+    color: var(--p-fg);
+  }
+
+  .cluster__names {
+    font-family: var(--p-font-mono);
+    font-size: var(--p-fs-small);
+    color: var(--p-fg-subtle);
+    margin-block: var(--p-space-2) var(--p-space-6);
+  }
+
+  .cluster__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--p-space-6);
+
+    @media (max-width: 720px) {
+      grid-template-columns: 1fr;
+      gap: var(--p-space-4);
+    }
+  }
+
+  .cluster__cell {
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-2);
+
+    p {
+      color: var(--p-fg-muted);
+      line-height: 1.55;
+      font-size: var(--p-fs-small);
+
+      :global(strong) {
+        color: var(--p-fg);
+      }
+    }
+
+    &--emph {
+      padding: var(--p-space-4);
+      background: var(--p-accent-soft);
+      border-radius: var(--p-radius);
+
+      p {
+        color: var(--p-fg);
+      }
+    }
+  }
+
+  .cluster__cell-label {
+    font-family: var(--p-font-mono);
+    font-size: var(--p-fs-micro);
+    color: var(--p-fg-subtle);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  // ---------- Matrix ----------
+  .section--matrix {
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+
+  .matrix-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--p-border);
+    border-radius: var(--p-radius-lg);
+    background: var(--p-bg-elevated);
+  }
+
+  .matrix {
+    width: 100%;
+    min-width: 44rem;
+    border-collapse: collapse;
+    font-size: var(--p-fs-small);
+    text-align: center;
+
+    thead th {
+      padding: var(--p-space-4) var(--p-space-3);
+      font-family: var(--p-font-sans);
+      font-weight: 600;
+      color: var(--p-fg);
+      background: var(--p-bg);
+      border-block-end: 1px solid var(--p-border);
+      text-align: center;
+      vertical-align: bottom;
+    }
+
+    tbody th {
+      padding: var(--p-space-3);
+      font-family: var(--p-font-sans);
+      font-weight: 500;
+      color: var(--p-fg);
+      text-align: left;
+      background: transparent;
+    }
+
+    tbody td {
+      padding: var(--p-space-3);
+      color: var(--p-fg-muted);
+      border-block-start: 1px solid var(--p-border);
+      font-family: var(--p-font-mono);
+      font-size: var(--p-fs-small);
+    }
+
+    tbody tr:first-child td,
+    tbody tr:first-child th {
+      border-block-start: none;
+    }
+
+    .matrix__row-head,
+    .matrix__row-head-th {
+      text-align: left !important;
+      min-width: 14rem;
+    }
+
+    .matrix__col--highlight {
+      background: var(--p-accent-soft);
+      color: var(--p-fg);
+    }
+  }
+
+  .matrix-note {
+    margin-block-start: var(--p-space-6);
+    color: var(--p-fg-subtle);
+    font-size: var(--p-fs-small);
+    line-height: 1.55;
+  }
+
+  // ---------- Anti-vendita ----------
+  .section--anti {
+    padding-block: clamp(4rem, 8vw, 7rem);
+    background: var(--p-bg-elevated);
+    border-block: 1px solid var(--p-border);
+  }
+
+  .anti {
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-4);
+  }
+
+  .anti__title {
+    font-size: clamp(1.75rem, 3vw + 0.5rem, 2.75rem);
+    color: var(--p-fg);
+
+    :global(em) {
+      color: var(--p-accent);
+      font-style: italic;
+    }
+  }
+
+  .anti__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-4);
+    padding-inline-start: var(--p-space-6);
+    margin-block-start: var(--p-space-4);
+
+    li {
+      color: var(--p-fg-muted);
+      line-height: 1.55;
+      font-size: var(--p-fs-body-lg);
+
+      strong {
+        color: var(--p-fg);
+      }
+    }
+  }
+
+  .anti__closer {
+    margin-block-start: var(--p-space-6);
+    padding: var(--p-space-6);
+    border-inline-start: 3px solid var(--p-accent);
+    background: var(--p-bg);
+    border-radius: 0 var(--p-radius) var(--p-radius) 0;
+    color: var(--p-fg-muted);
+    line-height: 1.55;
+    font-size: var(--p-fs-body-lg);
+
+    strong {
+      color: var(--p-fg);
+    }
+  }
+
+  .eyebrow--dark {
+    background: var(--p-slate-900);
+    color: var(--p-slate-100);
+  }
+
+  // ---------- CTA ----------
+  .section--cta {
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+
+  .cta {
+    padding: clamp(3rem, 6vw, 4.5rem);
+    background: var(--p-slate-900);
+    color: var(--p-slate-100);
+    border-radius: var(--p-radius-xl);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+
+    &::before {
+      content: '';
+      position: absolute;
+      right: -6rem;
+      top: -6rem;
+      width: 20rem;
+      height: 20rem;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--p-brand-500), transparent 65%);
+      opacity: 0.45;
+      filter: blur(40px);
+      z-index: -1;
+    }
+  }
+
+  .cta__title {
+    font-size: clamp(2rem, 4vw + 0.5rem, 3rem);
+    color: var(--p-slate-100);
+    margin-block: var(--p-space-4) var(--p-space-4);
+  }
+
+  .cta__lead {
+    font-size: var(--p-fs-body-lg);
+    color: var(--p-slate-300);
+    margin-inline: auto;
+    margin-block-end: var(--p-space-8);
+    line-height: 1.55;
+    max-width: 32rem;
+  }
+
+  .eyebrow--inverse {
+    background: rgba(46, 127, 172, 0.22);
+    color: var(--p-brand-500);
+  }
+
+  .cta .btn--accent {
+    background: var(--p-brand-500);
+    color: #ffffff;
+
+    &:hover {
+      background: var(--p-brand-600);
+      color: #ffffff;
+    }
+  }
+</style>

@@ -1,0 +1,59 @@
+name: Deploy Performa website to GitHub Pages
+
+on:
+  # Auto-trigger disabilitato fino a quando il sito sarà pronto per il deploy.
+  # Per riabilitare: decommentare le 2 righe sotto.
+  # push:
+  #   branches: [main]
+  workflow_dispatch:
+
+# Permissions richiesti da actions/deploy-pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Un solo deploy alla volta; interrompe quelli in coda in favore dell'ultimo commit
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install
+        run: npm ci
+
+      - name: Type check
+        run: npm run check
+
+      - name: Build
+        env:
+          PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL || 'https://performa.example' }}
+        run: npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

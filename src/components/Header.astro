@@ -1,0 +1,190 @@
+---
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const navItems = [
+  { href: '/prodotto', label: 'Prodotto' },
+  { href: '/activity-based-costing', label: "Cos'è l'ABC" },
+  { href: '/settori', label: 'Settori' },
+  { href: '/confronto', label: 'Confronto' },
+];
+---
+
+<header class="site-header">
+  <div class="container-wide site-header__inner">
+    <a href="/" class="brand" aria-label="Performa — home">
+      <span class="brand__mark" aria-hidden="true">
+        <!-- Placeholder wordmark: sostituire con SVG di Antonella -->
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="7" cy="7" r="2.5" fill="currentColor" opacity="0.35" />
+          <circle cx="17" cy="7" r="2.5" fill="currentColor" opacity="0.35" />
+          <circle cx="12" cy="17" r="3" fill="currentColor" />
+          <path d="M7 9L12 15L17 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+        </svg>
+      </span>
+      <span class="brand__name">Performa</span>
+    </a>
+
+    <nav class="nav" aria-label="Navigazione principale">
+      <ul class="nav__list">
+        {
+          navItems.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="nav__link"
+                aria-current={currentPath === item.href ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <a href="/contatti" class="header-cta">
+      Contattaci
+    </a>
+  </div>
+</header>
+
+<style lang="scss">
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(248, 250, 252, 0.85);
+    backdrop-filter: saturate(180%) blur(10px);
+    border-block-end: 1px solid var(--p-border);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .site-header {
+      background: rgba(15, 23, 42, 0.75);
+    }
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--p-space-6);
+    padding-block: var(--p-space-4);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--p-space-3);
+    color: var(--p-fg);
+    text-decoration: none;
+    font-family: var(--p-font-sans);
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+
+    &:hover {
+      color: var(--p-fg);
+      text-decoration: none;
+    }
+  }
+
+  .brand__mark {
+    display: inline-grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--p-radius);
+    background: var(--p-brand-700);
+    color: #ffffff;
+  }
+
+  .nav {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .nav__list {
+    display: flex;
+    align-items: center;
+    gap: var(--p-space-8);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    @media (max-width: 900px) {
+      gap: var(--p-space-4);
+    }
+  }
+
+  .nav__link {
+    color: var(--p-fg-muted);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    padding: var(--p-space-2) 0;
+    position: relative;
+    transition: color var(--p-transition);
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -2px;
+      height: 2px;
+      background: var(--p-accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--p-transition);
+    }
+
+    &:hover,
+    &[aria-current='page'] {
+      color: var(--p-fg);
+
+      &::after {
+        transform: scaleX(1);
+      }
+    }
+  }
+
+  .header-cta {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.55rem 1.15rem;
+    background: var(--p-fg);
+    color: var(--p-bg);
+    border-radius: var(--p-radius-full);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    transition: transform var(--p-transition), background var(--p-transition);
+
+    &:hover {
+      background: var(--p-slate-700);
+      color: var(--p-bg);
+      transform: translateY(-1px);
+      text-decoration: none;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .site-header__inner {
+      flex-wrap: wrap;
+      gap: var(--p-space-3);
+    }
+
+    .nav {
+      order: 3;
+      flex-basis: 100%;
+      justify-content: flex-start;
+    }
+
+    .header-cta {
+      font-size: 0.8125rem;
+      padding: 0.45rem 0.95rem;
+    }
+  }
+</style>

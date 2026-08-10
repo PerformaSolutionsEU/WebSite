@@ -1,0 +1,68 @@
+---
+layout: ../layouts/MarkdownLayout.astro
+title: "Dichiarazione di accessibilità"
+description: "Il sito Performa è progettato per essere conforme allo standard WCAG 2.1 Livello AA. Dichiarazione, ambito, metodologia e canale di segnalazione."
+publishedAt: "2026-08-05"
+updatedAt: "2026-08-05"
+---
+
+# Dichiarazione di accessibilità
+
+*Ultimo aggiornamento: 5 agosto 2026.*
+
+## Impegno
+
+Il sito **performa.example** è progettato e sviluppato per essere accessibile al maggior numero possibile di utenti, incluse le persone con disabilità visive, uditive, motorie e cognitive.
+
+## Standard di conformità
+
+Il sito è progettato per essere conforme allo standard **Web Content Accessibility Guidelines (WCAG) 2.1 Livello AA** del W3C.
+
+Questo include, tra le altre cose:
+
+- Rapporto di contrasto testo/sfondo di almeno **4.5:1** per il testo normale e **3:1** per il testo grande.
+- Navigazione completa da tastiera con **focus visibile** su tutti gli elementi interattivi.
+- Struttura semantica HTML con `<header>`, `<nav>`, `<main>`, `<footer>` e gerarchia dei titoli (h1, h2, h3) corretta.
+- **Testo alternativo** su tutte le immagini informative; `alt=""` sulle immagini puramente decorative.
+- Nessun contenuto che dipende esclusivamente dal colore per essere compreso.
+- Rispetto delle preferenze utente `prefers-reduced-motion` (animazioni disattivate se richiesto dall'utente) e `prefers-color-scheme` (supporto tema chiaro e scuro).
+- **Skip link** a inizio pagina per saltare direttamente al contenuto principale.
+- **Landmark ARIA** correttamente attribuiti alle sezioni principali.
+- Nessuna dipendenza da JavaScript per la fruizione dei contenuti: il sito è statico e leggibile anche senza JavaScript.
+
+## Metodologia di verifica
+
+La conformità è stata verificata tramite:
+
+- **Analisi automatica** con axe DevTools e Lighthouse in fase di sviluppo.
+- **Test manuale di navigazione da tastiera** su tutte le pagine principali.
+- **Verifica del contrasto** sui token colore in modalità chiara e scura.
+- **Test con screen reader** (NVDA su Windows) per le pagine chiave.
+
+## Contenuti non accessibili
+
+Al momento della pubblicazione:
+
+- Il **diagramma SVG** nella pagina principale è marcato come `role="img"` con etichetta descrittiva testuale (`aria-label`). Il diagramma è illustrativo: tutte le informazioni che rappresenta sono anche descritte nel testo circostante e nella pagina [Cos'è l'ABC](/activity-based-costing).
+- I **contenuti embedded di terze parti** (font Google Fonts) sono forniti da un dominio esterno e la loro accessibilità dipende dal fornitore.
+
+Se riscontri un contenuto non accessibile che dovresti poter utilizzare, ti chiediamo di segnalarcelo (vedi sotto).
+
+## Come segnalare problemi di accessibilità
+
+Se incontri barriere all'accesso ai contenuti del sito, o hai suggerimenti per migliorarne l'accessibilità, scrivici a `[EMAIL DI CONTATTO — DA COMPLETARE]`. Ci impegniamo a rispondere entro il giorno lavorativo successivo e a valutare correttivi in tempi ragionevoli.
+
+## Normativa di riferimento
+
+- **Regolamento UE 2016/679** (GDPR)
+- **Direttiva UE 2019/882** — European Accessibility Act (EAA), applicabile dal 28 giugno 2025
+- **Legge 9 gennaio 2004, n. 4** — "Disposizioni per favorire e semplificare l'accesso degli utenti e, in particolare, delle persone con disabilità agli strumenti informatici" (c.d. Legge Stanca)
+- **WCAG 2.1 Livello AA** del W3C
+
+## Note
+
+Questa dichiarazione è resa volontariamente. Il Titolare del sito non è, alla data corrente, un soggetto obbligato dalla normativa italiana di trasposizione dell'EAA. Ciò nonostante, riteniamo l'accessibilità un principio di qualità del prodotto e ci impegniamo a mantenerla e migliorarla nel tempo.
+
+---
+
+*Ultima revisione della dichiarazione: 5 agosto 2026.*

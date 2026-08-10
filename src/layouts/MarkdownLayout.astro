@@ -1,0 +1,51 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  frontmatter: {
+    title: string;
+    description: string;
+    publishedAt?: string;
+    updatedAt?: string;
+    articleType?: 'Article' | 'BlogPosting';
+  };
+}
+
+const { frontmatter } = Astro.props;
+
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': frontmatter.articleType ?? 'Article',
+  headline: frontmatter.title,
+  description: frontmatter.description,
+  author: {
+    '@type': 'Organization',
+    name: 'Performa',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Performa',
+  },
+  datePublished: frontmatter.publishedAt,
+  dateModified: frontmatter.updatedAt ?? frontmatter.publishedAt,
+  inLanguage: 'it-IT',
+};
+---
+
+<BaseLayout
+  title={`${frontmatter.title} — Performa`}
+  description={frontmatter.description}
+  jsonLd={articleLd}
+>
+  <article class="article container-narrow">
+    <div class="prose">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article {
+    padding-block: var(--p-space-16) var(--p-space-24);
+  }
+</style>

@@ -1,0 +1,187 @@
+---
+const year = new Date().getFullYear();
+
+const columns = [
+  {
+    title: 'Prodotto',
+    links: [
+      { href: '/prodotto', label: 'Cos\'è Performa' },
+      { href: '/settori', label: 'Settori' },
+      { href: '/confronto', label: 'Confronto' },
+    ],
+  },
+  {
+    title: 'Metodo',
+    links: [
+      { href: '/activity-based-costing', label: "L'Activity-Based Costing" },
+    ],
+  },
+  {
+    title: 'Contatti',
+    links: [
+      { href: '/contatti', label: 'Scrivici' },
+    ],
+  },
+  {
+    title: 'Trasparenza',
+    links: [
+      { href: '/privacy', label: 'Privacy policy' },
+      { href: '/accessibilita', label: 'Accessibilità' },
+    ],
+  },
+];
+---
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container-wide">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <div class="brand-row">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="7" cy="7" r="2.5" fill="currentColor" opacity="0.35" />
+              <circle cx="17" cy="7" r="2.5" fill="currentColor" opacity="0.35" />
+              <circle cx="12" cy="17" r="3" fill="currentColor" />
+              <path d="M7 9L12 15L17 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+            </svg>
+          </span>
+          <span class="brand-name display">Performa</span>
+        </div>
+        <p class="brand-desc">
+          Activity-Based Costing per PMI italiane. Il metodo di Kaplan &amp; Cooper,
+          in un SaaS che il consulente può usare con tutti i suoi clienti.
+        </p>
+      </div>
+
+      {
+        columns.map((col) => (
+          <nav class="col" aria-label={col.title}>
+            <h2 class="col__title">{col.title}</h2>
+            <ul class="col__list">
+              {col.links.map((link) => (
+                <li>
+                  <a href={link.href} class="col__link">
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))
+      }
+    </div>
+
+    <div class="site-footer__meta">
+      <p>© {year} Performa. Tutti i diritti riservati.</p>
+      <!-- TODO: Ragione sociale + P.IVA quando arrivano da amministrazione -->
+      <p class="meta-legal">
+        <span class="tag">[RAGIONE SOCIALE]</span> · P.IVA <span class="tag">[P.IVA]</span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style lang="scss">
+  .site-footer {
+    margin-block-start: 0;
+    padding-block: clamp(3rem, 6vw, 5rem) var(--p-space-8);
+    background: var(--p-slate-900);
+    color: var(--p-slate-300);
+    font-size: var(--p-fs-small);
+  }
+
+  .site-footer__grid {
+    display: grid;
+    gap: var(--p-space-12);
+    grid-template-columns: 1.6fr repeat(4, 1fr);
+
+    @media (max-width: 900px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 520px) {
+      grid-template-columns: 1fr;
+      gap: var(--p-space-8);
+    }
+  }
+
+  .brand-row {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--p-space-3);
+    color: #ffffff;
+    margin-block-end: var(--p-space-3);
+  }
+
+  .brand-mark {
+    display: inline-grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--p-radius);
+    background: var(--p-brand-700);
+  }
+
+  .brand-name {
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .brand-desc {
+    max-width: 22rem;
+    line-height: 1.55;
+    color: var(--p-slate-400);
+  }
+
+  .col__title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #ffffff;
+    margin-block-end: var(--p-space-4);
+  }
+
+  .col__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-2);
+  }
+
+  .col__link {
+    color: var(--p-slate-300);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--p-brand-500);
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+  }
+
+  .site-footer__meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--p-space-4);
+    margin-block-start: var(--p-space-16);
+    padding-block-start: var(--p-space-6);
+    border-block-start: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--p-slate-400);
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 0.1em 0.4em;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--p-slate-300);
+    border-radius: 0.25rem;
+    font-family: var(--p-font-mono);
+    font-size: 0.75em;
+  }
+</style>

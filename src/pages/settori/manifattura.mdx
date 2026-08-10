@@ -1,0 +1,58 @@
+---
+layout: ../../layouts/MarkdownLayout.astro
+title: "ABC per la manifattura mid-market"
+description: "Costo pieno di prodotto reale in aziende manifatturiere con mix elevato. Template Performa già configurato per BOM, capacità macchina, personale, overhead."
+publishedAt: "2026-08-05"
+articleType: "Article"
+---
+
+# ABC per la manifattura mid-market
+
+Il template **Manifattura** di Performa è pensato per aziende manifatturiere italiane di dimensione media (10-500 dipendenti) con **portafoglio prodotti eterogeneo**: mix di prodotti standard ad alto volume e prodotti custom a basso volume, tipicamente serviti dalle stesse macchine e dalle stesse persone.
+
+## Il problema che risolve
+
+Nella manifattura mid-market classica, i costi indiretti (setup macchine, controllo qualità, R&D, movimentazione interna, manutenzione) sono spesso il 30-50% dei costi totali. Quando questi costi vengono allocati **proporzionalmente al volume** — come fanno molti gestionali standard — i prodotti custom a basso volume risultano "gratis" mentre i prodotti standard "pagano" per tutto.
+
+Il risultato: pricing sbagliato, decisioni di mix errate, e il commerciale che porta a casa ordini custom "molto convenienti" che in realtà distruggono valore.
+
+## Cosa entra nel template
+
+Il template Manifattura arriva pre-configurato con:
+
+- **Personale**: griglia dipendenti con campi standard (mansione, stipendio, benefit, PPE, formazione), timesheet dipendente × attività che genera regole di allocazione senza intervento manuale.
+- **Building & Utilities**: edificio con capacità in metri quadri, distribuzione ai reparti di produzione via driver "m² occupati".
+- **Macchine e workstation**: capacità in ore macchina, ammortamenti, energia. Driver "ore consumate" per l'imputazione ai prodotti.
+- **Attività produttive**: lavorazione CNC, falegnameria, assemblaggio, verniciatura, collaudo. Ognuna con capacità e costo unitario/ora calcolato.
+- **Attività di supporto**: logistica interna, manutenzione, work organization, HR. Si ribaltano sulle attività produttive via driver appropriati.
+- **Overhead**: vendite, amministrazione, direzione generale. Si accumulano su cost object "struttura", non su prodotti.
+- **Prodotti**: cost object finale con BOM (materie prime), volumi, prezzo di vendita, cost-to-serve calcolato.
+
+## Insight tipici che emergono
+
+Da modelli reali costruiti su Performa in aziende manifatturiere:
+
+- **Il 20% dei prodotti a più basso volume assorbe il 60% del setup di macchina** — perché ogni cambio produzione ha un costo di attrezzaggio quasi fisso indipendente dal lotto.
+- **Un prodotto "custom" che sembra ad alta marginalità in realtà brucia margine** quando ci aggiungi l'ora del progettista, il ciclo di controllo qualità straordinario, il tempo del commerciale che ha seguito l'ordine, l'imballaggio non standard.
+- **La capacità produttiva è sotto-utilizzata al 70-80%** — e nessuno se n'era accorto perché il costo idle era spalmato indistintamente sui prodotti attivi, gonfiandone il costo. Performa lo isola come voce separata di Conto Economico.
+- **Un "prodotto A" che si è sempre venduto al 40% di margine, dopo l'ABC risulta al 12%.** Il commerciale ha 30 giorni per rinegoziare o smettere di venderlo sottocosto.
+
+## Il case reference documentato
+
+Falegnameria mid-market, 23 dipendenti, 5 linee di prodotto, €3,7M di ricavi.
+
+- Modello: 30+ nodi, 45+ regole di allocazione
+- Risorse pool: 1 edificio, 4 mezzi, 1 pool workstation, 20+ asset ammortizzati
+- Attività produttive: CNC (60k ore capacità), Falegnameria (100k ore), Assemblaggio (15k persona-ora)
+- Attività di supporto: Logistica interna, Manutenzione, Organizzazione lavoro, HR
+- Cost object: 5 prodotti, volumi 5.000-12.000 unità/anno
+- Cost-to-serve prodotto A: €18,22/pz (materie prime €3, lavorazione esterna €1,50, CNC €3,21, Falegnameria €5,82, Assemblaggio €4,68). Prezzo di vendita €35 → margine reale 48%.
+- Insight chiave: la CNC è satura al 76,8%. 13.900 ore idle × €6,42/ora = **€89k di costo idle**, che prima veniva spalmato sui prodotti gonfiandone il costo del 4-6% in modo asimmetrico.
+
+## Chi lo compra tipicamente
+
+Consulenti di controllo di gestione che seguono 3-15 clienti manifatturieri mid-market, controller interni di gruppi manifatturieri che vogliono sostituire un file Excel di allocazione, direttori di produzione che vogliono capire il vero costo delle richieste custom prima di accettarle.
+
+---
+
+*Vuoi vedere il template Manifattura applicato al tuo caso?* [Scrivici](/contatti). *Se preferisci prima capire il prodotto:* [scopri Performa](/prodotto).

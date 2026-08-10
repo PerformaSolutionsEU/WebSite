@@ -1,0 +1,160 @@
+---
+import FlowDiagram from './FlowDiagram.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  eyebrow?: string;
+  headline: string;
+  subheadline: string;
+  primaryCta?: { href: string; label: string };
+  secondaryCta?: { href: string; label: string };
+}
+
+const {
+  eyebrow,
+  headline,
+  subheadline,
+  primaryCta,
+  secondaryCta,
+} = Astro.props;
+---
+
+<section class="hero" aria-labelledby="hero-heading">
+  <div class="hero__decor" aria-hidden="true">
+    <span class="orb orb--a"></span>
+    <span class="orb orb--b"></span>
+  </div>
+
+  <div class="container-wide hero__inner">
+    <div class="hero__copy">
+      {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+      <h1 id="hero-heading" class="display hero__headline" set:html={headline} />
+      <p class="hero__sub">{subheadline}</p>
+
+      {
+        (primaryCta || secondaryCta) && (
+          <div class="hero__ctas">
+            {primaryCta && (
+              <a href={primaryCta.href} class="btn btn--accent btn--lg">
+                {primaryCta.label}
+                <Icon name="arrow-right" size={18} />
+              </a>
+            )}
+            {secondaryCta && (
+              <a href={secondaryCta.href} class="btn btn--ghost btn--lg">
+                {secondaryCta.label}
+              </a>
+            )}
+          </div>
+        )
+      }
+    </div>
+
+    <div class="hero__visual">
+      <FlowDiagram />
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .hero {
+    position: relative;
+    padding-block: clamp(3rem, 7vw, 6rem) clamp(5rem, 10vw, 8rem);
+    overflow: hidden;
+  }
+
+  .hero__decor {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.45;
+
+    &--a {
+      top: -6rem;
+      right: -8rem;
+      width: 26rem;
+      height: 26rem;
+      background: radial-gradient(circle, var(--p-brand-500), transparent 70%);
+    }
+
+    &--b {
+      bottom: -12rem;
+      left: -10rem;
+      width: 30rem;
+      height: 30rem;
+      background: radial-gradient(circle, var(--p-warning-500), transparent 70%);
+      opacity: 0.22;
+    }
+  }
+
+  .hero__inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: clamp(3rem, 5vw, 5rem);
+    // Visual più largo del copy — il diagramma è il protagonista
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.25fr);
+    align-items: center;
+
+    @media (max-width: 960px) {
+      grid-template-columns: 1fr;
+      gap: clamp(4rem, 8vw, 6rem);
+    }
+  }
+
+  .hero__copy {
+    max-width: 30rem;
+  }
+
+  .hero__headline {
+    font-size: var(--p-fs-hero);
+    margin-block: var(--p-space-6) var(--p-space-6);
+    color: var(--p-fg);
+
+    :global(em) {
+      color: var(--p-accent);
+      font-style: italic;
+      font-family: var(--p-font-display);
+    }
+
+    :global(span.mark) {
+      background: linear-gradient(120deg, transparent 0%, transparent 20%, var(--p-highlight-soft) 20%, var(--p-highlight-soft) 90%, transparent 90%);
+      background-size: 100% 88%;
+      background-repeat: no-repeat;
+      background-position: 0 88%;
+      padding: 0 0.1em;
+    }
+  }
+
+  .hero__sub {
+    font-size: var(--p-fs-body-lg);
+    line-height: 1.55;
+    color: var(--p-fg-muted);
+    margin-block-end: var(--p-space-8);
+    text-wrap: pretty;
+    max-width: 32rem;
+  }
+
+  .hero__ctas {
+    display: flex;
+    gap: var(--p-space-3);
+    flex-wrap: wrap;
+  }
+
+  .hero__visual {
+    position: relative;
+
+    @media (max-width: 960px) {
+      max-width: 40rem;
+      margin-inline: auto;
+    }
+  }
+</style>

@@ -1,0 +1,131 @@
+---
+layout: ../layouts/MarkdownLayout.astro
+title: "Cos'è l'Activity-Based Costing? La guida al metodo di Kaplan e Cooper"
+description: "L'Activity-Based Costing (ABC) è il metodo che assegna i costi indiretti alle attività aziendali per calcolare il costo pieno reale di prodotti, servizi e clienti. Origini, funzionamento in 4 passi, evoluzioni e implementazione moderna."
+publishedAt: "2026-08-05"
+articleType: "Article"
+---
+
+# Cos'è l'Activity-Based Costing?
+
+L'**Activity-Based Costing (ABC)** è un metodo di contabilità analitica che assegna i costi indiretti aziendali alle **attività** che li generano, per poi imputarli ai prodotti, ai servizi o ai clienti che consumano quelle attività. È l'alternativa moderna alla contabilità tradizionale che spalma i costi indiretti per volume o per fatturato — un metodo che negli anni '80 iniziava a produrre risultati sistematicamente distorti nelle aziende con mix di prodotti complesso.
+
+Il metodo è stato formalizzato da **Robert S. Kaplan** e **Robin Cooper**, entrambi della Harvard Business School, in una serie di paper e libri usciti tra il 1988 e il 1998. Da allora è diventato lo standard di riferimento per il controllo di gestione avanzato in manifattura, servizi professionali, sanità, logistica e ovunque il mix di attività renda insufficiente l'allocazione dei costi per volume.
+
+## Perché nasce l'ABC: il problema che risolve
+
+Fino agli anni '80, la contabilità industriale allocava i costi indiretti (energia, manutenzione, personale di struttura, ammortamenti) sui prodotti in proporzione a un unico driver — tipicamente le ore macchina o le ore di manodopera diretta. Il metodo funzionava finché i costi indiretti erano una porzione contenuta del totale e i prodotti erano relativamente omogenei.
+
+Con l'automazione, la globalizzazione e la personalizzazione dei prodotti, due cose sono cambiate:
+
+1. I **costi indiretti sono diventati dominanti**: setup, controllo qualità, R&D, logistica, IT, marketing prodotto oggi pesano più della manodopera diretta.
+2. Il **mix di prodotti si è diversificato**: nella stessa azienda convivono prodotti standard ad alto volume e prodotti custom a basso volume, che consumano risorse in modo radicalmente diverso.
+
+Il risultato, documentato da Kaplan e Cooper nel famoso paper "**Measure Costs Right: Make the Right Decisions**" (Harvard Business Review, 1988), è che il costing tradizionale produce sistematicamente **sussidi incrociati**: i prodotti standard ad alto volume "pagano" per quelli custom a basso volume che in realtà assorbono molte più risorse indirette. La conseguenza pratica è disastrosa: prezzi sbagliati, decisioni di mix errate, chiusure di linee redditizie e mantenimento di prodotti che distruggono valore.
+
+## L'intuizione dell'ABC
+
+L'idea centrale, in una frase:
+
+> **I prodotti non consumano risorse direttamente. Consumano attività. Sono le attività a consumare risorse.**
+
+Se metti in mezzo il livello delle attività, ottieni:
+
+- Una **visibilità dei processi reali** (quali attività si svolgono in azienda? quanto costano?)
+- Una **base logica per l'allocazione** (ogni attività si distribuisce sui prodotti che la consumano davvero, misurata da un driver appropriato)
+- La possibilità di **agire sui costi** (non tagli generici, ma decisioni informate su quali attività ripensare, esternalizzare, automatizzare)
+
+## Il metodo in 4 passi
+
+L'implementazione classica dell'ABC segue quattro passi in sequenza.
+
+### 1. Identifica le attività significative
+
+Le attività sono le operazioni ripetute che consumano risorse. In una manifattura: attrezzaggio macchine, produzione, controllo qualità, movimentazione interna, evasione ordini. In uno studio di ingegneria: analisi commessa, progettazione preliminare, sviluppo esecutivo, direzione lavori. In un hotel: pulizia camere, check-in, servizio ristorante, manutenzione.
+
+La regola pratica: non più di 20-40 attività per un'azienda di media complessità. Più attività = più precisione teorica ma anche più costo di manutenzione del modello. È qui che l'ABC classico "muore" nelle implementazioni tradizionali: il modello diventa troppo dettagliato per essere manutenuto.
+
+### 2. Assegna i costi delle risorse alle attività
+
+I costi che leggi nel piano dei conti (bollette, stipendi, ammortamenti, canoni, materiali di consumo) vanno distribuiti sulle attività che li consumano. Servono i **resource driver**: metri quadri per gli affitti, headcount per il personale amministrativo di supporto, kWh per l'energia se misurata, ore di lavoro per il costo del personale operativo.
+
+Esempio: un capannone da 1.000 m² con affitto di 60.000 €/anno serve 3 attività — CNC (400 m²), Falegnameria (400 m²), Assemblaggio (200 m²). Il driver "metri quadri" distribuisce l'affitto rispettivamente in 24.000, 24.000 e 12.000 €/anno.
+
+### 3. Identifica gli activity driver
+
+Per ogni attività, serve un **driver di attività**: la misura di quanto ogni prodotto (o cliente, o commessa) consuma di quell'attività. Non è il costo — è la quantità fisica di consumo.
+
+Esempi:
+- Attività *Attrezzaggio macchine* → driver *numero di setup* (i prodotti con lotti piccoli consumano più setup)
+- Attività *Controllo qualità* → driver *numero di ispezioni* (o *ore di controllo* se non tutti i test durano uguale)
+- Attività *Evasione ordini* → driver *numero di righe d'ordine* (non fatturato: un ordine da 100 righe consuma molto più di un ordine da 1 riga per lo stesso valore)
+
+La scelta del driver giusto è la parte metodologicamente più delicata dell'ABC. Un driver sbagliato replica al livello delle attività la stessa distorsione che aveva la contabilità tradizionale al livello dei costi indiretti.
+
+### 4. Alloca il costo delle attività ai cost object
+
+Con i driver definiti, il calcolo diventa aritmetica: per ogni attività si somma il costo totale, si somma il totale del driver, e si ottiene un **costo unitario di attività** (es. 250 €/setup, 15 €/ispezione, 4 €/riga d'ordine). Poi si moltiplica il costo unitario per la quantità di driver consumata da ciascun cost object (prodotto, cliente, canale).
+
+Il risultato: un **costo pieno realistico** per prodotto, per servizio, per cliente. Non un'approssimazione lineare, ma una lettura fondata su come le risorse aziendali vengono davvero consumate.
+
+## Le evoluzioni: Time-Driven ABC, ABM, Activity-Based Budgeting
+
+Nel 2004 Kaplan e Steven Anderson pubblicano un secondo lavoro fondativo — **Time-Driven Activity-Based Costing (TDABC)** — per superare i problemi di manutenzione dell'ABC classico. Invece di intervistare periodicamente i dipendenti su come dividono il tempo tra attività (approccio che invecchia velocemente), il TDABC usa **equazioni temporali** basate sulle caratteristiche del prodotto: "per ogni ordine standard servono 8 minuti; +5 minuti per ordine urgente; +3 minuti se cliente estero". Le equazioni si aggiornano solo quando cambiano i processi.
+
+Sullo stesso ceppo nascono l'**Activity-Based Management (ABM)** — l'uso dei dati ABC per ridisegnare i processi — e l'**Activity-Based Budgeting (ABB)** — la costruzione dei budget basata sul consumo previsto di attività, non sull'aggiornamento incrementale dell'anno precedente.
+
+## Perché l'ABC torna centrale oggi
+
+Trent'anni dopo la sua nascita, l'ABC vive una seconda giovinezza per tre motivi.
+
+**Il pricing basato sul valore ha bisogno di conoscere il costo reale.** Modelli as-a-service, subscription, unbundling dei servizi, pricing personalizzato: tutte scelte commerciali che richiedono di sapere quanto costa davvero servire ogni segmento di clientela. Senza ABC, il pricing è cieco.
+
+**La pressione sui margini rende insopportabili i sussidi incrociati.** In settori maturi con margini a doppia cifra bassa, coprire con i prodotti redditizi le perdite silenziose dei prodotti non redditizi non è più sostenibile. L'ABC illumina questi flussi nascosti.
+
+**Le normative di trasparenza sui costi si stanno diffondendo.** Sanità, utility regolate, pubblica amministrazione, servizi finanziari sotto IFRS 17: sempre più settori sono tenuti a rendicontare tariffe e costi con logiche difendibili. L'ABC è lo standard riconosciuto.
+
+## Perché l'ABC muore in Excel (ed è il vero problema)
+
+Il metodo funziona. Il problema è l'implementazione. Nella maggioranza dei casi il modello ABC di un'azienda vive in un file Excel — spesso costruito da un consulente esterno — che:
+
+- Non è versionato: ogni "what-if" sovrascrive il precedente, l'anno prossimo nessuno sa cosa è stato calcolato.
+- Non è auditabile: quando il revisore chiede "da dove viene questo numero?" servono ore per ricostruirlo.
+- È fragile: una formula sbagliata in una cella rompe tutto il modello. Un aggiornamento del piano dei conti richiede giorni di lavoro manuale.
+- È single-user: anche se sta su SharePoint, editare in due è un problema.
+- Muore con la persona: se il consulente cambia cliente, il file diventa illeggibile in 6 mesi.
+
+Il risultato è che modelli ABC brillanti nella fase iniziale del progetto vengono abbandonati dopo 12-18 mesi, quando la fatica di manutenzione supera il valore percepito.
+
+## Come Performa risolve i problemi dell'ABC in Excel
+
+[Performa](/prodotto) è il primo SaaS italiano che porta un modello ABC serio fuori da Excel senza chiederti di spendere quanto un'implementazione enterprise.
+
+- **Modellazione a grafo**: nodi (attività, risorse, cost object) ed edge (regole di allocazione con driver). Nessun ipercubo da progettare.
+- **Driver semplici e calcolati**: non solo costanti, ma anche aggregazioni automatiche su set filtrati di nodi (`Sum`, `Count`, `SumProduct`, `GroupSum`, `Residual`). I modelli complessi restano manutenibili.
+- **Timesheet integrato**: matrice dipendente × attività che genera automaticamente le regole di allocazione del costo del personale.
+- **Allocation patterns riusabili**: template atomici di allocazione a due passi, coerenti per costruzione.
+- **Multi-scenario isolati**: what-if senza sovrascritture, con confronto side-by-side e delta.
+- **Drill-down completo**: da qualsiasi numero risalire, con un click, alla riga di prima nota che l'ha generato.
+- **Multi-tenant per consulenti**: un account, tutti i tuoi clienti, isolamento totale dei dati.
+
+## Domande frequenti sull'Activity-Based Costing
+
+### Qual è la differenza tra ABC e contabilità analitica per centri di costo?
+
+La contabilità per centri di costo aggrega spese per unità organizzativa (ufficio, reparto, stabilimento) e poi ribalta gli indiretti sui diretti con percentuali fisse. L'ABC aggrega per **attività** — che è un livello di dettaglio inferiore al centro — e alloca sui cost object usando **driver di consumo reale**. In pratica: la contabilità per centri risponde a "quanto costa il reparto Manutenzione?", l'ABC risponde a "quanto costa manutenere il prodotto A rispetto al prodotto B?".
+
+### L'ABC serve solo alla manifattura?
+
+No. L'ABC è nato in manifattura ma i settori dove oggi produce più valore sono i **servizi**: professionali (consulenza, ingegneria, legale), sanità (cost-per-patient, per prestazione), logistica (cost-to-serve per cliente, per ordine), utility, banche e assicurazioni. Ovunque ci sia un mix di prodotti o clienti che consumano risorse in modo eterogeneo.
+
+### Quanto costa implementare un modello ABC?
+
+Con un tool serio, un modello ABC di prima generazione per una PMI si costruisce in 4-8 settimane insieme a un consulente. Con Excel, il costo apparente è zero ma il costo reale — 2-3 mesi di consulente + fragilità del modello + manutenzione infinita — è molto più alto della licenza annuale di un SaaS.
+
+### Chi è Robert S. Kaplan?
+
+Robert S. Kaplan è professore emerito alla Harvard Business School. Oltre all'ABC ha co-inventato la **Balanced Scorecard** (con David Norton) ed è uno degli accademici di management accounting più influenti degli ultimi 40 anni. I suoi lavori insieme a **Robin Cooper** hanno definito l'ABC moderno.
+
+---
+
+*Vuoi vedere come si costruisce un modello ABC serio, applicato al tuo caso?* [Contattaci](/contatti). *Se preferisci prima capire il prodotto:* [scopri Performa](/prodotto).

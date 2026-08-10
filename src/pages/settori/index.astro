@@ -1,0 +1,326 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+
+const title = 'Settori — Performa';
+const description =
+  'Quattro template industriali già configurati (Manifattura, Ospitalità, Servizi professionali, RSA e sanità privata) più un template Custom per modellare da zero qualsiasi verticale.';
+
+const sectors = [
+  {
+    slug: 'manifattura',
+    icon: 'factory' as const,
+    label: 'Manifattura',
+    accent: 'emerald',
+    pitch: 'Costo pieno di prodotto reale su portafoglio ampio. Overhead di setup, qualità, R&D attribuiti ai prodotti che davvero li assorbono.',
+    detail: 'Ideale per: manifattura discreta mid-market con mix elevato, produzioni contract, aziende con lotti piccoli sussidiati da lotti standard.',
+  },
+  {
+    slug: 'ospitalita',
+    icon: 'hotel' as const,
+    label: 'Ospitalità',
+    accent: 'amber',
+    pitch: 'Hotel, ristoranti, wellness. Cost-to-serve per servizio, per canale, per stagione. Camera, ristorante e SPA con margini finalmente separati.',
+    detail: 'Ideale per: hotel indipendenti e piccole catene, agriturismi strutturati, ristoranti con più servizi, wellness center integrati.',
+  },
+  {
+    slug: 'servizi-professionali',
+    icon: 'briefcase' as const,
+    label: 'Servizi professionali',
+    accent: 'ink',
+    pitch: 'Costo pieno per commessa e per cliente. Utilizzo consulenti in tempo reale, break-even di studio calcolabile a settimana.',
+    detail: 'Ideale per: studi di consulenza, agenzie creative, engineering & design, boutique di advisory, studi legali strutturati.',
+  },
+  {
+    slug: 'rsa-sanita',
+    icon: 'heart-pulse' as const,
+    label: 'RSA e sanità privata',
+    accent: 'coral',
+    pitch: 'Cost-to-serve per ospite, per prestazione, per convenzione. Retta base, sanitario, riabilitazione con margini separati.',
+    detail: 'Ideale per: RSA, case di riposo, cliniche private, poliambulatori, centri di riabilitazione con tariffari regolati.',
+  },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="section section--intro">
+    <div class="container-narrow">
+      <span class="eyebrow">Settori</span>
+      <h1 class="display intro__title">
+        Quattro template.<br /><em>Zero</em> implementatori certificati.
+      </h1>
+      <p class="intro__lead">
+        Ogni template arriva con node type, campi custom e driver tipici del
+        settore già configurati. Il quinto — <em>Custom</em> — è tuo, per
+        modellare da zero qualsiasi verticale non presente in questa lista.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--grid">
+    <div class="container">
+      <div class="sectors">
+        {
+          sectors.map((s) => (
+            <a href={`/settori/${s.slug}`} class={`sector sector--${s.accent}`}>
+              <div class="sector__icon-wrap" aria-hidden="true">
+                <Icon name={s.icon} size={26} />
+              </div>
+              <span class="sector__tag">template configurato</span>
+              <h2 class="sector__label display">{s.label}</h2>
+              <p class="sector__body">{s.pitch}</p>
+              <p class="sector__detail">{s.detail}</p>
+              <span class="sector__link">
+                Vai al settore
+                <Icon name="arrow-right" size={16} />
+              </span>
+            </a>
+          ))
+        }
+      </div>
+
+      <aside class="custom-note">
+        <div class="custom-note__inner">
+          <span class="eyebrow">Custom</span>
+          <h2 class="display custom-note__title">
+            Il tuo settore non è in lista?
+          </h2>
+          <p>
+            Il template <em>Custom</em> parte da un modello vuoto: definisci
+            tu i node type, i campi che ogni nodo deve avere, i driver
+            disponibili. In genere serve una settimana di lavoro insieme al
+            tuo consulente per portare a regime un settore nuovo.
+          </p>
+          <a href="/contatti" class="btn btn--ghost">
+            Parliamo del tuo settore
+            <Icon name="arrow-right" size={16} />
+          </a>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="scss">
+  .section--intro {
+    padding-block: clamp(4rem, 8vw, 7rem) clamp(2rem, 4vw, 3rem);
+  }
+
+  .intro__title {
+    font-size: clamp(2.5rem, 4vw + 1rem, 4.5rem);
+    line-height: var(--p-lh-tight);
+    color: var(--p-fg);
+    margin-block-end: var(--p-space-6);
+
+    :global(em) {
+      color: var(--p-accent);
+      font-style: italic;
+    }
+  }
+
+  .intro__lead {
+    font-size: var(--p-fs-body-lg);
+    color: var(--p-fg-muted);
+    line-height: 1.55;
+
+    :global(em) {
+      color: var(--p-fg);
+      font-style: italic;
+      font-family: var(--p-font-display);
+    }
+  }
+
+  .section--grid {
+    padding-block: clamp(3rem, 5vw, 4rem) clamp(4rem, 8vw, 7rem);
+  }
+
+  .sectors {
+    display: grid;
+    gap: var(--p-space-6);
+    grid-template-columns: repeat(2, 1fr);
+
+    @media (max-width: 720px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .sector {
+    position: relative;
+    padding: clamp(1.75rem, 3vw, 2.5rem);
+    border-radius: var(--p-radius-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-3);
+    color: var(--p-fg);
+    text-decoration: none;
+    min-height: 20rem;
+    border: 1px solid var(--p-border);
+    transition: transform var(--p-transition), box-shadow var(--p-transition);
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--p-shadow-lg);
+      text-decoration: none;
+    }
+
+    &--emerald {
+      // Manifattura → brand petrol
+      background: var(--p-accent-soft);
+
+      .sector__icon-wrap {
+        background: var(--p-brand-700);
+        color: #fff;
+      }
+    }
+
+    &--amber {
+      // Ospitalità → amber
+      background: var(--p-highlight-soft);
+
+      .sector__icon-wrap {
+        background: var(--p-warning-600);
+        color: #fff;
+      }
+    }
+
+    &--ink {
+      // Servizi professionali → dark slate
+      background: var(--p-slate-900);
+      color: var(--p-slate-100);
+
+      .sector__icon-wrap {
+        background: var(--p-slate-100);
+        color: var(--p-slate-900);
+      }
+
+      .sector__label,
+      .sector__link {
+        color: var(--p-slate-100);
+      }
+
+      .sector__body,
+      .sector__detail {
+        color: var(--p-slate-300);
+      }
+
+      .sector__tag {
+        color: var(--p-slate-400);
+      }
+    }
+
+    &--coral {
+      // RSA / sanità → sky blue (info, medical)
+      background: rgba(2, 132, 199, 0.10);
+      color: var(--p-fg);
+
+      .sector__label,
+      .sector__body,
+      .sector__detail {
+        color: var(--p-fg);
+      }
+
+      .sector__tag {
+        color: var(--p-fg-subtle);
+      }
+
+      .sector__icon-wrap {
+        background: var(--p-info-600);
+        color: #fff;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        background: rgba(2, 132, 199, 0.18);
+
+        .sector__label {
+          color: var(--p-slate-100);
+        }
+        .sector__body,
+        .sector__detail {
+          color: var(--p-slate-300);
+        }
+        .sector__tag {
+          color: var(--p-slate-400);
+        }
+      }
+    }
+  }
+
+  .sector__icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: var(--p-radius);
+    margin-block-end: var(--p-space-2);
+  }
+
+  .sector__tag {
+    font-family: var(--p-font-mono);
+    font-size: var(--p-fs-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--p-fg-subtle);
+  }
+
+  .sector__label {
+    font-size: 1.75rem;
+    margin-block: var(--p-space-1);
+  }
+
+  .sector__body {
+    color: var(--p-fg-muted);
+    line-height: 1.55;
+  }
+
+  .sector__detail {
+    color: var(--p-fg-subtle);
+    line-height: 1.55;
+    font-size: var(--p-fs-small);
+    padding-block-start: var(--p-space-3);
+    border-block-start: 1px solid currentColor;
+    border-color: rgba(11, 15, 25, 0.1);
+    margin-block-start: auto;
+  }
+
+  .sector__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--p-space-2);
+    font-weight: 600;
+    font-size: var(--p-fs-small);
+    color: var(--p-fg);
+    margin-block-start: var(--p-space-3);
+  }
+
+  .custom-note {
+    margin-block-start: var(--p-space-16);
+    padding-block-start: var(--p-space-12);
+    border-block-start: 1px solid var(--p-border);
+  }
+
+  .custom-note__inner {
+    max-width: 44rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-4);
+    align-items: flex-start;
+
+    p {
+      color: var(--p-fg-muted);
+      line-height: 1.55;
+      font-size: var(--p-fs-body-lg);
+
+      :global(em) {
+        color: var(--p-fg);
+        font-style: italic;
+        font-family: var(--p-font-display);
+      }
+    }
+  }
+
+  .custom-note__title {
+    font-size: clamp(1.75rem, 2.5vw + 0.5rem, 2.5rem);
+    color: var(--p-fg);
+  }
+</style>

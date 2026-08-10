@@ -1,0 +1,146 @@
+---
+const steps = [
+  {
+    n: '01',
+    title: 'Importa il piano dei conti',
+    body: 'Excel, CSV o inserimento manuale. Le voci di costo entrano con codice, descrizione, importo. Nessuna mappatura obbligata al primo colpo — puoi censire tutto prima e allocare dopo.',
+  },
+  {
+    n: '02',
+    title: 'Definisci risorse e attività',
+    body: 'Edifici, mezzi, personale, macchinari. Attività produttive, di supporto, overhead. I template Manifattura, Ospitalità, Servizi arrivano già configurati.',
+  },
+  {
+    n: '03',
+    title: 'Collega con driver',
+    body: 'Metri quadri, ore, pezzi, headcount, percentuali, o driver calcolati automaticamente da Performa. Il timesheet dipendenti genera regole di allocazione senza intervento manuale.',
+  },
+  {
+    n: '04',
+    title: 'Calcola. Poi scendi nei dettagli.',
+    body: 'Cost-to-Serve per prodotto e per cliente, P&L multi-dimensione, saturation delle attività. Da qualsiasi numero risali con un click fino alla riga di prima nota che l\'ha generato.',
+  },
+];
+---
+
+<section class="how" aria-labelledby="how-heading">
+  <div class="container">
+    <div class="how__head">
+      <span class="eyebrow">Come funziona</span>
+      <h2 id="how-heading" class="section-title">
+        Dal piano dei conti al <em>costo unitario</em>, in quattro passi.
+      </h2>
+      <p class="section-lead">
+        Nessun implementatore certificato. Nessun deploy on-prem. Un consulente,
+        anche da solo, costruisce un modello ABC pubblicabile in settimane.
+      </p>
+    </div>
+
+    <ol class="how__steps">
+      {
+        steps.map((s, i) => (
+          <li class="step" style={`--i:${i}`}>
+            <div class="step__num" aria-hidden="true">{s.n}</div>
+            <div class="step__body">
+              <h3 class="step__title">{s.title}</h3>
+              <p class="step__text">{s.body}</p>
+            </div>
+            {i < steps.length - 1 && <div class="step__connector" aria-hidden="true"></div>}
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style lang="scss">
+  .how {
+    padding-block: clamp(4rem, 8vw, 7rem);
+    position: relative;
+    background:
+      radial-gradient(circle at 15% 20%, var(--p-accent-soft) 0%, transparent 40%),
+      var(--p-bg);
+  }
+
+  .how__head {
+    max-width: 44rem;
+    margin-block-end: clamp(3rem, 6vw, 5rem);
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-4);
+    align-items: flex-start;
+
+    .section-lead {
+      margin: 0;
+    }
+  }
+
+  .how__steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--p-space-6);
+    grid-template-columns: repeat(4, 1fr);
+    counter-reset: none;
+
+    @media (max-width: 960px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 560px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .step {
+    position: relative;
+    padding: var(--p-space-6);
+    background: var(--p-bg-elevated);
+    border: 1px solid var(--p-border);
+    border-radius: var(--p-radius-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-4);
+    transition: transform var(--p-transition), box-shadow var(--p-transition), border-color var(--p-transition);
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--p-shadow-md);
+      border-color: var(--p-border-strong);
+    }
+  }
+
+  .step__num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--p-radius-full);
+    background: var(--p-accent-soft);
+    color: var(--p-accent);
+    font-family: var(--p-font-mono);
+    font-weight: 700;
+    font-size: 0.875rem;
+  }
+
+  .step__title {
+    font-family: var(--p-font-display);
+    font-weight: 500;
+    font-size: 1.375rem;
+    line-height: 1.2;
+    color: var(--p-fg);
+    letter-spacing: -0.01em;
+  }
+
+  .step__text {
+    color: var(--p-fg-muted);
+    font-size: var(--p-fs-body);
+    line-height: 1.55;
+  }
+
+  .step__connector {
+    display: none;
+  }
+</style>

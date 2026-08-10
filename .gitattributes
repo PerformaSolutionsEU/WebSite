@@ -1,0 +1,37 @@
+# Normalizza line endings: LF nel repo, checkout nativo.
+# Elimina i warning "LF will be replaced by CRLF" su Windows senza forzare stile.
+* text=auto eol=lf
+
+# File Windows-native: mantieni CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Text vs binary — esplicito per evitare corruzioni
+*.md   text
+*.mdx  text
+*.scss text
+*.css  text
+*.astro text
+*.ts   text
+*.tsx  text
+*.js   text
+*.mjs  text
+*.json text
+*.yml  text
+*.yaml text
+*.svg  text
+*.txt  text
+
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.webp binary
+*.woff  binary
+*.woff2 binary
+*.pdf  binary
+
+# Non conteggiare come diff nelle statistiche
+package-lock.json -diff linguist-generated

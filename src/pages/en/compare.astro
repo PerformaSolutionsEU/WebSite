@@ -1,0 +1,567 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+
+const title = 'Compare — Performa vs alternatives';
+const description =
+  'How Performa positions against enterprise EPM platforms, generalist FP&A, international ABC software, and Excel. Comparison by category.';
+
+const clusters = [
+  {
+    label: 'Enterprise EPM platforms',
+    names: 'SAP PaPM, Oracle PCMCS, OneStream, CCH Tagetik, IBM Cognos',
+    forte: 'Unlimited power, integration with the same vendor\'s ERP, global corporate references.',
+    debole: 'Licenses from €100k+/year, 6-18 month implementation with certified consultants, 3-year TCO €300k-1M+, dedicated teams required.',
+    quando: 'Multinational corporates with dedicated FP&A teams and six-figure implementation budgets.',
+    performa: 'Not attacking: if you are in their tier, they have support structures and integrations that Performa does not replicate.',
+  },
+  {
+    label: 'Generalist FP&A "modelers"',
+    names: 'Anaplan, Board, Workday Adaptive, Prophix, Vena, Jedox',
+    forte: 'Flexible, powerful platforms for planning, budgeting and forecasting. Large modeler communities.',
+    debole: 'ABC is not native: it must be built with formulas and hypercubes. The ABC model becomes an internal project that runs 6+ months and depends on the "guru" who wrote it.',
+    quando: 'Companies that need a full FP&A platform (planning + consolidation + budget + reporting) and treat ABC as a sub-use-case.',
+    performa: 'Coexistence. If you already have Anaplan or Board and model everything else there: use them for ABC too. If you don\'t have them and just need ABC, Performa costs and weighs a fraction.',
+  },
+  {
+    label: 'International ABC-native software',
+    names: 'CostPerform (NL), MyABCM (BR), PlaidCloud (US)',
+    forte: 'Pioneers of ABC methodology (CostPerform since the \'90s), global scale, pre-built verticals.',
+    debole: 'No structured European sales presence outside their home markets. Enterprise-oriented positioning, complex setup, limited EU data-residency options.',
+    quando: 'International companies needing a global ABC tool across multiple jurisdictions.',
+    performa: 'For European SMBs our edge is fit: GDPR-native, EU data residency, English + Italian support, a lighter TCO and a shorter time-to-value.',
+  },
+  {
+    label: 'Excel + macros + PowerBI',
+    names: 'The real incumbent',
+    forte: 'Apparent zero cost, total familiarity, full control.',
+    debole: 'Not versioned, not auditable, single-user in practice, not reproducible months later, dies with the person who wrote it. Maintenance costs more than the license of a serious tool.',
+    quando: 'If you are single-product, with three cost drivers that never change, and you update the ABC model once a year.',
+    performa: '**Our real competitor.** Every active Performa client today comes from Excel — not from another SaaS. The real switch is "out of the spreadsheet".',
+  },
+];
+
+const matrix = [
+  { dimension: 'Native ABC (activities + drivers as primitives)', perf: '✓', epm: '~', fpa: '✗', abc_intl: '✓', excel: '~' },
+  { dimension: 'Time-to-value', perf: 'Weeks', epm: '6-18 months', fpa: '3-9 months', abc_intl: '3-6 months', excel: 'Immediate but fragile' },
+  { dimension: 'Indicative 3-year TCO', perf: '< €30k', epm: '€300k-1M+', fpa: '€60k-300k', abc_intl: '€50k-200k', excel: 'Hidden but high' },
+  { dimension: 'Multi-tenant for advisors', perf: '✓ native', epm: '✗', fpa: '✗', abc_intl: '~', excel: '✗' },
+  { dimension: 'Integrated timesheet → rules', perf: '✓', epm: '~', fpa: '~', abc_intl: '~', excel: '✗ (manual)' },
+  { dimension: 'Computed drivers (Sum, Count, GroupSum, Residual)', perf: '✓', epm: '✓', fpa: '~', abc_intl: '✓', excel: '~ (fragile formulas)' },
+  { dimension: 'Coverage of non-invoiced costs (staff, depreciation, manual)', perf: '✓', epm: '✓', fpa: '✓', abc_intl: '✓', excel: '~ (manual)' },
+  { dimension: 'Drill-down to general-ledger line', perf: '✓', epm: '✓', fpa: '~', abc_intl: '✓', excel: '✗' },
+  { dimension: 'Isolated, versioned scenarios', perf: '✓', epm: '✓', fpa: '✓', abc_intl: '✓', excel: '✗' },
+  { dimension: 'EU data residency (GDPR-native)', perf: '✓', epm: '~', fpa: '~', abc_intl: '✗', excel: 'N/A' },
+  { dimension: 'In-product AI Copilot', perf: '✓', epm: '~', fpa: '~', abc_intl: '~', excel: '✗' },
+];
+
+const cols = [
+  { key: 'perf', label: 'Performa', highlight: true },
+  { key: 'excel', label: 'Excel' },
+  { key: 'fpa', label: 'FP&A' },
+  { key: 'abc_intl', label: 'Intl. ABC' },
+  { key: 'epm', label: 'Enterprise EPM' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="section section--intro">
+    <div class="container">
+      <div class="intro">
+        <span class="eyebrow">Compare</span>
+        <h1 class="display intro__title">
+          The <em>honest</em> comparison.<br />
+          By category, not by brand.
+        </h1>
+        <p class="intro__lead">
+          Four families of real alternatives if you're evaluating Performa,
+          with the honesty to say where Performa is <strong>not</strong> the
+          right choice. The real competitor is Excel: every active Performa
+          client today came from there.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cluster -->
+  <section class="section section--clusters" aria-labelledby="clusters-heading">
+    <div class="container">
+      <div class="section__head">
+        <span class="eyebrow">The four families</span>
+        <h2 id="clusters-heading" class="section-title">
+          Who shows up in front of the client <em>with us</em>.
+        </h2>
+      </div>
+
+      <ul class="clusters">
+        {
+          clusters.map((c, i) => (
+            <li class="cluster">
+              <div class="cluster__num" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </div>
+              <div class="cluster__body">
+                <h3 class="cluster__label display">{c.label}</h3>
+                <p class="cluster__names">{c.names}</p>
+                <div class="cluster__grid">
+                  <div class="cluster__cell">
+                    <span class="cluster__cell-label">Strength</span>
+                    <p>{c.forte}</p>
+                  </div>
+                  <div class="cluster__cell">
+                    <span class="cluster__cell-label">Weakness for our target</span>
+                    <p>{c.debole}</p>
+                  </div>
+                  <div class="cluster__cell">
+                    <span class="cluster__cell-label">When it's the right choice</span>
+                    <p>{c.quando}</p>
+                  </div>
+                  <div class="cluster__cell cluster__cell--emph">
+                    <span class="cluster__cell-label">Performa vs</span>
+                    <p set:html={c.performa.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')} />
+                  </div>
+                </div>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Matrix -->
+  <section class="section section--matrix" aria-labelledby="matrix-heading">
+    <div class="container">
+      <div class="section__head">
+        <span class="eyebrow">Matrix</span>
+        <h2 id="matrix-heading" class="section-title">
+          Eleven dimensions, five categories.
+        </h2>
+        <p class="section-lead">
+          No column wins on everything. The matrix is meant to de-select
+          categories unsuited to your case, not to declare winners.
+        </p>
+      </div>
+
+      <div class="matrix-wrap">
+        <table class="matrix">
+          <thead>
+            <tr>
+              <th scope="col" class="matrix__row-head-th">Dimension</th>
+              {
+                cols.map((c) => (
+                  <th scope="col" class={c.highlight ? 'matrix__col--highlight' : ''}>
+                    {c.label}
+                  </th>
+                ))
+              }
+            </tr>
+          </thead>
+          <tbody>
+            {
+              matrix.map((row) => (
+                <tr>
+                  <th scope="row" class="matrix__row-head">{row.dimension}</th>
+                  {
+                    cols.map((c) => (
+                      <td class={c.highlight ? 'matrix__col--highlight' : ''}>
+                        {row[c.key as keyof typeof row]}
+                      </td>
+                    ))
+                  }
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <p class="matrix-note">
+        Legend: ✓ native · ~ present but limited / needs building · ✗ absent.
+        Public sources: vendor sites, Gartner Peer Insights, PeerSpot, official
+        documentation. Review conducted August 2026.
+      </p>
+    </div>
+  </section>
+
+  <!-- Anti-selling -->
+  <section class="section section--anti">
+    <div class="container-narrow anti">
+      <span class="eyebrow eyebrow--dark">Honesty as a weapon</span>
+      <h2 class="display anti__title">
+        When we are <em>not</em> the right choice.
+      </h2>
+      <ul class="anti__list">
+        <li>
+          If you need <strong>statutory group consolidation</strong> with
+          elimination entries, integrated budgeting and forecasting, IFRS
+          planning: you need a full EPM platform (SAP, Oracle, OneStream,
+          Tagetik).
+        </li>
+        <li>
+          If you're already on <strong>Anaplan, Board, Adaptive</strong>: model
+          ABC there. Replacing a planning platform just to do ABC makes no sense.
+        </li>
+        <li>
+          If you're <strong>single-product</strong> or have three cost drivers
+          that never change: Excel is still enough.
+        </li>
+      </ul>
+      <p class="anti__closer">
+        Performa exists for those in between: the <strong>management accounting
+        advisor</strong> serving multiple SMBs, the <strong>CFO who wants a
+        serious ABC model</strong> without buying an entire EPM platform. The
+        models in production today reach 369 nodes and 340 allocation rules —
+        the engine holds.
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section section--cta">
+    <div class="container-narrow">
+      <div class="cta">
+        <span class="eyebrow eyebrow--inverse">The next step</span>
+        <h2 class="display cta__title">
+          Bring us your real case.
+        </h2>
+        <p class="cta__lead">
+          If you were evaluating one of the four families above, send us the
+          context: we'll try to de-position ourselves honestly before even
+          selling.
+        </p>
+        <a href="/en/contact" class="btn btn--accent btn--lg">
+          Write to us
+          <Icon name="arrow-right" size={18} />
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="scss">
+  .section__head {
+    max-width: 44rem;
+    margin-block-end: clamp(3rem, 5vw, 4.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-4);
+    align-items: flex-start;
+  }
+
+  .section--intro {
+    padding-block: clamp(4rem, 8vw, 7rem) clamp(3rem, 5vw, 4rem);
+  }
+
+  .intro {
+    max-width: 48rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-4);
+  }
+
+  .intro__title {
+    font-size: clamp(2.5rem, 4vw + 1rem, 4.5rem);
+    line-height: var(--p-lh-tight);
+    color: var(--p-fg);
+
+    :global(em) {
+      color: var(--p-accent);
+      font-style: italic;
+    }
+  }
+
+  .intro__lead {
+    font-size: var(--p-fs-body-lg);
+    color: var(--p-fg-muted);
+    line-height: 1.55;
+
+    strong {
+      color: var(--p-fg);
+    }
+  }
+
+  .section--clusters {
+    padding-block: clamp(3rem, 6vw, 5rem);
+    background: var(--p-bg-elevated);
+    border-block: 1px solid var(--p-border);
+  }
+
+  .clusters {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-6);
+  }
+
+  .cluster {
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    gap: clamp(1rem, 2vw, 2rem);
+    padding: var(--p-space-8);
+    background: var(--p-bg);
+    border: 1px solid var(--p-border);
+    border-radius: var(--p-radius-lg);
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+      gap: var(--p-space-3);
+    }
+  }
+
+  .cluster__num {
+    font-family: var(--p-font-mono);
+    font-size: 1.5rem;
+    color: var(--p-accent);
+    font-weight: 500;
+  }
+
+  .cluster__label {
+    font-size: 1.5rem;
+    color: var(--p-fg);
+  }
+
+  .cluster__names {
+    font-family: var(--p-font-mono);
+    font-size: var(--p-fs-small);
+    color: var(--p-fg-subtle);
+    margin-block: var(--p-space-2) var(--p-space-6);
+  }
+
+  .cluster__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--p-space-6);
+
+    @media (max-width: 720px) {
+      grid-template-columns: 1fr;
+      gap: var(--p-space-4);
+    }
+  }
+
+  .cluster__cell {
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-2);
+
+    p {
+      color: var(--p-fg-muted);
+      line-height: 1.55;
+      font-size: var(--p-fs-small);
+
+      :global(strong) {
+        color: var(--p-fg);
+      }
+    }
+
+    &--emph {
+      padding: var(--p-space-4);
+      background: var(--p-accent-soft);
+      border-radius: var(--p-radius);
+
+      p {
+        color: var(--p-fg);
+      }
+    }
+  }
+
+  .cluster__cell-label {
+    font-family: var(--p-font-mono);
+    font-size: var(--p-fs-micro);
+    color: var(--p-fg-subtle);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .section--matrix {
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+
+  .matrix-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--p-border);
+    border-radius: var(--p-radius-lg);
+    background: var(--p-bg-elevated);
+  }
+
+  .matrix {
+    width: 100%;
+    min-width: 44rem;
+    border-collapse: collapse;
+    font-size: var(--p-fs-small);
+    text-align: center;
+
+    thead th {
+      padding: var(--p-space-4) var(--p-space-3);
+      font-family: var(--p-font-sans);
+      font-weight: 600;
+      color: var(--p-fg);
+      background: var(--p-bg);
+      border-block-end: 1px solid var(--p-border);
+      text-align: center;
+      vertical-align: bottom;
+    }
+
+    tbody th {
+      padding: var(--p-space-3);
+      font-family: var(--p-font-sans);
+      font-weight: 500;
+      color: var(--p-fg);
+      text-align: left;
+      background: transparent;
+    }
+
+    tbody td {
+      padding: var(--p-space-3);
+      color: var(--p-fg-muted);
+      border-block-start: 1px solid var(--p-border);
+      font-family: var(--p-font-mono);
+      font-size: var(--p-fs-small);
+    }
+
+    tbody tr:first-child td,
+    tbody tr:first-child th {
+      border-block-start: none;
+    }
+
+    .matrix__row-head,
+    .matrix__row-head-th {
+      text-align: left !important;
+      min-width: 14rem;
+    }
+
+    .matrix__col--highlight {
+      background: var(--p-accent-soft);
+      color: var(--p-fg);
+    }
+  }
+
+  .matrix-note {
+    margin-block-start: var(--p-space-6);
+    color: var(--p-fg-subtle);
+    font-size: var(--p-fs-small);
+    line-height: 1.55;
+  }
+
+  .section--anti {
+    padding-block: clamp(4rem, 8vw, 7rem);
+    background: var(--p-bg-elevated);
+    border-block: 1px solid var(--p-border);
+  }
+
+  .anti {
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-4);
+  }
+
+  .anti__title {
+    font-size: clamp(1.75rem, 3vw + 0.5rem, 2.75rem);
+    color: var(--p-fg);
+
+    :global(em) {
+      color: var(--p-accent);
+      font-style: italic;
+    }
+  }
+
+  .anti__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-4);
+    padding-inline-start: var(--p-space-6);
+    margin-block-start: var(--p-space-4);
+
+    li {
+      color: var(--p-fg-muted);
+      line-height: 1.55;
+      font-size: var(--p-fs-body-lg);
+
+      strong {
+        color: var(--p-fg);
+      }
+    }
+  }
+
+  .anti__closer {
+    margin-block-start: var(--p-space-6);
+    padding: var(--p-space-6);
+    border-inline-start: 3px solid var(--p-accent);
+    background: var(--p-bg);
+    border-radius: 0 var(--p-radius) var(--p-radius) 0;
+    color: var(--p-fg-muted);
+    line-height: 1.55;
+    font-size: var(--p-fs-body-lg);
+
+    strong {
+      color: var(--p-fg);
+    }
+  }
+
+  .eyebrow--dark {
+    background: var(--p-slate-900);
+    color: var(--p-slate-100);
+  }
+
+  .section--cta {
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+
+  .cta {
+    padding: clamp(3rem, 6vw, 4.5rem);
+    background: var(--p-slate-900);
+    color: var(--p-slate-100);
+    border-radius: var(--p-radius-xl);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+
+    &::before {
+      content: '';
+      position: absolute;
+      right: -6rem;
+      top: -6rem;
+      width: 20rem;
+      height: 20rem;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--p-brand-500), transparent 65%);
+      opacity: 0.45;
+      filter: blur(40px);
+      z-index: -1;
+    }
+  }
+
+  .cta__title {
+    font-size: clamp(2rem, 4vw + 0.5rem, 3rem);
+    color: var(--p-slate-100);
+    margin-block: var(--p-space-4) var(--p-space-4);
+  }
+
+  .cta__lead {
+    font-size: var(--p-fs-body-lg);
+    color: var(--p-slate-300);
+    margin-inline: auto;
+    margin-block-end: var(--p-space-8);
+    line-height: 1.55;
+    max-width: 32rem;
+  }
+
+  .eyebrow--inverse {
+    background: rgba(46, 127, 172, 0.22);
+    color: var(--p-brand-500);
+  }
+
+  .cta .btn--accent {
+    background: var(--p-brand-500);
+    color: #ffffff;
+
+    &:hover {
+      background: var(--p-brand-600);
+      color: #ffffff;
+    }
+  }
+</style>

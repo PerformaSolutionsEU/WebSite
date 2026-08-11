@@ -27,3 +27,35 @@ Il motore di calcolo tratta il modello come un grafo generico di nodi (contenito
 - [Competitor research](https://github.com/[org]/Performa/blob/main/docs/marketing/competitor-research.md)
 - [Product overview](https://github.com/[org]/Performa/blob/main/docs/overview.md)
 - [Glossary](https://github.com/[org]/Performa/blob/main/docs/glossary.md)
+
+---
+
+# Performa (English version)
+
+> European Activity-Based Costing (ABC) SaaS for small and mid-sized businesses, designed for the management accounting advisor who serves multiple clients in parallel. Replaces Excel allocation files with a versioned, auditable, multi-tenant graph model.
+
+Performa implements the **Activity-Based Costing** method formalized by Robert S. Kaplan and Robin Cooper (Harvard Business School, 1988-1998). The product targets European SMBs with revenue between €1M and €50M in any sector, and the advisors who serve them. A single account manages N client organizations with total data isolation.
+
+The calculation engine treats the model as a generic graph of nodes (cost containers) and allocation rules with drivers. The UI presents specialized templates for Manufacturing, Hospitality, and Professional services (plus a Custom template). Distinctive features: computed drivers (Sum, Count, SumProduct, GroupSum, Residual), staff timesheet that auto-generates allocation rules, reusable allocation patterns, activity saturation analysis (capacity variance), multi-dimensional P&L, full drill-down to the general-ledger line, isolated versioned scenarios, integrated AI Copilot.
+
+## Key pages (English)
+
+- [Home](/en): positioning, value proposition, sectors overview.
+- [Product](/en/product): main features.
+- [What is ABC](/en/activity-based-costing): full guide to Kaplan & Cooper's method, origins, 4-step method, evolutions (Time-Driven ABC), classic implementation mistakes.
+- [Sectors](/en/sectors): landing pages for Manufacturing, Hospitality, Professional services.
+- [Compare](/en/compare): how Performa positions vs enterprise solutions (SAP, Oracle, OneStream), FP&A platforms (Anaplan, Board), international ABC software, and Excel.
+- [Contact](/en/contact): contact email for demos and commercial information.
+
+## What Performa is not
+
+- Not an enterprise EPM platform (SAP PaPM, Oracle PCMCS, OneStream, CCH Tagetik): corporates with dedicated FP&A teams have tools sized for them.
+- Not a generalist FP&A platform (Anaplan, Board, Adaptive): those require building the ABC model from scratch. Performa has ABC as a product primitive.
+- Not a replacement for the ERP (SAP, Oracle, and similar): it sits alongside the ERP and adds the ABC allocation layer that standard modules do not provide.
+
+## Canonical sources
+
+- [Website brief](https://github.com/[org]/Performa/blob/main/docs/marketing/website-brief.md)
+- [Competitor research](https://github.com/[org]/Performa/blob/main/docs/marketing/competitor-research.md)
+- [Product overview](https://github.com/[org]/Performa/blob/main/docs/overview.md)
+- [Glossary](https://github.com/[org]/Performa/blob/main/docs/glossary.md)

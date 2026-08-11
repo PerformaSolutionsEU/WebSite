@@ -1,0 +1,508 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+
+const title = 'The product — Performa';
+const description =
+  "How Performa works inside: graph-based calculation engine, computed drivers, integrated timesheets, allocation patterns, Cost-to-Serve, multi-dimensional P&L, AI Copilot, native multi-tenancy.";
+
+const productLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Performa',
+  applicationCategory: 'BusinessApplication',
+  applicationSubCategory: 'Activity-Based Costing',
+  operatingSystem: 'Web',
+  description,
+  featureList: [
+    'Graph-based calculation engine (nodes + rules with drivers)',
+    'Staff timesheet that generates allocation rules',
+    'Computed drivers (Sum, Count, SumProduct, GroupSum, Residual)',
+    'Reusable allocation patterns',
+    'Cost-to-Serve per product and per client',
+    'Multi-dimensional P&L',
+    'Full drill-down to the general-ledger line',
+    'Isolated, versioned scenarios',
+    'Native multi-tenancy (one account, N organizations)',
+    'Integrated AI Copilot',
+  ],
+};
+
+const engine = [
+  {
+    icon: 'network' as const,
+    title: 'A graph engine, not a spreadsheet.',
+    body: `Internally, Performa sees only Nodes and Edges. A node can be a
+      building, a machine, an employee, an activity, a product. An edge is an
+      allocation rule with a driver. The engine propagates costs across the
+      graph and returns the unit cost and margin of every cost object.`,
+  },
+  {
+    icon: 'layers' as const,
+    title: 'Externally, a UI typed by sector.',
+    body: `On top of the engine, the UI renders industry-specific screens:
+      workshop, hotel, professional practice — each with the custom fields
+      that sector actually needs. The generic graph underneath keeps the
+      system flexible without sacrificing sector-fit UX.`,
+  },
+];
+
+const features = [
+  {
+    tag: 'staff',
+    title: 'Timesheets that auto-generate rules.',
+    body: `Employee × activity matrix. Each cell ("Smith: 80% Machining, 20%
+      Assembly") becomes an allocation rule without you writing it. Updating
+      the timesheet updates the model. No side-Excels, no formulas replicated
+      thirty times.`,
+  },
+  {
+    tag: 'drivers',
+    title: 'Five kinds of computed drivers.',
+    body: `Not just constant drivers. The engine resolves aggregated drivers
+      at calculation time: Sum (a field summed on a filter), Count (nodes
+      matching a filter), SumProduct (two fields multiplied and summed),
+      GroupSum (aggregated by group), Residual (group saturation via
+      capacity − Σ others). Complex models stay maintainable.`,
+  },
+  {
+    tag: 'patterns',
+    title: 'Reusable allocation patterns.',
+    body: `Two-hop allocation templates (Resource Pool → Activity → Cost
+      Object), consistent by construction — the engine guarantees that in
+      every generated pair, the driver of the first hop equals the sum of
+      weights in the second. Reusable across scenarios and clients.`,
+  },
+  {
+    tag: 'saturation',
+    title: 'Capacity variance exposed.',
+    body: `For every activity with production capacity, the engine calculates
+      how much has been absorbed by cost objects and how much stays idle.
+      The cost of unused capacity appears as a separate P&L line
+      ("under-utilization cost") rather than inflating product cost.`,
+  },
+  {
+    tag: 'reports',
+    title: 'Cost-to-Serve, multi-dim P&L, drill-down.',
+    body: `Cost-to-Serve for a single product, service or client. P&L by
+      product, area, channel, business unit, cross-dimension. Every number
+      is drill-down-able: click a cost line → see the rules that generated
+      it → open the general-ledger entries at its origin.`,
+  },
+  {
+    tag: 'scenarios',
+    title: 'Isolated, versioned scenarios.',
+    body: `Every scenario is independent: editing the baseline doesn't touch
+      the what-if. Deep-copy to duplicate a scenario in one click. Side-by-side
+      comparison between scenarios with absolute and percentage deltas on
+      every cost object.`,
+  },
+  {
+    tag: 'AI',
+    title: 'Integrated AI Copilot.',
+    body: `Not a generic chatbot. The Copilot knows Performa's schema, your
+      active model, your calculations. It suggests drivers, explains why a
+      node has a given cost, helps map cost items to activities. Useful
+      while building the model and when interpreting results.`,
+  },
+  {
+    tag: 'advisor',
+    title: 'Native multi-tenancy, not bolted on.',
+    body: `A user belongs to N organizations. Each organization is an isolated
+      tenant: data, calculations, scenarios, users — all separated. The
+      management accounting advisor runs the entire client portfolio from a
+      single login. Roles per organization (Admin/Editor/Viewer) let you
+      share the model with the client in a controlled way.`,
+  },
+];
+
+const scaleFacts = [
+  { n: '€ 307M+', label: 'costs already allocated in production' },
+  { n: '38', label: 'active client organizations' },
+  { n: '369', label: 'nodes in the largest live model' },
+  { n: '< 400ms', label: 'calc time on typical models (200 nodes, 500 edges)' },
+];
+---
+
+<BaseLayout title={title} description={description} jsonLd={productLd}>
+  <section class="section section--intro">
+    <div class="container">
+      <div class="intro">
+        <span class="eyebrow">The product</span>
+        <h1 class="display intro__title">
+          What's <em>inside</em> Performa.
+        </h1>
+        <p class="intro__lead">
+          A graph-based calculation engine, a sector-typed UI, an AI Copilot.
+          Under the hood of every ABC model built on Performa, in ten minutes
+          of reading.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Engine philosophy -->
+  <section class="section section--engine" aria-labelledby="engine-heading">
+    <div class="container">
+      <div class="section__head">
+        <span class="eyebrow">Architecture</span>
+        <h2 id="engine-heading" class="section-title">
+          One principle: <em>graph inside, sector UI outside</em>.
+        </h2>
+      </div>
+      <div class="engine-grid">
+        {
+          engine.map((e) => (
+            <article class="engine-card">
+              <div class="engine-card__icon" aria-hidden="true">
+                <Icon name={e.icon} size={22} />
+              </div>
+              <h3 class="engine-card__title display">{e.title}</h3>
+              <p class="engine-card__body">{e.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Features deep-dive -->
+  <section class="section section--features" aria-labelledby="features-heading">
+    <div class="container">
+      <div class="section__head">
+        <span class="eyebrow">Features</span>
+        <h2 id="features-heading" class="section-title">
+          Eight things that make the difference <em>when you model seriously</em>.
+        </h2>
+        <p class="section-lead">
+          Not a checkbox list. Each of these solves a concrete problem anyone
+          who has built an ABC model in Excel knows well.
+        </p>
+      </div>
+
+      <ul class="features">
+        {
+          features.map((f, i) => (
+            <li class="feature">
+              <span class="feature__num" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <div class="feature__content">
+                <span class="feature__tag">{f.tag}</span>
+                <h3 class="feature__title display">{f.title}</h3>
+                <p class="feature__body">{f.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Scale & performance -->
+  <section class="section section--scale" aria-labelledby="scale-heading">
+    <div class="container">
+      <div class="section__head">
+        <span class="eyebrow">Scale &amp; performance</span>
+        <h2 id="scale-heading" class="section-title">
+          The real numbers of the product <em>in production today</em>.
+        </h2>
+      </div>
+      <div class="scale-grid">
+        {
+          scaleFacts.map((f) => (
+            <div class="scale-card">
+              <p class="scale-card__n">{f.n}</p>
+              <p class="scale-card__label">{f.label}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p class="scale-note">
+        Numbers as of July 10, 2026, measured on the production database.
+        Architectural capacity supports up to 500 nodes per scenario, 5,000
+        cost items, 2,000 allocation rules — comfortable headroom beyond the
+        largest models currently live.
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section section--cta">
+    <div class="container-narrow">
+      <div class="cta">
+        <span class="eyebrow eyebrow--inverse">The next step</span>
+        <h2 class="display cta__title">Let's look at your real case.</h2>
+        <p class="cta__lead">
+          If you have an Excel allocation file or an ABC model you want to
+          modernize, send it over. In 20 minutes we'll tell you whether
+          Performa is the right fit.
+        </p>
+        <a href="/en/contact" class="btn btn--accent btn--lg">
+          Write to us
+          <Icon name="arrow-right" size={18} />
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="scss">
+  .section__head {
+    max-width: 44rem;
+    margin-block-end: clamp(3rem, 5vw, 4.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-4);
+    align-items: flex-start;
+  }
+
+  .section--intro {
+    padding-block: clamp(4rem, 8vw, 7rem) clamp(2rem, 4vw, 3rem);
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-4);
+    align-items: flex-start;
+    max-width: 44rem;
+  }
+
+  .intro__title {
+    font-size: clamp(2.5rem, 4vw + 1rem, 4.5rem);
+    line-height: var(--p-lh-tight);
+    color: var(--p-fg);
+
+    :global(em) {
+      color: var(--p-accent);
+      font-style: italic;
+    }
+  }
+
+  .intro__lead {
+    font-size: var(--p-fs-body-lg);
+    color: var(--p-fg-muted);
+    line-height: 1.55;
+    text-wrap: pretty;
+  }
+
+  .section--engine {
+    padding-block: clamp(3rem, 6vw, 5rem);
+    background: var(--p-bg-elevated);
+    border-block: 1px solid var(--p-border);
+  }
+
+  .engine-grid {
+    display: grid;
+    gap: var(--p-space-6);
+    grid-template-columns: repeat(2, 1fr);
+
+    @media (max-width: 820px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .engine-card {
+    padding: var(--p-space-8);
+    background: var(--p-bg);
+    border: 1px solid var(--p-border);
+    border-radius: var(--p-radius-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-3);
+  }
+
+  .engine-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--p-radius);
+    background: var(--p-accent-soft);
+    color: var(--p-accent);
+  }
+
+  .engine-card__title {
+    font-size: 1.5rem;
+    color: var(--p-fg);
+  }
+
+  .engine-card__body {
+    color: var(--p-fg-muted);
+    line-height: 1.55;
+  }
+
+  .section--features {
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+
+  .features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .feature {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    padding-block: var(--p-space-8);
+    border-block-start: 1px solid var(--p-border);
+    align-items: baseline;
+
+    &:first-child {
+      border-block-start: none;
+      padding-block-start: 0;
+    }
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+      gap: var(--p-space-3);
+    }
+  }
+
+  .feature__num {
+    font-family: var(--p-font-mono);
+    font-size: 1.5rem;
+    color: var(--p-accent);
+    font-weight: 500;
+  }
+
+  .feature__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-3);
+  }
+
+  .feature__tag {
+    font-family: var(--p-font-mono);
+    font-size: var(--p-fs-micro);
+    color: var(--p-fg-subtle);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .feature__title {
+    font-size: 1.5rem;
+    color: var(--p-fg);
+    line-height: var(--p-lh-snug);
+  }
+
+  .feature__body {
+    color: var(--p-fg-muted);
+    line-height: 1.55;
+    max-width: 44rem;
+  }
+
+  .section--scale {
+    padding-block: clamp(3rem, 6vw, 5rem);
+    background: var(--p-bg-elevated);
+    border-block: 1px solid var(--p-border);
+  }
+
+  .scale-grid {
+    display: grid;
+    gap: var(--p-space-4);
+    grid-template-columns: repeat(4, 1fr);
+
+    @media (max-width: 900px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .scale-card {
+    padding: var(--p-space-6);
+    background: var(--p-bg);
+    border: 1px solid var(--p-border);
+    border-radius: var(--p-radius-lg);
+    text-align: left;
+  }
+
+  .scale-card__n {
+    font-family: var(--p-font-display);
+    font-size: clamp(1.75rem, 2.5vw + 0.5rem, 2.75rem);
+    color: var(--p-accent);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-block-end: var(--p-space-2);
+  }
+
+  .scale-card__label {
+    font-size: var(--p-fs-small);
+    color: var(--p-fg-muted);
+    line-height: 1.4;
+  }
+
+  .scale-note {
+    color: var(--p-fg-subtle);
+    font-size: var(--p-fs-small);
+    line-height: 1.55;
+    margin-block-start: var(--p-space-6);
+    max-width: 48rem;
+  }
+
+  .section--cta {
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+
+  .cta {
+    padding: clamp(3rem, 6vw, 4.5rem);
+    background: var(--p-slate-900);
+    color: var(--p-slate-100);
+    border-radius: var(--p-radius-xl);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .cta::before {
+    content: '';
+    position: absolute;
+    right: -6rem;
+    top: -6rem;
+    width: 20rem;
+    height: 20rem;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--p-brand-500), transparent 65%);
+    opacity: 0.45;
+    filter: blur(40px);
+    z-index: -1;
+  }
+
+  .cta__title {
+    font-size: clamp(2rem, 4vw + 0.5rem, 3rem);
+    color: var(--p-slate-100);
+    margin-block: var(--p-space-4) var(--p-space-4);
+  }
+
+  .cta__lead {
+    font-size: var(--p-fs-body-lg);
+    color: var(--p-slate-300);
+    margin-inline: auto;
+    margin-block-end: var(--p-space-8);
+    line-height: 1.55;
+    max-width: 32rem;
+  }
+
+  .eyebrow--inverse {
+    background: rgba(46, 127, 172, 0.22);
+    color: var(--p-brand-500);
+  }
+
+  .cta .btn--accent {
+    background: var(--p-brand-500);
+    color: #ffffff;
+
+    &:hover {
+      background: var(--p-brand-600);
+      color: #ffffff;
+    }
+  }
+</style>

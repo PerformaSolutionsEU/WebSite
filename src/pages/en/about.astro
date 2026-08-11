@@ -1,0 +1,350 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+
+const title = 'About — Performa';
+const description =
+  "Who is behind Performa: why we built an Activity-Based Costing SaaS, for whom, and with what product principles.";
+
+const principles = [
+  {
+    tag: 'method',
+    title: 'Kaplan & Cooper, not "AI-powered".',
+    body: `ABC has 40 years of literature, published cases, methodological
+      replicability. It doesn't need reinventing with buzzwords: it needs to be
+      usable by the people who practice it every day. Performa's AI Copilot is
+      an operational tool, not a marketing pitch.`,
+  },
+  {
+    tag: 'channel',
+    title: 'The advisor is at the center.',
+    body: `The real user of Performa is the management accounting advisor
+      serving multiple SMBs. Native multi-tenancy, sector templates, deep-copy
+      between scenarios — all architectural choices made with the advisor in
+      mind, not with the single end client.`,
+  },
+  {
+    tag: 'honesty',
+    title: "We say who we're NOT for.",
+    body: `If you're a corporate with a dedicated FP&A team, if you're
+      single-product, if you're already on Anaplan — we say so on the site.
+      No 30-minute qualification call before you can find out whether it
+      makes sense to work together.`,
+  },
+  {
+    tag: 'europe',
+    title: 'Built in Italy. EU-based, GDPR-native.',
+    body: `A product developed in Europe, with data residency in the EU, no
+      transatlantic dependencies for the business logic. Support in English
+      and Italian, direct contact with the people who wrote the software.
+      Not another tool translated poorly from a US vendor.`,
+  },
+];
+
+const numbers = [
+  { n: '€ 307M+', label: 'costs allocated in production today' },
+  { n: '38', label: 'active client organizations' },
+  { n: '369', label: 'nodes in the largest live model' },
+  { n: '2024', label: 'first release into production' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="section section--intro">
+    <div class="container">
+      <div class="intro">
+        <span class="eyebrow">About</span>
+        <h1 class="display intro__title">
+          An ABC engine <em>built to be used</em>.
+        </h1>
+        <p class="intro__lead">
+          Performa was born from the concrete problem of people who build
+          Activity-Based Costing models every day and refused to see them die,
+          yet again, in an unversioned Excel file.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--principles" aria-labelledby="principles-heading">
+    <div class="container">
+      <div class="section__head">
+        <span class="eyebrow">Product principles</span>
+        <h2 id="principles-heading" class="section-title">
+          Four non-negotiable choices.
+        </h2>
+      </div>
+      <ul class="principles">
+        {
+          principles.map((p, i) => (
+            <li class="principle">
+              <span class="principle__num" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <div class="principle__body">
+                <span class="principle__tag">{p.tag}</span>
+                <h3 class="principle__title display">{p.title}</h3>
+                <p class="principle__text">{p.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--numbers" aria-labelledby="numbers-heading">
+    <div class="container">
+      <div class="section__head">
+        <span class="eyebrow">Where we are today</span>
+        <h2 id="numbers-heading" class="section-title">
+          Performa's numbers <em>in production</em>.
+        </h2>
+      </div>
+      <div class="numbers">
+        {
+          numbers.map((n) => (
+            <div class="number-card">
+              <p class="number-card__n">{n.n}</p>
+              <p class="number-card__label">{n.label}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p class="numbers-note">
+        Data as of July 10, 2026. Performa is in growth phase: small client
+        base, but a stable product in daily use. We look for advisors and
+        companies willing to work together on the model — not spectators.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--cta">
+    <div class="container-narrow">
+      <div class="cta">
+        <span class="eyebrow eyebrow--inverse">Direct contact</span>
+        <h2 class="display cta__title">
+          Let's talk, directly.
+        </h2>
+        <p class="cta__lead">
+          No form to fill out, no bot. Write to us and we reply by the next
+          working day.
+        </p>
+        <a href="/en/contact" class="btn btn--accent btn--lg">
+          Write to us
+          <Icon name="arrow-right" size={18} />
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="scss">
+  .section__head {
+    max-width: 44rem;
+    margin-block-end: clamp(3rem, 5vw, 4.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-4);
+    align-items: flex-start;
+  }
+
+  .section--intro {
+    padding-block: clamp(4rem, 8vw, 7rem) clamp(2rem, 4vw, 3rem);
+  }
+
+  .intro {
+    max-width: 48rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-4);
+  }
+
+  .intro__title {
+    font-size: clamp(2.5rem, 4vw + 1rem, 4.5rem);
+    line-height: var(--p-lh-tight);
+    color: var(--p-fg);
+
+    :global(em) {
+      color: var(--p-accent);
+      font-style: italic;
+    }
+  }
+
+  .intro__lead {
+    font-size: var(--p-fs-body-lg);
+    color: var(--p-fg-muted);
+    line-height: 1.55;
+  }
+
+  .section--principles {
+    padding-block: clamp(3rem, 6vw, 5rem);
+    background: var(--p-bg-elevated);
+    border-block: 1px solid var(--p-border);
+  }
+
+  .principles {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .principle {
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    padding-block: var(--p-space-8);
+    border-block-start: 1px solid var(--p-border);
+    align-items: baseline;
+
+    &:first-child {
+      border-block-start: none;
+      padding-block-start: 0;
+    }
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+      gap: var(--p-space-3);
+    }
+  }
+
+  .principle__num {
+    font-family: var(--p-font-mono);
+    font-size: 1.5rem;
+    color: var(--p-accent);
+    font-weight: 500;
+  }
+
+  .principle__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-3);
+  }
+
+  .principle__tag {
+    font-family: var(--p-font-mono);
+    font-size: var(--p-fs-micro);
+    color: var(--p-fg-subtle);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .principle__title {
+    font-size: 1.5rem;
+    color: var(--p-fg);
+  }
+
+  .principle__text {
+    color: var(--p-fg-muted);
+    line-height: 1.55;
+    max-width: 44rem;
+  }
+
+  .section--numbers {
+    padding-block: clamp(3rem, 6vw, 5rem);
+  }
+
+  .numbers {
+    display: grid;
+    gap: var(--p-space-4);
+    grid-template-columns: repeat(4, 1fr);
+
+    @media (max-width: 900px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .number-card {
+    padding: var(--p-space-6);
+    background: var(--p-bg-elevated);
+    border: 1px solid var(--p-border);
+    border-radius: var(--p-radius-lg);
+    text-align: left;
+  }
+
+  .number-card__n {
+    font-family: var(--p-font-display);
+    font-size: clamp(1.75rem, 2.5vw + 0.5rem, 2.75rem);
+    color: var(--p-accent);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-block-end: var(--p-space-2);
+  }
+
+  .number-card__label {
+    font-size: var(--p-fs-small);
+    color: var(--p-fg-muted);
+    line-height: 1.4;
+  }
+
+  .numbers-note {
+    color: var(--p-fg-subtle);
+    font-size: var(--p-fs-small);
+    line-height: 1.55;
+    margin-block-start: var(--p-space-6);
+    max-width: 48rem;
+  }
+
+  .section--cta {
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+
+  .cta {
+    padding: clamp(3rem, 6vw, 4.5rem);
+    background: var(--p-slate-900);
+    color: var(--p-slate-100);
+    border-radius: var(--p-radius-xl);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+
+    &::before {
+      content: '';
+      position: absolute;
+      right: -6rem;
+      top: -6rem;
+      width: 20rem;
+      height: 20rem;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--p-brand-500), transparent 65%);
+      opacity: 0.45;
+      filter: blur(40px);
+      z-index: -1;
+    }
+  }
+
+  .cta__title {
+    font-size: clamp(2rem, 4vw + 0.5rem, 3rem);
+    color: var(--p-slate-100);
+    margin-block: var(--p-space-4) var(--p-space-4);
+  }
+
+  .cta__lead {
+    font-size: var(--p-fs-body-lg);
+    color: var(--p-slate-300);
+    margin-inline: auto;
+    margin-block-end: var(--p-space-8);
+    line-height: 1.55;
+    max-width: 32rem;
+  }
+
+  .eyebrow--inverse {
+    background: rgba(46, 127, 172, 0.22);
+    color: var(--p-brand-500);
+  }
+
+  .cta .btn--accent {
+    background: var(--p-brand-500);
+    color: #ffffff;
+
+    &:hover {
+      background: var(--p-brand-600);
+      color: #ffffff;
+    }
+  }
+</style>

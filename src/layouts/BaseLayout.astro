@@ -2,6 +2,8 @@
 import '@styles/global.scss';
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
+import { getLocale, getAlternatePath, normalizePath } from '@i18n/routes.mjs';
+import { t } from '@i18n/ui.mjs';
 
 interface Props {
   title: string;
@@ -9,28 +11,39 @@ interface Props {
   canonical?: string;
   jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
   ogImage?: string;
+  noindex?: boolean;
 }
 
-const { title, description, canonical, jsonLd, ogImage } = Astro.props;
+const { title, description, canonical, jsonLd, ogImage, noindex } = Astro.props;
 
 const site = Astro.site?.toString() ?? 'https://performa.example';
-const canonicalUrl = canonical ?? new URL(Astro.url.pathname, site).toString();
+const currentPath = normalizePath(Astro.url.pathname);
+const locale = getLocale(currentPath);
+
+const canonicalUrl = canonical ?? new URL(currentPath === '/' ? '' : currentPath, site).toString();
 const ogImageUrl = ogImage ?? new URL('/og-image.png', site).toString();
+
+const toAbs = (p: string) => new URL(p === '/' ? '' : p, site).toString();
+const itPath = getAlternatePath(currentPath, 'it');
+const enPath = getAlternatePath(currentPath, 'en');
+const alternates: { hreflang: string; href: string }[] = [];
+if (itPath) alternates.push({ hreflang: 'it', href: toAbs(itPath) });
+if (enPath) alternates.push({ hreflang: 'en', href: toAbs(enPath) });
+alternates.push({ hreflang: 'x-default', href: toAbs(itPath ?? currentPath) });
 
 const jsonLdArray = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 
-// Baseline Organization JSON-LD, sempre presente
 const organizationLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Performa',
   url: site,
-  description: 'SaaS di Activity-Based Costing per PMI italiane',
+  description: t(locale, 'seo.org.description'),
 };
 ---
 
 <!doctype html>
-<html lang="it">
+<html lang={t(locale, 'html.lang')}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -38,7 +51,12 @@ const organizationLd = {
 
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={canonicalUrl} />
+
+    {alternates.map((alt) => (
+      <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+    ))}
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -54,7 +72,7 @@ const organizationLd = {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={ogImageUrl} />
-    <meta property="og:locale" content="it_IT" />
+    <meta property="og:locale" content={t(locale, 'og.locale')} />
     <meta property="og:site_name" content="Performa" />
 
     <!-- Twitter Card -->
@@ -72,7 +90,7 @@ const organizationLd = {
     }
   </head>
   <body>
-    <a href="#main" class="skip-link">Vai al contenuto</a>
+    <a href="#main" class="skip-link">{t(locale, 'skip.link')}</a>
     <Header />
     <main id="main">
       <slot />

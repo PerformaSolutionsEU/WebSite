@@ -1,0 +1,279 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+
+const title = 'Sectors — Performa';
+const description =
+  'Three industry templates already configured (Manufacturing, Hospitality, Professional services) plus a Custom template to model any vertical from scratch.';
+
+const sectors = [
+  {
+    slug: 'manufacturing',
+    icon: 'factory' as const,
+    label: 'Manufacturing',
+    accent: 'emerald',
+    pitch: 'Real full product cost across a wide portfolio. Setup, quality and R&D overhead attributed to the products that truly absorb them.',
+    detail: 'A fit for: discrete mid-market manufacturing with heavy mix, contract manufacturers, companies where small batches are quietly subsidized by standard runs.',
+  },
+  {
+    slug: 'hospitality',
+    icon: 'hotel' as const,
+    label: 'Hospitality',
+    accent: 'amber',
+    pitch: 'Hotels, restaurants, wellness. Cost-to-serve by service, by channel, by season. Rooms, F&B and spa with margins finally separated.',
+    detail: 'A fit for: independent hotels and small chains, structured country lodgings, restaurants with multiple service lines, integrated wellness centers.',
+  },
+  {
+    slug: 'professional-services',
+    icon: 'briefcase' as const,
+    label: 'Professional services',
+    accent: 'ink',
+    pitch: 'Full cost per project and per client. Consultant utilization in real time, firm-level break-even calculated weekly.',
+    detail: 'A fit for: consulting practices, creative agencies, engineering & design, advisory boutiques, structured law firms.',
+  },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="section section--intro">
+    <div class="container-narrow">
+      <span class="eyebrow">Sectors</span>
+      <h1 class="display intro__title">
+        Three templates.<br /><em>Zero</em> certified implementers.
+      </h1>
+      <p class="intro__lead">
+        Each template ships with the node types, custom fields and drivers the
+        industry actually uses. The fourth — <em>Custom</em> — is yours, to
+        model any vertical not on this list from scratch.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--grid">
+    <div class="container">
+      <div class="sectors">
+        {
+          sectors.map((s) => (
+            <a href={`/en/sectors/${s.slug}`} class={`sector sector--${s.accent}`}>
+              <div class="sector__icon-wrap" aria-hidden="true">
+                <Icon name={s.icon} size={26} />
+              </div>
+              <span class="sector__tag">configured template</span>
+              <h2 class="sector__label display">{s.label}</h2>
+              <p class="sector__body">{s.pitch}</p>
+              <p class="sector__detail">{s.detail}</p>
+              <span class="sector__link">
+                Go to sector
+                <Icon name="arrow-right" size={16} />
+              </span>
+            </a>
+          ))
+        }
+      </div>
+
+      <aside class="custom-note">
+        <div class="custom-note__inner">
+          <span class="eyebrow">Custom</span>
+          <h2 class="display custom-note__title">
+            Your sector isn't on the list?
+          </h2>
+          <p>
+            The <em>Custom</em> template starts from an empty model: you define
+            the node types, the fields each node must carry, the available
+            drivers. It typically takes a week's work together with your advisor
+            to bring a new sector to steady state.
+          </p>
+          <a href="/en/contact" class="btn btn--ghost">
+            Let's talk about your sector
+            <Icon name="arrow-right" size={16} />
+          </a>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="scss">
+  .section--intro {
+    padding-block: clamp(4rem, 8vw, 7rem) clamp(2rem, 4vw, 3rem);
+  }
+
+  .intro__title {
+    font-size: clamp(2.5rem, 4vw + 1rem, 4.5rem);
+    line-height: var(--p-lh-tight);
+    color: var(--p-fg);
+    margin-block-end: var(--p-space-6);
+
+    :global(em) {
+      color: var(--p-accent);
+      font-style: italic;
+    }
+  }
+
+  .intro__lead {
+    font-size: var(--p-fs-body-lg);
+    color: var(--p-fg-muted);
+    line-height: 1.55;
+
+    :global(em) {
+      color: var(--p-fg);
+      font-style: italic;
+      font-family: var(--p-font-display);
+    }
+  }
+
+  .section--grid {
+    padding-block: clamp(3rem, 5vw, 4rem) clamp(4rem, 8vw, 7rem);
+  }
+
+  .sectors {
+    display: grid;
+    gap: var(--p-space-6);
+    grid-template-columns: repeat(3, 1fr);
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .sector {
+    position: relative;
+    padding: clamp(1.75rem, 3vw, 2.5rem);
+    border-radius: var(--p-radius-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-3);
+    color: var(--p-fg);
+    text-decoration: none;
+    min-height: 20rem;
+    border: 1px solid var(--p-border);
+    transition: transform var(--p-transition), box-shadow var(--p-transition);
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--p-shadow-lg);
+      text-decoration: none;
+    }
+
+    &--emerald {
+      background: var(--p-accent-soft);
+
+      .sector__icon-wrap {
+        background: var(--p-brand-700);
+        color: #fff;
+      }
+    }
+
+    &--amber {
+      background: var(--p-highlight-soft);
+
+      .sector__icon-wrap {
+        background: var(--p-warning-600);
+        color: #fff;
+      }
+    }
+
+    &--ink {
+      background: var(--p-slate-900);
+      color: var(--p-slate-100);
+
+      .sector__icon-wrap {
+        background: var(--p-slate-100);
+        color: var(--p-slate-900);
+      }
+
+      .sector__label,
+      .sector__link {
+        color: var(--p-slate-100);
+      }
+
+      .sector__body,
+      .sector__detail {
+        color: var(--p-slate-300);
+      }
+
+      .sector__tag {
+        color: var(--p-slate-400);
+      }
+    }
+  }
+
+  .sector__icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: var(--p-radius);
+    margin-block-end: var(--p-space-2);
+  }
+
+  .sector__tag {
+    font-family: var(--p-font-mono);
+    font-size: var(--p-fs-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--p-fg-subtle);
+  }
+
+  .sector__label {
+    font-size: 1.75rem;
+    margin-block: var(--p-space-1);
+  }
+
+  .sector__body {
+    color: var(--p-fg-muted);
+    line-height: 1.55;
+  }
+
+  .sector__detail {
+    color: var(--p-fg-subtle);
+    line-height: 1.55;
+    font-size: var(--p-fs-small);
+    padding-block-start: var(--p-space-3);
+    border-block-start: 1px solid currentColor;
+    border-color: rgba(11, 15, 25, 0.1);
+    margin-block-start: auto;
+  }
+
+  .sector__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--p-space-2);
+    font-weight: 600;
+    font-size: var(--p-fs-small);
+    color: var(--p-fg);
+    margin-block-start: var(--p-space-3);
+  }
+
+  .custom-note {
+    margin-block-start: var(--p-space-16);
+    padding-block-start: var(--p-space-12);
+    border-block-start: 1px solid var(--p-border);
+  }
+
+  .custom-note__inner {
+    max-width: 44rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-4);
+    align-items: flex-start;
+
+    p {
+      color: var(--p-fg-muted);
+      line-height: 1.55;
+      font-size: var(--p-fs-body-lg);
+
+      :global(em) {
+        color: var(--p-fg);
+        font-style: italic;
+        font-family: var(--p-font-display);
+      }
+    }
+  }
+
+  .custom-note__title {
+    font-size: clamp(1.75rem, 2.5vw + 0.5rem, 2.5rem);
+    color: var(--p-fg);
+  }
+</style>

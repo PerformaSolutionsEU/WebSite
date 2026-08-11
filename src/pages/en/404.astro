@@ -1,0 +1,60 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const title = 'Page not found — Performa';
+const description = 'The page you were looking for does not exist or has been moved.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="notfound">
+    <div class="container-narrow">
+      <p class="code">404</p>
+      <h1>This page does not exist.</h1>
+      <p class="lead">
+        The link is stale, the page was removed, or you mistyped. None of those
+        three is your fault.
+      </p>
+      <div class="ctas">
+        <a href="/en" class="btn btn--primary">Back to home</a>
+        <a href="/en/contact" class="btn btn--secondary">Report a broken link</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="scss">
+  .notfound {
+    padding-block: var(--p-space-24);
+    text-align: center;
+  }
+
+  .code {
+    font-family: var(--p-font-mono);
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--p-accent);
+    line-height: 1;
+    margin-block-end: var(--p-space-4);
+  }
+
+  h1 {
+    font-size: var(--p-fs-h1);
+    font-weight: 700;
+    margin-block-end: var(--p-space-4);
+  }
+
+  .lead {
+    color: var(--p-fg-muted);
+    font-size: 1.125rem;
+    max-width: 32rem;
+    margin-inline: auto;
+    margin-block-end: var(--p-space-8);
+  }
+
+  .ctas {
+    display: flex;
+    gap: var(--p-space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+</style>

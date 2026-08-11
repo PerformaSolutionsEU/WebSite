@@ -1,0 +1,67 @@
+---
+layout: ../../layouts/MarkdownLayout.astro
+title: "Accessibility statement"
+description: "The Performa website is designed to conform to WCAG 2.1 Level AA. Statement, scope, methodology and channel for reports."
+publishedAt: "2026-08-11"
+updatedAt: "2026-08-11"
+---
+
+# Accessibility statement
+
+*Last updated: August 11, 2026.*
+
+## Commitment
+
+The website **performa.example** is designed and developed to be accessible to as many users as possible, including people with visual, auditory, motor and cognitive disabilities.
+
+## Standard of conformance
+
+The site is designed to conform to the W3C **Web Content Accessibility Guidelines (WCAG) 2.1 Level AA**.
+
+This includes, among other things:
+
+- Text/background contrast ratio of at least **4.5:1** for normal text and **3:1** for large text.
+- Full keyboard navigation with **visible focus** on every interactive element.
+- Semantic HTML structure with `<header>`, `<nav>`, `<main>`, `<footer>` and a correct heading hierarchy (h1, h2, h3).
+- **Alt text** on every informative image; `alt=""` on purely decorative images.
+- No content that depends solely on color to be understood.
+- Respect for user preferences `prefers-reduced-motion` (animations disabled if requested) and `prefers-color-scheme` (light and dark theme support).
+- **Skip link** at the top of every page to jump directly to the main content.
+- **ARIA landmarks** correctly attributed to primary sections.
+- No JavaScript dependency for content consumption: the site is static and readable without JavaScript.
+
+## Verification methodology
+
+Conformance has been verified via:
+
+- **Automated analysis** with axe DevTools and Lighthouse during development.
+- **Manual keyboard navigation testing** across all main pages.
+- **Contrast verification** on color tokens in both light and dark mode.
+- **Screen reader testing** (NVDA on Windows) on key pages.
+
+## Non-accessible content
+
+At the time of publication:
+
+- The **SVG diagram** on the home page is marked as `role="img"` with a descriptive text label (`aria-label`). The diagram is illustrative: all the information it conveys is also described in the surrounding text and on the [What is ABC](/en/activity-based-costing) page.
+- **Embedded third-party content** (Google Fonts) is provided by an external domain and its accessibility depends on the provider.
+
+If you find non-accessible content that you should be able to use, please let us know (see below).
+
+## How to report accessibility issues
+
+If you encounter barriers to accessing site content, or have suggestions for improving accessibility, write to us at `[CONTACT EMAIL — TO BE COMPLETED]`. We commit to responding by the next working day and to evaluating fixes within reasonable timeframes.
+
+## Regulatory references
+
+- **Regulation (EU) 2016/679** (GDPR)
+- **Directive (EU) 2019/882** — European Accessibility Act (EAA), applicable from 28 June 2025
+- **WCAG 2.1 Level AA** of the W3C
+
+## Notes
+
+This statement is issued voluntarily. The website's owner is not, at the current date, a party required by national transposition of the EAA. Nevertheless, we consider accessibility a principle of product quality and commit to maintaining and improving it over time.
+
+---
+
+*Last review of this statement: August 11, 2026.*

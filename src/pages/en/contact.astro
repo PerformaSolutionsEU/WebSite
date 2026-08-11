@@ -1,0 +1,181 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+
+const title = 'Contact — Performa';
+const description =
+  'Write to us in English, we reply by the next working day. No form, no qualification call. Bring us your worst Excel allocation file, or just your curiosity.';
+
+// TODO: replace with definitive email when provided
+const email = 'contact@performa.example';
+const mailto = `mailto:${email}?subject=Info%20Performa%20—%20your%20management%20accounting%20practice`;
+
+const contactLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: 'Performa contact page',
+  description,
+  inLanguage: 'en-GB',
+};
+
+const startingQuestions = [
+  {
+    q: "I'm an advisor with 5-10 SMB clients. How does it work?",
+    a: 'A single account manages N client organizations with total data isolation. Sector templates for Manufacturing, Hospitality, Professional services as your starting point. Deep-copy across scenarios to reuse models between similar clients.',
+  },
+  {
+    q: 'I already have an Excel allocation file. Can I migrate it?',
+    a: 'Yes. You import the chart of accounts from Excel or CSV, rebuild nodes and rules (often simpler than translating the Excel formulas), and validate the recalculation by comparing totals. The first migration typically takes 1-3 weeks depending on complexity.',
+  },
+  {
+    q: 'AI Copilot — what does it actually do?',
+    a: 'It helps during model construction: suggests drivers, explains why a calculation gives a certain number, proposes how to map cost items onto activities. Not a generic chatbot — it knows the Performa data schema and your active model.',
+  },
+  {
+    q: 'Is the product in production or still in beta?',
+    a: 'In production with real clients. Over € 300 million already allocated with Performa, models up to 369 nodes and 340 active allocation rules in live scenarios.',
+  },
+];
+---
+
+<BaseLayout title={title} description={description} jsonLd={contactLd}>
+  <section class="section section--intro">
+    <div class="container-narrow intro">
+      <span class="eyebrow">Contact</span>
+      <h1 class="display intro__title">
+        Write to us in English.<br />
+        <em>We reply</em> by the next working day.
+      </h1>
+      <p class="intro__lead">
+        No form to fill out, no half-hour qualification call before you can talk
+        to a human. Bring us your worst Excel allocation file, a model you want
+        to rebuild from scratch, or just your curiosity.
+      </p>
+
+      <div class="intro__cta">
+        <a href={mailto} class="btn btn--accent btn--lg">
+          {email}
+          <Icon name="arrow-right" size={18} />
+        </a>
+      </div>
+      <p class="intro__note">
+        The click opens your pre-filled email client. No tracking, no cookies.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--faq" aria-labelledby="faq-heading">
+    <div class="container-narrow">
+      <div class="section__head">
+        <span class="eyebrow">Where to start</span>
+        <h2 id="faq-heading" class="section-title">
+          The questions we get most often.
+        </h2>
+        <p class="section-lead">
+          If one of these rings a bell, click the email above and use it as
+          the subject — we'll know where to start.
+        </p>
+      </div>
+
+      <ul class="faq">
+        {
+          startingQuestions.map((item) => (
+            <li class="faq__item">
+              <h3 class="faq__q display">{item.q}</h3>
+              <p class="faq__a">{item.a}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="scss">
+  .section--intro {
+    padding-block: clamp(4rem, 8vw, 7rem) clamp(3rem, 5vw, 4rem);
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-4);
+    align-items: flex-start;
+  }
+
+  .intro__title {
+    font-size: clamp(2.25rem, 4vw + 0.75rem, 4rem);
+    line-height: var(--p-lh-tight);
+    color: var(--p-fg);
+
+    :global(em) {
+      color: var(--p-accent);
+      font-style: italic;
+    }
+  }
+
+  .intro__lead {
+    font-size: var(--p-fs-body-lg);
+    color: var(--p-fg-muted);
+    line-height: 1.55;
+    text-wrap: pretty;
+    max-width: 36rem;
+  }
+
+  .intro__cta {
+    margin-block-start: var(--p-space-4);
+  }
+
+  .intro__note {
+    color: var(--p-fg-subtle);
+    font-size: var(--p-fs-small);
+    margin-block-start: var(--p-space-3);
+  }
+
+  .section--faq {
+    padding-block: clamp(3rem, 6vw, 5rem);
+    background: var(--p-bg-elevated);
+    border-block: 1px solid var(--p-border);
+  }
+
+  .section__head {
+    max-width: 44rem;
+    margin-block-end: var(--p-space-12);
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-4);
+    align-items: flex-start;
+  }
+
+  .faq {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-8);
+  }
+
+  .faq__item {
+    padding-block-start: var(--p-space-6);
+    border-block-start: 1px solid var(--p-border);
+
+    &:first-child {
+      padding-block-start: 0;
+      border-block-start: none;
+    }
+  }
+
+  .faq__q {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--p-fg);
+    margin-block-end: var(--p-space-3);
+    line-height: var(--p-lh-snug);
+  }
+
+  .faq__a {
+    color: var(--p-fg-muted);
+    line-height: 1.55;
+  }
+</style>

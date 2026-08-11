@@ -1,17 +1,30 @@
 ---
-const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+import LanguageSwitcher from '@components/LanguageSwitcher.astro';
+import { getLocale, getAlternatePath, normalizePath } from '@i18n/routes.mjs';
+import { t } from '@i18n/ui.mjs';
 
-const navItems = [
-  { href: '/prodotto', label: 'Prodotto' },
-  { href: '/activity-based-costing', label: "Cos'è l'ABC" },
-  { href: '/settori', label: 'Settori' },
-  { href: '/confronto', label: 'Confronto' },
+const currentPath = normalizePath(Astro.url.pathname);
+const locale = getLocale(currentPath);
+
+const navItemsIt = [
+  { itPath: '/prodotto', labelKey: 'nav.product' },
+  { itPath: '/activity-based-costing', labelKey: 'nav.abc' },
+  { itPath: '/settori', labelKey: 'nav.sectors' },
+  { itPath: '/confronto', labelKey: 'nav.compare' },
 ];
+
+const navItems = navItemsIt.map(({ itPath, labelKey }) => {
+  const href = locale === 'it' ? itPath : (getAlternatePath(itPath, 'en') ?? itPath);
+  return { href, label: t(locale, labelKey) };
+});
+
+const brandHref = locale === 'en' ? '/en' : '/';
+const contactHref = locale === 'en' ? '/en/contact' : '/contatti';
 ---
 
 <header class="site-header">
   <div class="container-wide site-header__inner">
-    <a href="/" class="brand" aria-label="Performa — home">
+    <a href={brandHref} class="brand" aria-label={t(locale, 'brand.aria')}>
       <span class="brand__mark" aria-hidden="true">
         <!-- Placeholder wordmark: sostituire con SVG di Antonella -->
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -24,7 +37,7 @@ const navItems = [
       <span class="brand__name">Performa</span>
     </a>
 
-    <nav class="nav" aria-label="Navigazione principale">
+    <nav class="nav" aria-label={t(locale, 'nav.aria')}>
       <ul class="nav__list">
         {
           navItems.map((item) => (
@@ -42,9 +55,12 @@ const navItems = [
       </ul>
     </nav>
 
-    <a href="/contatti" class="header-cta">
-      Contattaci
-    </a>
+    <div class="site-header__end">
+      <LanguageSwitcher />
+      <a href={contactHref} class="header-cta">
+        {t(locale, 'nav.contact')}
+      </a>
+    </div>
   </div>
 </header>
 
@@ -70,6 +86,12 @@ const navItems = [
     justify-content: space-between;
     gap: var(--p-space-6);
     padding-block: var(--p-space-4);
+  }
+
+  .site-header__end {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--p-space-4);
   }
 
   .brand {

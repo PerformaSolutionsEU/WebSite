@@ -1,15 +1,27 @@
 ---
 import Icon from './Icon.astro';
 
-const signals = [
+interface Signal {
+  icon: string;
+  label: string;
+}
+
+interface Props {
+  signals?: Signal[];
+  ariaLabel?: string;
+}
+
+const defaultSignals: Signal[] = [
   { icon: 'flag-italy', label: 'Fatto in Italia' },
   { icon: 'shield-check', label: 'GDPR · Dati in Azure Italia' },
   { icon: 'sparkles', label: 'Copilot AI incluso' },
   { icon: 'check', label: 'Oltre € 300M già allocati in produzione' },
-] as const;
+];
+
+const { signals = defaultSignals, ariaLabel = 'Segnali di fiducia' } = Astro.props;
 ---
 
-<section class="trust" aria-label="Segnali di fiducia">
+<section class="trust" aria-label={ariaLabel}>
   <div class="container">
     <ul class="trust__list">
       {

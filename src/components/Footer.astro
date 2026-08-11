@@ -1,32 +1,41 @@
 ---
+import { getLocale, getAlternatePath, normalizePath } from '@i18n/routes.mjs';
+import { t } from '@i18n/ui.mjs';
+
+const currentPath = normalizePath(Astro.url.pathname);
+const locale = getLocale(currentPath);
 const year = new Date().getFullYear();
+
+/** Resolve an IT path to the current locale, falling back to IT if untranslated. */
+const localize = (itPath) =>
+  locale === 'it' ? itPath : (getAlternatePath(itPath, 'en') ?? itPath);
 
 const columns = [
   {
-    title: 'Prodotto',
+    titleKey: 'footer.col.product',
     links: [
-      { href: '/prodotto', label: 'Cos\'è Performa' },
-      { href: '/settori', label: 'Settori' },
-      { href: '/confronto', label: 'Confronto' },
+      { itPath: '/prodotto', labelKey: 'footer.link.what' },
+      { itPath: '/settori', labelKey: 'footer.link.sectors' },
+      { itPath: '/confronto', labelKey: 'footer.link.compare' },
     ],
   },
   {
-    title: 'Metodo',
+    titleKey: 'footer.col.method',
     links: [
-      { href: '/activity-based-costing', label: "L'Activity-Based Costing" },
+      { itPath: '/activity-based-costing', labelKey: 'footer.link.abc' },
     ],
   },
   {
-    title: 'Contatti',
+    titleKey: 'footer.col.contact',
     links: [
-      { href: '/contatti', label: 'Scrivici' },
+      { itPath: '/contatti', labelKey: 'footer.link.contact' },
     ],
   },
   {
-    title: 'Trasparenza',
+    titleKey: 'footer.col.legal',
     links: [
-      { href: '/privacy', label: 'Privacy policy' },
-      { href: '/accessibilita', label: 'Accessibilità' },
+      { itPath: '/privacy', labelKey: 'footer.link.privacy' },
+      { itPath: '/accessibilita', labelKey: 'footer.link.accessibility' },
     ],
   },
 ];
@@ -47,32 +56,32 @@ const columns = [
           </span>
           <span class="brand-name display">Performa</span>
         </div>
-        <p class="brand-desc">
-          Activity-Based Costing per PMI italiane. Il metodo di Kaplan &amp; Cooper,
-          in un SaaS che il consulente può usare con tutti i suoi clienti.
-        </p>
+        <p class="brand-desc">{t(locale, 'footer.brand.desc')}</p>
       </div>
 
       {
-        columns.map((col) => (
-          <nav class="col" aria-label={col.title}>
-            <h2 class="col__title">{col.title}</h2>
-            <ul class="col__list">
-              {col.links.map((link) => (
-                <li>
-                  <a href={link.href} class="col__link">
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        ))
+        columns.map((col) => {
+          const title = t(locale, col.titleKey);
+          return (
+            <nav class="col" aria-label={title}>
+              <h2 class="col__title">{title}</h2>
+              <ul class="col__list">
+                {col.links.map((link) => (
+                  <li>
+                    <a href={localize(link.itPath)} class="col__link">
+                      {t(locale, link.labelKey)}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          );
+        })
       }
     </div>
 
     <div class="site-footer__meta">
-      <p>© {year} Performa. Tutti i diritti riservati.</p>
+      <p>© {year} Performa. {t(locale, 'footer.copyright')}</p>
       <!-- TODO: Ragione sociale + P.IVA quando arrivano da amministrazione -->
       <p class="meta-legal">
         <span class="tag">[RAGIONE SOCIALE]</span> · P.IVA <span class="tag">[P.IVA]</span>

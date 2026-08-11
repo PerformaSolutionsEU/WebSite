@@ -1,0 +1,58 @@
+---
+layout: ../../../layouts/MarkdownLayout.astro
+title: "ABC for mid-market manufacturing"
+description: "Real full product cost in manufacturing companies with heavy mix. Performa's template already configured for BOM, machine capacity, staff, overhead."
+publishedAt: "2026-08-11"
+articleType: "Article"
+---
+
+# ABC for mid-market manufacturing
+
+Performa's **Manufacturing** template is designed for medium-sized manufacturing companies (10-500 employees) with a **heterogeneous product portfolio**: a mix of standard high-volume products and custom low-volume products, typically served by the same machines and the same people.
+
+## The problem it solves
+
+In classic mid-market manufacturing, indirect costs (machine setup, quality control, R&D, internal handling, maintenance) are often 30-50% of total cost. When these costs are allocated **proportionally to volume** — as many standard ERPs do — custom low-volume products come out "free" while standard products "pay for" everything.
+
+The result: wrong pricing, wrong mix decisions, and the sales team bringing home custom orders that seem "very attractive" but actually destroy value.
+
+## What the template ships with
+
+The Manufacturing template arrives pre-configured with:
+
+- **Staff**: employee grid with standard fields (role, salary, benefits, PPE, training), employee × activity timesheet that auto-generates allocation rules.
+- **Building & Utilities**: building with capacity in square meters, distribution to production departments via "m² occupied" driver.
+- **Machines and workstations**: capacity in machine hours, depreciation, energy. "Hours consumed" driver for the assignment to products.
+- **Production activities**: CNC, joinery, assembly, painting, testing. Each with capacity and calculated unit cost per hour.
+- **Support activities**: internal logistics, maintenance, work organization, HR. They flow onto production activities via appropriate drivers.
+- **Overhead**: sales, administration, general management. Accumulated on a "structure" cost object, not on products.
+- **Products**: final cost object with BOM (raw materials), volumes, sale price, calculated cost-to-serve.
+
+## Typical insights that emerge
+
+From real models built on Performa in manufacturing companies:
+
+- **The 20% lowest-volume products absorb 60% of machine setup** — because every changeover has an almost fixed setup cost independent of batch size.
+- **A "custom" product that looks high-margin actually burns margin** once you add the design engineer's hour, the extra quality-control cycle, the sales rep who chaperoned the order, non-standard packaging.
+- **Production capacity is under-utilized by 70-80%** — and nobody noticed, because idle cost was smeared indistinctly onto active products, inflating their cost. Performa isolates it as a separate P&L line.
+- **A "product A" that has always been sold at 40% margin turns out, post-ABC, to be at 12%.** The sales team has 30 days to renegotiate or stop selling it below cost.
+
+## The documented reference case
+
+Mid-market joinery workshop, 23 employees, 5 product lines, €3.7M revenue.
+
+- Model: 30+ nodes, 45+ allocation rules
+- Resource pools: 1 building, 4 vehicles, 1 workstation pool, 20+ depreciated assets
+- Production activities: CNC (60k hours capacity), Joinery (100k hours), Assembly (15k person-hours)
+- Support activities: Internal logistics, Maintenance, Work organization, HR
+- Cost objects: 5 products, volumes 5,000-12,000 units/year
+- Cost-to-serve product A: €18.22/pc (raw materials €3, external processing €1.50, CNC €3.21, Joinery €5.82, Assembly €4.68). Sale price €35 → real margin 48%.
+- Key insight: CNC is saturated at 76.8%. 13,900 idle hours × €6.42/hour = **€89k of idle cost**, which used to be smeared onto products, inflating their cost by 4-6% asymmetrically.
+
+## Who buys it, typically
+
+Management accounting advisors serving 3-15 mid-market manufacturing clients, in-house controllers of manufacturing groups looking to replace an Excel allocation file, production directors who want to know the true cost of custom requests before accepting them.
+
+---
+
+*Want to see the Manufacturing template applied to your case?* [Write to us](/en/contact). *If you'd rather start with the product:* [explore Performa](/en/product).

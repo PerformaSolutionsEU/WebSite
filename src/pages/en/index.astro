@@ -1,0 +1,565 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/Hero.astro';
+import TrustBar from '@components/TrustBar.astro';
+import HowItWorks from '@components/HowItWorks.astro';
+import Icon from '@components/Icon.astro';
+
+const title = 'Performa — Activity-Based Costing for advisors and finance teams';
+const description =
+  'Your clients\' ABC models, out of Excel for good. One account, every client. Sector templates, computed drivers, integrated timesheets, full drill-down. Kaplan & Cooper\'s method without the enterprise EPM price tag.';
+
+const softwareLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Performa',
+  applicationCategory: 'BusinessApplication',
+  applicationSubCategory: 'Activity-Based Costing',
+  operatingSystem: 'Web',
+  description,
+  offers: {
+    '@type': 'Offer',
+    priceCurrency: 'EUR',
+    price: '0',
+    availability: 'https://schema.org/InStock',
+    priceValidUntil: '2027-12-31',
+  },
+  audience: {
+    '@type': 'BusinessAudience',
+    audienceType:
+      'Management accounting advisors, controllers and CFOs of small and mid-sized businesses',
+  },
+};
+
+const trustSignals = [
+  { icon: 'flag-italy', label: 'Built in Italy · EU' },
+  { icon: 'shield-check', label: 'GDPR · EU data residency' },
+  { icon: 'sparkles', label: 'AI Copilot included' },
+  { icon: 'check', label: 'Over € 300M allocated in production' },
+];
+
+const flowLabels = {
+  ariaLabel:
+    'ABC model diagram: three company resources feeding two production activities and three products, each with its calculated unit cost',
+  chromeBg: 'performa.app  ·  Joinery demo  ·  scenario 2025-Q3',
+  chromeFront: 'performa.app  ·  Joinery demo  ·  € 1,322k allocated',
+  scenarioBadge: 'BASELINE SCENARIO ·  PRODUCT A',
+  legend: { resource: 'Resource', activity: 'Activity', costObject: 'Cost object' },
+  drivers: { area: '400 m²', hours: '18k hrs', euros: '€ 180k', pieces: '12k pcs' },
+  nodes: {
+    building: { label: 'Building', value: '€ 125k · 1,000 m²' },
+    staff: { label: 'Staff', value: '€ 946k · 23 FTE' },
+    depreciation: { label: 'Depreciation', value: '€ 251k' },
+    machining: { label: 'Machining', value: '€ 385k · 60k hrs' },
+    assembly: { label: 'Assembly', value: '€ 240k · 15k hrs' },
+    productA: { label: 'Product A', value: '€ 18.22 /pc' },
+    productB: { label: 'Product B', value: '€ 26.10 /pc' },
+    productC: { label: 'Product C', value: '€ 12.80 /pc' },
+  },
+};
+
+const howSteps = [
+  {
+    n: '01',
+    title: 'Import your chart of accounts',
+    body: 'Excel, CSV or manual entry. Cost items land with code, description, amount. No forced mapping upfront — you can capture everything first and allocate later.',
+  },
+  {
+    n: '02',
+    title: 'Define resources and activities',
+    body: 'Buildings, vehicles, staff, machinery. Production activities, support functions, overhead. Manufacturing, Hospitality and Services templates arrive pre-configured.',
+  },
+  {
+    n: '03',
+    title: 'Connect them with drivers',
+    body: 'Square meters, hours, units, headcount, percentages, or drivers Performa computes for you. The staff timesheet auto-generates allocation rules — no manual entry.',
+  },
+  {
+    n: '04',
+    title: 'Calculate. Then drill down.',
+    body: 'Cost-to-Serve per product and per client, multi-dimensional P&L, activity saturation. From any number, click through to the general-ledger line that produced it.',
+  },
+];
+
+const pillars = [
+  {
+    icon: 'excel-out' as const,
+    tag: 'versioned',
+    title: "The Excel file won't survive next year. Your ABC model will.",
+    body: `Every scenario is isolated, every change versioned, every calculation
+      reproducible years later. It's not a file — it's a system. When you change
+      clients or hand it off, the model stays readable.`,
+  },
+  {
+    icon: 'network' as const,
+    tag: 'one login',
+    title: 'Your entire practice in a single browser tab.',
+    body: `One account, sector templates already configured, total data isolation
+      between your clients. Your portfolio stops being twelve .xlsx files
+      scattered across folders — it becomes a single workspace.`,
+  },
+  {
+    icon: 'layers' as const,
+    tag: 'full ABC',
+    title: "Everything serious ABC requires. Already inside.",
+    body: `Staff timesheets that auto-generate allocation rules. Computed drivers
+      so you never repeat a formula. Cost-to-Serve per product and per client.
+      Drill-down all the way to the general-ledger line. Integrated AI Copilot.
+      Zero side-Excels.`,
+  },
+];
+
+const sectors = [
+  {
+    icon: 'factory' as const,
+    tag: 'configured template',
+    label: 'Manufacturing',
+    body: 'Real full product cost across a wide portfolio. Setup, quality and R&D overhead attributed to the products that truly absorb them, not smeared by volume.',
+    accent: 'emerald',
+  },
+  {
+    icon: 'hotel' as const,
+    tag: 'configured template',
+    label: 'Hospitality',
+    body: 'Hotels, restaurants, wellness. Cost-to-serve by service, by channel, by season. Rooms, F&B and spa with margins finally separated.',
+    accent: 'amber',
+  },
+  {
+    icon: 'briefcase' as const,
+    tag: 'configured template',
+    label: 'Professional services',
+    body: 'Full cost per project and per client. Consultant utilization in real time, firm-level break-even calculated weekly, not at year-end.',
+    accent: 'ink',
+  },
+];
+---
+
+<BaseLayout title={title} description={description} jsonLd={softwareLd}>
+  <Hero
+    eyebrow="Activity-Based Costing SaaS"
+    headline={'Your management accounting practice.<br /><em>One login</em> for every client.'}
+    subheadline="ABC models that outlive next year's review. Full drill-down, integrated timesheets, AI Copilot, sector templates. Kaplan & Cooper's method without the six-figure EPM platform."
+    primaryCta={{ href: '/en/contact', label: "Let's talk about your case" }}
+    secondaryCta={{ href: '/en/activity-based-costing', label: 'What is ABC' }}
+    flowLabels={flowLabels}
+  />
+
+  <TrustBar signals={trustSignals} ariaLabel="Trust signals" />
+
+  <!-- Pillars -->
+  <section class="section section--pillars" aria-labelledby="pillars-heading">
+    <div class="container">
+      <div class="section__head">
+        <span class="eyebrow">Why Performa</span>
+        <h2 id="pillars-heading" class="section-title">
+          Three things <em>you</em> will appreciate.
+        </h2>
+      </div>
+
+      <div class="pillars">
+        {
+          pillars.map((p) => (
+            <article class="pillar">
+              <div class="pillar__icon-wrap" aria-hidden="true">
+                <Icon name={p.icon} size={22} />
+              </div>
+              <span class="pillar__tag">{p.tag}</span>
+              <h3 class="pillar__title display">{p.title}</h3>
+              <p class="pillar__body">{p.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <HowItWorks
+    eyebrow="How it works"
+    title="From chart of accounts to <em>unit cost</em>, in four steps."
+    lead="No certified implementers. No on-prem deploy. A single advisor, working alone, can publish an ABC model in weeks."
+    steps={howSteps}
+  />
+
+  <!-- Sectors -->
+  <section class="section section--sectors" aria-labelledby="sectors-heading">
+    <div class="container">
+      <div class="section__head">
+        <span class="eyebrow">Sectors</span>
+        <h2 id="sectors-heading" class="section-title">
+          Three templates. Zero certified implementers.
+        </h2>
+        <p class="section-lead">
+          Node types, custom fields and the drivers each industry actually uses,
+          pre-configured. The fourth — <em>Custom</em> — is yours, to model any
+          vertical from scratch.
+        </p>
+      </div>
+
+      <div class="sectors">
+        {
+          sectors.map((s) => (
+            <article class={`sector sector--${s.accent}`}>
+              <div class="sector__icon-wrap" aria-hidden="true">
+                <Icon name={s.icon} size={26} />
+              </div>
+              <span class="sector__tag">{s.tag}</span>
+              <h3 class="sector__label display">{s.label}</h3>
+              <p class="sector__body">{s.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Anti-selling / positioning -->
+  <section class="section section--positioning" aria-labelledby="pos-heading">
+    <div class="container-narrow positioning">
+      <span class="eyebrow eyebrow--dark">Honesty as a weapon</span>
+      <h2 id="pos-heading" class="section-title">
+        When we're <em>not</em> the right choice.
+      </h2>
+      <div class="positioning__grid">
+        <p>
+          If you need <strong>statutory group consolidation</strong> with elimination
+          entries, integrated budgeting and forecasting, IFRS planning: you need
+          a full EPM platform. Performa does Activity-Based Costing — not everything else.
+        </p>
+        <p>
+          If you're already on <strong>Anaplan, Board, Adaptive</strong> and you
+          model everything there: keep using them. Replacing a planning platform
+          just to do ABC makes no sense.
+        </p>
+        <p>
+          If you're <strong>single-product</strong> or have three cost drivers
+          that never change: Excel is still enough.
+        </p>
+        <p class="positioning__closer">
+          Performa exists for those in between: the <strong>management accounting
+          advisor</strong> serving multiple SMBs, the <strong>CFO who wants a
+          serious ABC model</strong> without buying an entire EPM platform. The
+          models in production today reach 369 nodes and 340 allocation rules —
+          the engine holds.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section section--cta" aria-labelledby="cta-heading">
+    <div class="container-narrow">
+      <div class="cta">
+        <div class="cta__decor" aria-hidden="true">
+          <span class="cta-orb"></span>
+        </div>
+        <span class="eyebrow eyebrow--inverse">Contact</span>
+        <h2 id="cta-heading" class="display cta__title">
+          Twenty minutes. Then decide.
+        </h2>
+        <p class="cta__lead">
+          Bring us your worst Excel allocation file, a model you want to rebuild
+          from scratch, or just your curiosity. No form to fill, no qualification
+          call: we answer directly, in English, by the next working day.
+        </p>
+        <a href="/en/contact" class="btn btn--accent btn--lg">
+          Write to us
+          <Icon name="arrow-right" size={18} />
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="scss">
+  .section__head {
+    max-width: 44rem;
+    margin-block-end: clamp(3rem, 5vw, 4.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-4);
+    align-items: flex-start;
+  }
+
+  // ---------- Pillars ----------
+  .section--pillars {
+    background: var(--p-bg-elevated);
+    border-block: 1px solid var(--p-border);
+  }
+
+  .pillars {
+    display: grid;
+    gap: var(--p-space-6);
+    grid-template-columns: repeat(3, 1fr);
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .pillar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-3);
+    padding: var(--p-space-8);
+    background: var(--p-bg);
+    border: 1px solid var(--p-border);
+    border-radius: var(--p-radius-lg);
+    transition: transform var(--p-transition), box-shadow var(--p-transition), border-color var(--p-transition);
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--p-shadow-lg);
+      border-color: var(--p-border-strong);
+    }
+  }
+
+  .pillar__icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--p-radius);
+    background: var(--p-accent-soft);
+    color: var(--p-accent);
+    margin-block-end: var(--p-space-2);
+  }
+
+  .pillar__tag {
+    font-family: var(--p-font-mono);
+    font-size: var(--p-fs-micro);
+    color: var(--p-fg-subtle);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .pillar__title {
+    font-size: 1.5rem;
+    color: var(--p-fg);
+    margin-block: var(--p-space-1);
+  }
+
+  .pillar__body {
+    color: var(--p-fg-muted);
+    line-height: 1.55;
+  }
+
+  // ---------- Sectors ----------
+  .sectors {
+    display: grid;
+    gap: var(--p-space-6);
+    grid-template-columns: repeat(3, 1fr);
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .sector {
+    position: relative;
+    padding: var(--p-space-8);
+    border-radius: var(--p-radius-xl);
+    overflow: hidden;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-3);
+    color: var(--p-fg);
+    transition: transform var(--p-transition), box-shadow var(--p-transition);
+    min-height: 18rem;
+    border: 1px solid var(--p-border);
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      opacity: 1;
+    }
+
+    &--emerald {
+      background: var(--p-accent-soft);
+      color: var(--p-fg);
+
+      .sector__icon-wrap {
+        background: var(--p-brand-700);
+        color: #fff;
+      }
+    }
+
+    &--amber {
+      background: var(--p-highlight-soft);
+      color: var(--p-fg);
+
+      .sector__icon-wrap {
+        background: var(--p-warning-600);
+        color: #fff;
+      }
+    }
+
+    &--ink {
+      background: var(--p-slate-900);
+      color: var(--p-slate-100);
+
+      .sector__icon-wrap {
+        background: var(--p-slate-100);
+        color: var(--p-slate-900);
+      }
+
+      .sector__body {
+        color: var(--p-slate-300);
+      }
+
+      .sector__tag {
+        color: var(--p-slate-400);
+      }
+
+      .sector__label {
+        color: var(--p-slate-100);
+      }
+    }
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--p-shadow-lg);
+    }
+  }
+
+  .sector__icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: var(--p-radius);
+    margin-block-end: var(--p-space-2);
+  }
+
+  .sector__tag {
+    font-family: var(--p-font-mono);
+    font-size: var(--p-fs-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--p-fg-subtle);
+  }
+
+  .sector__label {
+    font-size: 1.75rem;
+    margin-block: var(--p-space-1);
+  }
+
+  .sector__body {
+    color: var(--p-fg-muted);
+    line-height: 1.55;
+  }
+
+  // ---------- Positioning ----------
+  .section--positioning {
+    background: var(--p-bg);
+  }
+
+  .positioning {
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-4);
+
+    .section-title {
+      max-width: 34rem;
+    }
+  }
+
+  .positioning__grid {
+    display: grid;
+    gap: var(--p-space-6);
+    margin-block-start: var(--p-space-4);
+
+    p {
+      font-size: var(--p-fs-body-lg);
+      color: var(--p-fg-muted);
+      line-height: 1.55;
+
+      strong {
+        color: var(--p-fg);
+      }
+    }
+  }
+
+  .positioning__closer {
+    padding: var(--p-space-4) var(--p-space-6);
+    border-inline-start: 3px solid var(--p-accent);
+    background: var(--p-bg-elevated);
+    border-radius: 0 var(--p-radius) var(--p-radius) 0;
+  }
+
+  .eyebrow--dark {
+    background: var(--p-slate-900);
+    color: var(--p-slate-100);
+  }
+
+  // ---------- Final CTA ----------
+  .section--cta {
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+
+  .cta {
+    position: relative;
+    padding: clamp(3rem, 6vw, 4.5rem);
+    background: var(--p-slate-900);
+    color: var(--p-slate-100);
+    border-radius: var(--p-radius-xl);
+    overflow: hidden;
+    text-align: center;
+    isolation: isolate;
+  }
+
+  .cta__decor {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+  }
+
+  .cta-orb {
+    position: absolute;
+    right: -6rem;
+    top: -6rem;
+    width: 20rem;
+    height: 20rem;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--p-brand-500), transparent 65%);
+    opacity: 0.55;
+    filter: blur(40px);
+  }
+
+  .cta__title {
+    font-size: clamp(2rem, 4vw + 0.5rem, 3.5rem);
+    color: var(--p-slate-100);
+    margin-block: var(--p-space-4) var(--p-space-4);
+    max-width: 24rem;
+    margin-inline: auto;
+  }
+
+  .cta__lead {
+    font-size: var(--p-fs-body-lg);
+    color: var(--p-slate-300);
+    max-width: 34rem;
+    margin-inline: auto;
+    margin-block-end: var(--p-space-8);
+    line-height: 1.55;
+  }
+
+  .eyebrow--inverse {
+    background: rgba(46, 127, 172, 0.22);
+    color: var(--p-brand-500);
+  }
+
+  .cta .btn--accent {
+    background: var(--p-brand-500);
+    color: #ffffff;
+
+    &:hover {
+      background: var(--p-brand-600);
+      color: #ffffff;
+    }
+  }
+</style>

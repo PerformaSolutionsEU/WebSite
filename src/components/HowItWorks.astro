@@ -1,5 +1,18 @@
 ---
-const steps = [
+interface Step {
+  n: string;
+  title: string;
+  body: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  lead?: string;
+  steps?: Step[];
+}
+
+const defaultSteps: Step[] = [
   {
     n: '01',
     title: 'Importa il piano dei conti',
@@ -21,19 +34,21 @@ const steps = [
     body: 'Cost-to-Serve per prodotto e per cliente, P&L multi-dimensione, saturation delle attività. Da qualsiasi numero risali con un click fino alla riga di prima nota che l\'ha generato.',
   },
 ];
+
+const {
+  eyebrow = 'Come funziona',
+  title = 'Dal piano dei conti al <em>costo unitario</em>, in quattro passi.',
+  lead = 'Nessun implementatore certificato. Nessun deploy on-prem. Un consulente, anche da solo, costruisce un modello ABC pubblicabile in settimane.',
+  steps = defaultSteps,
+} = Astro.props;
 ---
 
 <section class="how" aria-labelledby="how-heading">
   <div class="container">
     <div class="how__head">
-      <span class="eyebrow">Come funziona</span>
-      <h2 id="how-heading" class="section-title">
-        Dal piano dei conti al <em>costo unitario</em>, in quattro passi.
-      </h2>
-      <p class="section-lead">
-        Nessun implementatore certificato. Nessun deploy on-prem. Un consulente,
-        anche da solo, costruisce un modello ABC pubblicabile in settimane.
-      </p>
+      <span class="eyebrow">{eyebrow}</span>
+      <h2 id="how-heading" class="section-title" set:html={title} />
+      <p class="section-lead">{lead}</p>
     </div>
 
     <ol class="how__steps">

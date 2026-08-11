@@ -1,5 +1,5 @@
 ---
-import FlowDiagram from './FlowDiagram.astro';
+import FlowDiagram, { type FlowLabels } from './FlowDiagram.astro';
 import Icon from './Icon.astro';
 
 interface Props {
@@ -8,6 +8,7 @@ interface Props {
   subheadline: string;
   primaryCta?: { href: string; label: string };
   secondaryCta?: { href: string; label: string };
+  flowLabels?: FlowLabels;
 }
 
 const {
@@ -16,6 +17,7 @@ const {
   subheadline,
   primaryCta,
   secondaryCta,
+  flowLabels,
 } = Astro.props;
 ---
 
@@ -51,7 +53,7 @@ const {
     </div>
 
     <div class="hero__visual">
-      <FlowDiagram />
+      <FlowDiagram labels={flowLabels} />
     </div>
   </div>
 </section>

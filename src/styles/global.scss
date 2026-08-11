@@ -32,6 +32,7 @@
   --p-brand-700: #1B4D6E;   // = $primary del prodotto
   --p-brand-600: #256a95;
   --p-brand-500: #2e7fac;
+  --p-brand-400: #4f9dc9;   // added: lifts --p-accent in dark mode to pass WCAG 1.4.3 on soft-bg
   --p-brand-100: #d5e2eb;
   --p-brand-50:  #eaf1f5;
 
@@ -52,7 +53,7 @@
   --p-bg-inverse:    var(--p-slate-900);
   --p-fg:            var(--p-slate-900);
   --p-fg-muted:      var(--p-slate-700);
-  --p-fg-subtle:     var(--p-slate-500);
+  --p-fg-subtle:     var(--p-slate-600); // WCAG 1.4.3: bumped from slate-500 (4.54:1) to slate-600 (7.06:1) on --p-bg
   --p-fg-inverse:    var(--p-slate-50);
   --p-border:        rgba(15, 23, 42, 0.08);
   --p-border-strong: rgba(15, 23, 42, 0.18);
@@ -61,6 +62,7 @@
   --p-accent-hover:  var(--p-brand-800);
   --p-accent-soft:   var(--p-brand-100);
   --p-accent-fg:     #ffffff;
+  --p-accent-strong: var(--p-brand-700); // solid bg that hosts white text (buttons); diverges from --p-accent only in dark mode
 
   --p-success:       var(--p-success-600);
   --p-success-soft:  var(--p-success-100);
@@ -133,14 +135,15 @@
     --p-bg-inverse:    var(--p-slate-50);
     --p-fg:            var(--p-slate-200);
     --p-fg-muted:      var(--p-slate-400);
-    --p-fg-subtle:     var(--p-slate-500);
+    --p-fg-subtle:     var(--p-slate-400); // WCAG 1.4.3: bumped from slate-500 (3.75:1 fail) to slate-400 (6.38:1) on --p-bg dark; merged with muted, distinguished by context
     --p-fg-inverse:    var(--p-slate-900);
     --p-border:        rgba(255, 255, 255, 0.08);
     --p-border-strong: rgba(255, 255, 255, 0.16);
 
-    --p-accent:        var(--p-brand-500);
-    --p-accent-hover:  var(--p-brand-600);
-    --p-accent-soft:   rgba(46, 127, 172, 0.18);
+    --p-accent:        var(--p-brand-400); // WCAG 1.4.3: lifted from brand-500 (3.29:1 fail on eyebrow) to brand-400 (4.87:1 pass)
+    --p-accent-hover:  var(--p-brand-500);
+    --p-accent-soft:   #152a41; // WCAG 1.4.3: solid instead of rgba so contrast is stable regardless of parent bg (brand-400 fg = 4.87:1 always)
+    --p-accent-strong: var(--p-brand-600); // solid bg for white text (button); kept darker than --p-accent to preserve 5.77:1 vs white
 
     --p-success:       var(--p-success-500);
     --p-success-soft:  rgba(16, 185, 129, 0.14);
@@ -319,7 +322,7 @@ a {
   }
 
   &--accent {
-    background: var(--p-accent);
+    background: var(--p-accent-strong);
     color: var(--p-accent-fg);
 
     &:hover {

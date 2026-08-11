@@ -4,6 +4,7 @@ import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
 import { getLocale, getAlternatePath, normalizePath } from '@i18n/routes.mjs';
 import { t } from '@i18n/ui.mjs';
+import { buildBreadcrumbsLd } from '@i18n/breadcrumbs.mjs';
 
 interface Props {
   title: string;
@@ -40,6 +41,8 @@ const organizationLd = {
   url: site,
   description: t(locale, 'seo.org.description'),
 };
+
+const breadcrumbsLd = buildBreadcrumbsLd(currentPath, site);
 ---
 
 <!doctype html>
@@ -83,6 +86,9 @@ const organizationLd = {
 
     <!-- JSON-LD structured data -->
     <script type="application/ld+json" set:html={JSON.stringify(organizationLd)} />
+    {breadcrumbsLd && (
+      <script type="application/ld+json" set:html={JSON.stringify(breadcrumbsLd)} />
+    )}
     {
       jsonLdArray.map((ld) => (
         <script type="application/ld+json" set:html={JSON.stringify(ld)} />

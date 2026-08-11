@@ -4,7 +4,7 @@ import Icon from '@components/Icon.astro';
 
 const title = 'Contatti — Performa';
 const description =
-  'Scrivici in italiano, rispondiamo entro il giorno successivo. Nessun form, nessuna call di qualificazione. Portaci il tuo Excel di allocazione peggiore o solo la curiosità.';
+  'Scrivici in italiano, rispondiamo entro il giorno successivo. Nessun form, nessuna call di qualificazione. Portaci il tuo Excel peggiore o solo la curiosità.';
 
 // TODO: sostituire con email definitiva quando fornita dal commerciale
 const email = 'contatto@performa.example';
@@ -18,7 +18,7 @@ const contactLd = {
   inLanguage: 'it-IT',
 };
 
-const startingQuestions = [
+const startingQuestions: Array<{ q: string; a: string }> = [
   {
     q: 'Sono un consulente con 5-10 clienti PMI. Come funziona?',
     a: 'Un solo account gestisce N organizzazioni cliente con isolamento totale dei dati. Template industriali per Manifattura, Ospitalità, Servizi, RSA come punto di partenza. Deep-copy tra scenari per riusare i modelli tra clienti simili.',
@@ -38,7 +38,16 @@ const startingQuestions = [
 ];
 ---
 
-<BaseLayout title={title} description={description} jsonLd={contactLd}>
+<BaseLayout title={title} description={description} jsonLd={[contactLd, {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  inLanguage: 'it-IT',
+  mainEntity: startingQuestions.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+}]}>
   <section class="section section--intro">
     <div class="container-narrow intro">
       <span class="eyebrow">Contatti</span>

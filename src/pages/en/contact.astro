@@ -18,7 +18,7 @@ const contactLd = {
   inLanguage: 'en-GB',
 };
 
-const startingQuestions = [
+const startingQuestions: Array<{ q: string; a: string }> = [
   {
     q: "I'm an advisor with 5-10 SMB clients. How does it work?",
     a: 'A single account manages N client organizations with total data isolation. Sector templates for Manufacturing, Hospitality, Professional services as your starting point. Deep-copy across scenarios to reuse models between similar clients.',
@@ -38,7 +38,16 @@ const startingQuestions = [
 ];
 ---
 
-<BaseLayout title={title} description={description} jsonLd={contactLd}>
+<BaseLayout title={title} description={description} jsonLd={[contactLd, {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  inLanguage: 'en-GB',
+  mainEntity: startingQuestions.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+}]}>
   <section class="section section--intro">
     <div class="container-narrow intro">
       <span class="eyebrow">Contact</span>

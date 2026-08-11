@@ -1,6 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import { getLocale } from '@i18n/routes.mjs';
+import { getLocale, normalizePath } from '@i18n/routes.mjs';
 
 interface Props {
   frontmatter: {
@@ -9,6 +9,7 @@ interface Props {
     publishedAt?: string;
     updatedAt?: string;
     articleType?: 'Article' | 'BlogPosting';
+    faq?: Array<{ q: string; a: string }>;
   };
 }
 
@@ -16,29 +17,59 @@ const { frontmatter } = Astro.props;
 const locale = getLocale(Astro.url.pathname);
 const inLanguage = locale === 'en' ? 'en-GB' : 'it-IT';
 
+const site = Astro.site?.toString() ?? 'https://performa.example';
+const canonicalUrl = new URL(
+  normalizePath(Astro.url.pathname) === '/' ? '' : normalizePath(Astro.url.pathname),
+  site,
+).toString();
+
 const articleLd = {
   '@context': 'https://schema.org',
   '@type': frontmatter.articleType ?? 'Article',
   headline: frontmatter.title,
   description: frontmatter.description,
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalUrl,
+  },
   author: {
     '@type': 'Organization',
     name: 'Performa',
+    url: site,
   },
   publisher: {
     '@type': 'Organization',
     name: 'Performa',
+    url: site,
   },
   datePublished: frontmatter.publishedAt,
   dateModified: frontmatter.updatedAt ?? frontmatter.publishedAt,
   inLanguage,
 };
+
+const faqLd = frontmatter.faq && frontmatter.faq.length
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      inLanguage,
+      mainEntity: frontmatter.faq.map((item) => ({
+        '@type': 'Question',
+        name: item.q,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.a,
+        },
+      })),
+    }
+  : null;
+
+const layoutJsonLd = faqLd ? [articleLd, faqLd] : articleLd;
 ---
 
 <BaseLayout
   title={`${frontmatter.title} — Performa`}
   description={frontmatter.description}
-  jsonLd={articleLd}
+  jsonLd={layoutJsonLd}
 >
   <article class="article container-narrow">
     <div class="prose">

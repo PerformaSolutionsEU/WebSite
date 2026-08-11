@@ -54,7 +54,7 @@ const sectors = [
       <div class="sectors">
         {
           sectors.map((s) => (
-            <a href={`/en/sectors/${s.slug}`} class={`sector sector--${s.accent}`}>
+            <article class={`sector sector--${s.accent}`}>
               <div class="sector__icon-wrap" aria-hidden="true">
                 <Icon name={s.icon} size={26} />
               </div>
@@ -62,11 +62,11 @@ const sectors = [
               <h2 class="sector__label display">{s.label}</h2>
               <p class="sector__body">{s.pitch}</p>
               <p class="sector__detail">{s.detail}</p>
-              <span class="sector__link">
-                Go to sector
+              <a href={`/en/sectors/${s.slug}`} class="sector__link">
+                Go to {s.label}
                 <Icon name="arrow-right" size={16} />
-              </span>
-            </a>
+              </a>
+            </article>
           ))
         }
       </div>
@@ -84,7 +84,7 @@ const sectors = [
             to bring a new sector to steady state.
           </p>
           <a href="/en/contact" class="btn btn--ghost">
-            Let's talk about your sector
+            Write to us about your sector
             <Icon name="arrow-right" size={16} />
           </a>
         </div>
@@ -243,7 +243,15 @@ const sectors = [
     font-weight: 600;
     font-size: var(--p-fs-small);
     color: var(--p-fg);
+    text-decoration: none;
     margin-block-start: var(--p-space-3);
+
+    &:hover {
+      color: var(--p-accent);
+      text-decoration: underline;
+      text-underline-offset: 0.25em;
+      text-decoration-thickness: 2px;
+    }
   }
 
   .custom-note {

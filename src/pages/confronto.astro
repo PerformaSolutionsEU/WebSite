@@ -4,7 +4,7 @@ import Icon from '@components/Icon.astro';
 
 const title = 'Confronto — Performa vs alternative';
 const description =
-  'Come Performa si posiziona rispetto a piattaforme EPM enterprise, FP&A generalisti, software ABC internazionali, altre soluzioni SaaS italiane ed Excel. Comparativa per categoria, non per marca.';
+  'Come Performa si posiziona rispetto a EPM enterprise, FP&A generalisti, ABC internazionali ed Excel. Comparativa per categoria, non per marca.';
 
 // Categorie del landscape — per marca solo Cluster A/B/C (nominare italiani/myRevelo direttamente non serve, deciso col PO)
 const clusters = [
@@ -51,11 +51,11 @@ const clusters = [
 ];
 
 const matrix = [
-  { dimension: 'ABC nativo (attività + driver come primitiva)', perf: '✓', epm: '~', fpa: '✗', abc_intl: '✓', italiani: '~', excel: '~' },
+  { dimension: 'ABC nativo (attività + driver come primitiva)', key: true, perf: '✓', epm: '~', fpa: '✗', abc_intl: '✓', italiani: '~', excel: '~' },
   { dimension: 'Time-to-value', perf: 'Settimane', epm: '6-18 mesi', fpa: '3-9 mesi', abc_intl: '3-6 mesi', italiani: 'Settimane', excel: 'Immediato ma fragile' },
-  { dimension: 'TCO 3 anni indicativo', perf: '< €30k', epm: '€300k-1M+', fpa: '€60k-300k', abc_intl: '€50k-200k', italiani: '€10k-50k', excel: 'Nascosto ma alto' },
-  { dimension: 'Multi-tenant per consulenti', perf: '✓ nativo', epm: '✗', fpa: '✗', abc_intl: '~', italiani: '~', excel: '✗' },
-  { dimension: 'Timesheet integrato → regole', perf: '✓', epm: '~', fpa: '~', abc_intl: '~', italiani: '✗ (tipicamente)', excel: '✗ (manuale)' },
+  { dimension: 'TCO 3 anni indicativo', key: true, perf: '< €30k', epm: '€300k-1M+', fpa: '€60k-300k', abc_intl: '€50k-200k', italiani: '€10k-50k', excel: 'Nascosto ma alto' },
+  { dimension: 'Multi-tenant per consulenti', key: true, perf: '✓ nativo', epm: '✗', fpa: '✗', abc_intl: '~', italiani: '~', excel: '✗' },
+  { dimension: 'Timesheet integrato → regole', key: true, perf: '✓', epm: '~', fpa: '~', abc_intl: '~', italiani: '✗ (tipicamente)', excel: '✗ (manuale)' },
   { dimension: 'Driver calcolati (Sum, Count, GroupSum, Residual)', perf: '✓', epm: '✓', fpa: '~', abc_intl: '✓', italiani: '✗ (tipicamente)', excel: '~ (formule fragili)' },
   { dimension: 'Copertura costi oltre fatturato elettronico', perf: '✓', epm: '✓', fpa: '✓', abc_intl: '✓', italiani: '~ (limitato)', excel: '~ (manuale)' },
   { dimension: 'Drill-down fino a riga di prima nota', perf: '✓', epm: '✓', fpa: '~', abc_intl: '✓', italiani: '~', excel: '✗' },
@@ -63,6 +63,22 @@ const matrix = [
   { dimension: 'Localizzazione IT + residenza dati Italia', perf: '✓', epm: '~', fpa: '~', abc_intl: '✗', italiani: '✓', excel: 'N/A' },
   { dimension: 'Copilot AI in prodotto', perf: '✓', epm: '~', fpa: '~', abc_intl: '~', italiani: '~', excel: '✗' },
 ];
+
+/**
+ * WCAG 1.3.1: mappa simboli a testo sr-only per gli screen reader.
+ * Le celle testuali (numeri, tempi) sono auto-esplicative.
+ */
+const SYMBOL_LABELS: Record<string, string> = {
+  '✓': 'Disponibile',
+  '✗': 'Assente',
+  '~': 'Limitato',
+};
+function annotate(value: string): { display: string; srLabel: string | null } {
+  const trimmed = value.trim();
+  const first = trimmed.charAt(0);
+  const label = SYMBOL_LABELS[first];
+  return { display: value, srLabel: label ?? null };
+}
 
 const cols = [
   { key: 'perf', label: 'Performa', highlight: true },
@@ -161,6 +177,7 @@ const cols = [
               {
                 cols.map((c) => (
                   <th scope="col" class={c.highlight ? 'matrix__col--highlight' : ''}>
+                    {c.highlight && <span class="sr-only">Colonna evidenziata: </span>}
                     {c.label}
                   </th>
                 ))
@@ -170,14 +187,23 @@ const cols = [
           <tbody>
             {
               matrix.map((row) => (
-                <tr>
+                <tr class={row.key ? 'matrix__row--key' : ''}>
                   <th scope="row" class="matrix__row-head">{row.dimension}</th>
                   {
-                    cols.map((c) => (
-                      <td class={c.highlight ? 'matrix__col--highlight' : ''}>
-                        {row[c.key as keyof typeof row]}
-                      </td>
-                    ))
+                    cols.map((c) => {
+                      const raw = String(row[c.key as keyof typeof row] ?? '');
+                      const { display, srLabel } = annotate(raw);
+                      const cellClass = [
+                        c.highlight ? 'matrix__col--highlight' : '',
+                        srLabel ? 'matrix__cell--symbol' : '',
+                      ].filter(Boolean).join(' ');
+                      return (
+                        <td class={cellClass}>
+                          <span aria-hidden={srLabel ? 'true' : undefined}>{display}</span>
+                          {srLabel && <span class="sr-only">{srLabel}</span>}
+                        </td>
+                      );
+                    })
                   }
                 </tr>
               ))
@@ -454,6 +480,26 @@ const cols = [
       background: var(--p-accent-soft);
       color: var(--p-fg);
     }
+
+    // WCAG 1.4.1: la colonna evidenziata deve distinguersi anche per peso, non solo colore
+    thead th.matrix__col--highlight,
+    tbody td.matrix__col--highlight {
+      font-weight: 700;
+    }
+
+    // Righe chiave in grassetto (gerarchia visiva per skim reader)
+    tbody tr.matrix__row--key {
+      background: var(--p-bg);
+
+      th,
+      td {
+        font-weight: 600;
+      }
+    }
+
+    tbody tr.matrix__row--key .matrix__col--highlight {
+      font-weight: 700;
+    }
   }
 
   .matrix-note {
@@ -571,15 +617,15 @@ const cols = [
 
   .eyebrow--inverse {
     background: rgba(46, 127, 172, 0.22);
-    color: var(--p-brand-500);
+    color: var(--p-brand-400);
   }
 
   .cta .btn--accent {
-    background: var(--p-brand-500);
+    background: var(--p-brand-600);
     color: #ffffff;
 
     &:hover {
-      background: var(--p-brand-600);
+      background: var(--p-brand-700);
       color: #ffffff;
     }
   }

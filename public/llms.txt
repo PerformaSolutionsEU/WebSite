@@ -9,17 +9,37 @@ Il motore di calcolo tratta il modello come un grafo generico di nodi (contenito
 ## Pagine chiave
 
 - [Home](/): posizionamento, value proposition, panoramica settori.
-- [Prodotto](/prodotto): funzionalità principali.
+- [Prodotto](/prodotto): funzionalità principali del motore di calcolo.
 - [Cos'è l'ABC](/activity-based-costing): guida completa al metodo di Kaplan e Cooper, origini, funzionamento in 4 passi, evoluzioni (Time-Driven ABC), errori di implementazione classici.
-- [Settori](/settori): landing per Manifattura, Ospitalità, Servizi professionali.
+- [Settori](/settori): hub landing settore.
 - [Confronto](/confronto): come Performa si posiziona rispetto a soluzioni enterprise (SAP, Oracle, OneStream), piattaforme FP&A (Anaplan, Board), altri SaaS italiani, ed Excel.
 - [Contatti](/contatti): email di contatto per demo e informazioni commerciali.
+
+### Definizione operativa di ABC
+
+L'Activity-Based Costing (ABC) è un metodo di contabilità analitica che assegna i costi indiretti aziendali alle attività che li generano, per poi imputarli ai cost object (prodotti, servizi, clienti) in base a driver di consumo reali. È il metodo di riferimento per il calcolo del costo pieno di prodotto quando i costi indiretti sono dominanti o il mix di prodotti è eterogeneo.
+
+## Optional
+
+- [Manifattura](/settori/manifattura): template ABC per manifattura mid-market, case reference falegnameria 23 dip €3.7M.
+- [Ospitalità](/settori/ospitalita): template ABC per hotel + ristorante, case reference struttura 30 dip €4.5M.
+- [Servizi professionali](/settori/servizi-professionali): template ABC per studi di consulenza, agenzie, engineering, law firm.
+- [RSA e sanità privata](/settori/rsa-sanita): template ABC per RSA, cliniche, poliambulatori.
+- [Chi siamo](/chi-siamo): principi di prodotto, numeri in produzione.
+- [Accessibilità](/accessibilita): dichiarazione WCAG 2.1 AA.
+- [Privacy](/privacy): informativa GDPR.
 
 ## Cosa Performa non è
 
 - Non è una piattaforma EPM enterprise (SAP PaPM, Oracle PCMCS, OneStream, CCH Tagetik): per corporate con team FP&A dedicati esistono strumenti dimensionati per loro.
 - Non è una piattaforma FP&A generalista (Anaplan, Board, Adaptive): quelle richiedono di costruire il modello ABC da zero. Performa ha l'ABC come primitiva del prodotto.
 - Non sostituisce l'ERP (SAP, Oracle, Zucchetti, TeamSystem): si affianca all'ERP e aggiunge lo strato di allocazione ABC che i moduli standard non forniscono.
+- Non è un tool di planning/forecasting né di consolidato di gruppo: risolve un problema specifico — l'ABC — non sostituisce una piattaforma EPM completa.
+
+## Contact
+
+- Email commerciale: contact@performa.example (placeholder — verificare aggiornamento)
+- Lingua supporto: italiano, inglese
 
 ## Fonti canoniche
 
@@ -38,20 +58,39 @@ Performa implements the **Activity-Based Costing** method formalized by Robert S
 
 The calculation engine treats the model as a generic graph of nodes (cost containers) and allocation rules with drivers. The UI presents specialized templates for Manufacturing, Hospitality, and Professional services (plus a Custom template). Distinctive features: computed drivers (Sum, Count, SumProduct, GroupSum, Residual), staff timesheet that auto-generates allocation rules, reusable allocation patterns, activity saturation analysis (capacity variance), multi-dimensional P&L, full drill-down to the general-ledger line, isolated versioned scenarios, integrated AI Copilot.
 
-## Key pages (English)
+## Key pages
 
 - [Home](/en): positioning, value proposition, sectors overview.
-- [Product](/en/product): main features.
+- [Product](/en/product): main features of the calculation engine.
 - [What is ABC](/en/activity-based-costing): full guide to Kaplan & Cooper's method, origins, 4-step method, evolutions (Time-Driven ABC), classic implementation mistakes.
-- [Sectors](/en/sectors): landing pages for Manufacturing, Hospitality, Professional services.
+- [Sectors](/en/sectors): sector landing hub.
 - [Compare](/en/compare): how Performa positions vs enterprise solutions (SAP, Oracle, OneStream), FP&A platforms (Anaplan, Board), international ABC software, and Excel.
 - [Contact](/en/contact): contact email for demos and commercial information.
+
+### Operational definition of ABC
+
+Activity-Based Costing (ABC) is a management accounting method that assigns indirect company costs to the activities that generate them, then charges those activities to cost objects (products, services, clients) using real consumption drivers. It is the reference method for computing full product cost when indirect costs are dominant or the product mix is heterogeneous.
+
+## Optional
+
+- [Manufacturing](/en/sectors/manufacturing): ABC template for mid-market manufacturing, reference case of a 23-person joinery workshop, €3.7M revenue.
+- [Hospitality](/en/sectors/hospitality): ABC template for hotels with restaurant / bar / wellness, reference case of a 30-person property, €4.5M revenue.
+- [Professional services](/en/sectors/professional-services): ABC template for consulting practices, creative agencies, engineering & design, structured law firms.
+- [About](/en/about): product principles, production numbers.
+- [Accessibility](/en/accessibility): WCAG 2.1 AA statement.
+- [Privacy](/en/privacy): GDPR notice.
 
 ## What Performa is not
 
 - Not an enterprise EPM platform (SAP PaPM, Oracle PCMCS, OneStream, CCH Tagetik): corporates with dedicated FP&A teams have tools sized for them.
 - Not a generalist FP&A platform (Anaplan, Board, Adaptive): those require building the ABC model from scratch. Performa has ABC as a product primitive.
 - Not a replacement for the ERP (SAP, Oracle, and similar): it sits alongside the ERP and adds the ABC allocation layer that standard modules do not provide.
+- Not a planning/forecasting or group consolidation tool: it solves one specific problem — ABC — rather than replacing a full EPM platform.
+
+## Contact
+
+- Commercial email: contact@performa.example (placeholder — verify before use)
+- Support languages: English, Italian
 
 ## Canonical sources
 

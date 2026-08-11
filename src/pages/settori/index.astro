@@ -4,7 +4,7 @@ import Icon from '@components/Icon.astro';
 
 const title = 'Settori — Performa';
 const description =
-  'Quattro template industriali già configurati (Manifattura, Ospitalità, Servizi professionali, RSA e sanità privata) più un template Custom per modellare da zero qualsiasi verticale.';
+  'Quattro template industriali già configurati (Manifattura, Ospitalità, Servizi, RSA) più un Custom per modellare qualsiasi verticale.';
 
 const sectors = [
   {
@@ -62,7 +62,7 @@ const sectors = [
       <div class="sectors">
         {
           sectors.map((s) => (
-            <a href={`/settori/${s.slug}`} class={`sector sector--${s.accent}`}>
+            <article class={`sector sector--${s.accent}`}>
               <div class="sector__icon-wrap" aria-hidden="true">
                 <Icon name={s.icon} size={26} />
               </div>
@@ -70,11 +70,11 @@ const sectors = [
               <h2 class="sector__label display">{s.label}</h2>
               <p class="sector__body">{s.pitch}</p>
               <p class="sector__detail">{s.detail}</p>
-              <span class="sector__link">
-                Vai al settore
+              <a href={`/settori/${s.slug}`} class="sector__link">
+                Vai a {s.label}
                 <Icon name="arrow-right" size={16} />
-              </span>
-            </a>
+              </a>
+            </article>
           ))
         }
       </div>
@@ -290,7 +290,15 @@ const sectors = [
     font-weight: 600;
     font-size: var(--p-fs-small);
     color: var(--p-fg);
+    text-decoration: none;
     margin-block-start: var(--p-space-3);
+
+    &:hover {
+      color: var(--p-accent);
+      text-decoration: underline;
+      text-underline-offset: 0.25em;
+      text-decoration-thickness: 2px;
+    }
   }
 
   .custom-note {

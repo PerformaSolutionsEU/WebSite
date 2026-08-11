@@ -7,7 +7,7 @@ import Icon from '@components/Icon.astro';
 
 const title = 'Performa — Activity-Based Costing per PMI italiane';
 const description =
-  'Il modello ABC dei tuoi clienti, fuori da Excel per sempre. Un account, tutti i tuoi clienti. Template per settore, driver calcolati, timesheet integrato, drill-down completo. Il metodo di Kaplan & Cooper senza consulenti enterprise.';
+  'Il modello ABC dei tuoi clienti, fuori da Excel per sempre. Un account, tutti i tuoi clienti. Template settore, timesheet, Copilot AI. Kaplan & Cooper senza EPM a sei zeri.';
 
 const softwareLd = {
   '@context': 'https://schema.org',
@@ -17,13 +17,6 @@ const softwareLd = {
   applicationSubCategory: 'Activity-Based Costing',
   operatingSystem: 'Web',
   description,
-  offers: {
-    '@type': 'Offer',
-    priceCurrency: 'EUR',
-    price: '0',
-    availability: 'https://schema.org/InStock',
-    priceValidUntil: '2027-12-31',
-  },
   audience: {
     '@type': 'BusinessAudience',
     audienceType:
@@ -61,6 +54,7 @@ const pillars = [
 
 const sectors = [
   {
+    slug: 'manifattura',
     icon: 'factory' as const,
     tag: 'template configurato',
     label: 'Manifattura',
@@ -68,6 +62,7 @@ const sectors = [
     accent: 'emerald',
   },
   {
+    slug: 'ospitalita',
     icon: 'hotel' as const,
     tag: 'template configurato',
     label: 'Ospitalità',
@@ -75,6 +70,7 @@ const sectors = [
     accent: 'amber',
   },
   {
+    slug: 'servizi-professionali',
     icon: 'briefcase' as const,
     tag: 'template configurato',
     label: 'Servizi professionali',
@@ -82,6 +78,7 @@ const sectors = [
     accent: 'ink',
   },
   {
+    slug: 'rsa-sanita',
     icon: 'heart-pulse' as const,
     tag: 'template configurato',
     label: 'RSA e sanità privata',
@@ -96,9 +93,13 @@ const sectors = [
     eyebrow="Activity-Based Costing SaaS"
     headline={'Il tuo studio di controllo di gestione.<br /><em>Un login</em> per tutti i tuoi clienti.'}
     subheadline="Modelli ABC che sopravvivono all'anno prossimo. Drill-down completo, timesheet integrato, Copilot AI, template per settore. Il metodo di Kaplan & Cooper senza la piattaforma EPM a sei zeri."
-    primaryCta={{ href: '/contatti', label: 'Parliamo del tuo caso' }}
-    secondaryCta={{ href: '/activity-based-costing', label: "Cos'è l'ABC" }}
-  />
+    primaryCta={{ href: '/contatti', label: 'Scrivici' }}
+    secondaryCta={{ href: '/prodotto', label: 'Come funziona' }}
+  >
+    <p class="hero__aside">
+      Non è per te? <a href="#positioning">Vedi quando non siamo la scelta giusta &rarr;</a>
+    </p>
+  </Hero>
 
   <TrustBar />
 
@@ -156,15 +157,28 @@ const sectors = [
               <span class="sector__tag">{s.tag}</span>
               <h3 class="sector__label display">{s.label}</h3>
               <p class="sector__body">{s.body}</p>
+              <a href={`/settori/${s.slug}`} class="sector__link">
+                Vai a {s.label}
+                <Icon name="arrow-right" size={16} />
+              </a>
             </article>
           ))
         }
       </div>
+
+      <aside class="case-note">
+        <p>
+          <strong>Numero vero dal campo:</strong> una falegnameria di 23 persone ha
+          scoperto <strong>€89k di costo idle di capacità</strong> che gonfiava in
+          silenzio il costo dei prodotti da anni. Quattro settimane su Performa.
+          <a href="/settori/manifattura">Leggi il caso &rarr;</a>
+        </p>
+      </aside>
     </div>
   </section>
 
   <!-- Anti-vendita / positioning -->
-  <section class="section section--positioning" aria-labelledby="pos-heading">
+  <section id="positioning" class="section section--positioning" aria-labelledby="pos-heading">
     <div class="container-narrow positioning">
       <span class="eyebrow eyebrow--dark">Onestà come arma</span>
       <h2 id="pos-heading" class="section-title">
@@ -446,6 +460,76 @@ const sectors = [
     line-height: 1.55;
   }
 
+  .sector__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--p-space-2);
+    margin-block-start: auto;
+    padding-block-start: var(--p-space-4);
+    font-weight: 600;
+    font-size: var(--p-fs-small);
+    color: var(--p-fg);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--p-accent);
+      text-decoration: underline;
+      text-underline-offset: 0.25em;
+      text-decoration-thickness: 2px;
+    }
+  }
+
+  .sector--ink .sector__link {
+    color: var(--p-slate-100);
+
+    &:hover {
+      color: var(--p-brand-500);
+    }
+  }
+
+  // ---------- Case note ----------
+  .case-note {
+    margin-block-start: clamp(2rem, 4vw, 3rem);
+    padding: var(--p-space-6);
+    background: var(--p-bg-elevated);
+    border: 1px solid var(--p-border);
+    border-inline-start: 3px solid var(--p-accent);
+    border-radius: 0 var(--p-radius) var(--p-radius) 0;
+    max-width: 44rem;
+
+    p {
+      color: var(--p-fg-muted);
+      line-height: 1.55;
+      font-size: var(--p-fs-body);
+
+      strong {
+        color: var(--p-fg);
+      }
+
+      a {
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
+      }
+    }
+  }
+
+  // ---------- Hero aside micro-link ----------
+  :global(.hero__aside) {
+    margin-block-start: var(--p-space-6);
+    font-size: var(--p-fs-small);
+    color: var(--p-fg-subtle);
+
+    a {
+      color: var(--p-fg-muted);
+      text-decoration: underline;
+      text-underline-offset: 0.25em;
+
+      &:hover {
+        color: var(--p-accent);
+      }
+    }
+  }
+
   // ---------- Positioning ----------
   .section--positioning {
     background: var(--p-bg);
@@ -543,15 +627,15 @@ const sectors = [
 
   .eyebrow--inverse {
     background: rgba(46, 127, 172, 0.22);
-    color: var(--p-brand-500);
+    color: var(--p-brand-400);
   }
 
   .cta .btn--accent {
-    background: var(--p-brand-500);
+    background: var(--p-brand-600);
     color: #ffffff;
 
     &:hover {
-      background: var(--p-brand-600);
+      background: var(--p-brand-700);
       color: #ffffff;
     }
   }

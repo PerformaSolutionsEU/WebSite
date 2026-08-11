@@ -42,11 +42,11 @@ const clusters = [
 ];
 
 const matrix = [
-  { dimension: 'Native ABC (activities + drivers as primitives)', perf: '✓', epm: '~', fpa: '✗', abc_intl: '✓', excel: '~' },
+  { dimension: 'Native ABC (activities + drivers as primitives)', key: true, perf: '✓', epm: '~', fpa: '✗', abc_intl: '✓', excel: '~' },
   { dimension: 'Time-to-value', perf: 'Weeks', epm: '6-18 months', fpa: '3-9 months', abc_intl: '3-6 months', excel: 'Immediate but fragile' },
-  { dimension: 'Indicative 3-year TCO', perf: '< €30k', epm: '€300k-1M+', fpa: '€60k-300k', abc_intl: '€50k-200k', excel: 'Hidden but high' },
-  { dimension: 'Multi-tenant for advisors', perf: '✓ native', epm: '✗', fpa: '✗', abc_intl: '~', excel: '✗' },
-  { dimension: 'Integrated timesheet → rules', perf: '✓', epm: '~', fpa: '~', abc_intl: '~', excel: '✗ (manual)' },
+  { dimension: 'Indicative 3-year TCO', key: true, perf: '< €30k', epm: '€300k-1M+', fpa: '€60k-300k', abc_intl: '€50k-200k', excel: 'Hidden but high' },
+  { dimension: 'Multi-tenant for advisors', key: true, perf: '✓ native', epm: '✗', fpa: '✗', abc_intl: '~', excel: '✗' },
+  { dimension: 'Integrated timesheet → rules', key: true, perf: '✓', epm: '~', fpa: '~', abc_intl: '~', excel: '✗ (manual)' },
   { dimension: 'Computed drivers (Sum, Count, GroupSum, Residual)', perf: '✓', epm: '✓', fpa: '~', abc_intl: '✓', excel: '~ (fragile formulas)' },
   { dimension: 'Coverage of non-invoiced costs (staff, depreciation, manual)', perf: '✓', epm: '✓', fpa: '✓', abc_intl: '✓', excel: '~ (manual)' },
   { dimension: 'Drill-down to general-ledger line', perf: '✓', epm: '✓', fpa: '~', abc_intl: '✓', excel: '✗' },
@@ -62,6 +62,22 @@ const cols = [
   { key: 'abc_intl', label: 'Intl. ABC' },
   { key: 'epm', label: 'Enterprise EPM' },
 ];
+
+/**
+ * WCAG 1.3.1: map cell symbols to sr-only text so non-visual users understand
+ * ✓ / ~ / ✗ semantics. Longer text cells (numbers, timeframes) are self-explanatory.
+ */
+const SYMBOL_LABELS: Record<string, string> = {
+  '✓': 'Available',
+  '✗': 'Not available',
+  '~': 'Limited',
+};
+function annotate(value: string): { display: string; srLabel: string | null } {
+  const trimmed = value.trim();
+  const first = trimmed.charAt(0);
+  const label = SYMBOL_LABELS[first];
+  return { display: value, srLabel: label ?? null };
+}
 ---
 
 <BaseLayout title={title} description={description}>
@@ -151,6 +167,7 @@ const cols = [
               {
                 cols.map((c) => (
                   <th scope="col" class={c.highlight ? 'matrix__col--highlight' : ''}>
+                    {c.highlight && <span class="sr-only">Highlighted column: </span>}
                     {c.label}
                   </th>
                 ))
@@ -160,14 +177,23 @@ const cols = [
           <tbody>
             {
               matrix.map((row) => (
-                <tr>
+                <tr class={row.key ? 'matrix__row--key' : ''}>
                   <th scope="row" class="matrix__row-head">{row.dimension}</th>
                   {
-                    cols.map((c) => (
-                      <td class={c.highlight ? 'matrix__col--highlight' : ''}>
-                        {row[c.key as keyof typeof row]}
-                      </td>
-                    ))
+                    cols.map((c) => {
+                      const raw = String(row[c.key as keyof typeof row] ?? '');
+                      const { display, srLabel } = annotate(raw);
+                      const cellClass = [
+                        c.highlight ? 'matrix__col--highlight' : '',
+                        srLabel ? 'matrix__cell--symbol' : '',
+                      ].filter(Boolean).join(' ');
+                      return (
+                        <td class={cellClass}>
+                          <span aria-hidden={srLabel ? 'true' : undefined}>{display}</span>
+                          {srLabel && <span class="sr-only">{srLabel}</span>}
+                        </td>
+                      );
+                    })
                   }
                 </tr>
               ))
@@ -437,6 +463,26 @@ const cols = [
       background: var(--p-accent-soft);
       color: var(--p-fg);
     }
+
+    // WCAG 1.4.1: differentiate the highlighted column by weight too, not just color
+    thead th.matrix__col--highlight,
+    tbody td.matrix__col--highlight {
+      font-weight: 700;
+    }
+
+    // Bold rows on the 4 key differentiators (visual hierarchy for skim readers)
+    tbody tr.matrix__row--key {
+      background: var(--p-bg);
+
+      th,
+      td {
+        font-weight: 600;
+      }
+    }
+
+    tbody tr.matrix__row--key .matrix__col--highlight {
+      font-weight: 700;
+    }
   }
 
   .matrix-note {
@@ -552,15 +598,15 @@ const cols = [
 
   .eyebrow--inverse {
     background: rgba(46, 127, 172, 0.22);
-    color: var(--p-brand-500);
+    color: var(--p-brand-400);
   }
 
   .cta .btn--accent {
-    background: var(--p-brand-500);
+    background: var(--p-brand-600);
     color: #ffffff;
 
     &:hover {
-      background: var(--p-brand-600);
+      background: var(--p-brand-700);
       color: #ffffff;
     }
   }

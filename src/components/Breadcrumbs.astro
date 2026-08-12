@@ -1,0 +1,81 @@
+---
+import { buildBreadcrumbItems } from '@i18n/breadcrumbs.mjs';
+import { getLocale } from '@i18n/routes.mjs';
+
+const site = Astro.site?.toString() ?? 'https://performa.example';
+const items = buildBreadcrumbItems(Astro.url.pathname, site);
+const locale = getLocale(Astro.url.pathname);
+
+// Path-only href for internal navigation (avoid absolute URL in links)
+const toPath = (fullUrl: string) => fullUrl.replace(site.replace(/\/$/, ''), '') || '/';
+const ariaLabel = locale === 'en' ? 'Breadcrumbs' : 'Breadcrumb';
+---
+
+{items.length > 0 && (
+  <nav class="breadcrumbs" aria-label={ariaLabel}>
+    <div class="container">
+      <ol class="breadcrumbs__list">
+        {items.map((it, i) => (
+          <li class="breadcrumbs__item">
+            {it.isLast ? (
+              <span aria-current="page">{it.name}</span>
+            ) : (
+              <a href={toPath(it.url)}>{it.name}</a>
+            )}
+            {i < items.length - 1 && (
+              <span class="breadcrumbs__sep" aria-hidden="true">/</span>
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
+  </nav>
+)}
+
+<style lang="scss">
+  .breadcrumbs {
+    padding-block: var(--p-space-4);
+    background: var(--p-bg-elevated);
+    border-block-end: 1px solid var(--p-border);
+    font-family: var(--p-font-mono);
+    font-size: var(--p-fs-micro);
+    color: var(--p-fg-subtle);
+  }
+
+  .breadcrumbs__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--p-space-2);
+    letter-spacing: 0.02em;
+  }
+
+  .breadcrumbs__item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--p-space-2);
+
+    a {
+      color: var(--p-fg-subtle);
+      text-decoration: none;
+
+      &:hover {
+        color: var(--p-accent);
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
+      }
+    }
+
+    [aria-current='page'] {
+      color: var(--p-fg);
+    }
+  }
+
+  .breadcrumbs__sep {
+    color: var(--p-fg-subtle);
+    opacity: 0.5;
+  }
+</style>

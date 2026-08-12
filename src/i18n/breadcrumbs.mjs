@@ -38,13 +38,15 @@ const LABELS = {
 };
 
 /**
- * Build BreadcrumbList JSON-LD for a given pathname.
- * Emits schema only when there is more than 1 hop (skips root pages).
+ * Build a normalized breadcrumb trail for a pathname.
+ * Returns [] when there is only 1 hop (root pages have no breadcrumbs).
+ * The last item is the current page (no `url` field is intentional — caller
+ * decides whether to render it as link or plain text).
  * @param {string} pathname
  * @param {string} siteBase
- * @returns {object | null}
+ * @returns {Array<{ path: string; name: string; url: string; isLast: boolean }>}
  */
-export function buildBreadcrumbsLd(pathname, siteBase) {
+export function buildBreadcrumbItems(pathname, siteBase) {
   const p = normalizePath(pathname);
   const locale = getLocale(p);
   const labels = LABELS[locale];
@@ -54,26 +56,44 @@ export function buildBreadcrumbsLd(pathname, siteBase) {
     ? [rootPath]
     : [rootPath, ...cumulate(p, rootPath)];
 
+  const base = siteBase.replace(/\/$/, '');
   const items = segments
-    .map((path, i) => {
+    .map((path) => {
       const name = labels[path];
       if (!name) return null;
-      const url = `${siteBase.replace(/\/$/, '')}${path === '/' ? '' : path}`;
       return {
-        '@type': 'ListItem',
-        position: i + 1,
+        path,
         name,
-        item: url,
+        url: `${base}${path === '/' ? '' : path}`,
       };
     })
     .filter(Boolean);
 
-  if (items.length < 2) return null;
+  if (items.length < 2) return [];
+
+  return items.map((it, i) => ({ ...it, isLast: i === items.length - 1 }));
+}
+
+/**
+ * Build BreadcrumbList JSON-LD for a given pathname.
+ * Emits schema only when there is more than 1 hop.
+ * @param {string} pathname
+ * @param {string} siteBase
+ * @returns {object | null}
+ */
+export function buildBreadcrumbsLd(pathname, siteBase) {
+  const items = buildBreadcrumbItems(pathname, siteBase);
+  if (!items.length) return null;
 
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
-    itemListElement: items,
+    itemListElement: items.map((it, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: it.name,
+      item: it.url,
+    })),
   };
 }
 

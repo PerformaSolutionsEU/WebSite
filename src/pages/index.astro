@@ -24,6 +24,40 @@ const softwareLd = {
   },
 };
 
+const howToLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Come costruire un modello ABC in Performa',
+  description: 'Dal piano dei conti al costo unitario, in quattro passi.',
+  inLanguage: 'it-IT',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Importa il piano dei conti',
+      text: 'Excel, CSV o inserimento manuale. Le voci di costo entrano con codice, descrizione, importo. Nessuna mappatura obbligata al primo colpo — puoi censire tutto prima e allocare dopo.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Definisci risorse e attività',
+      text: 'Edifici, mezzi, personale, macchinari. Attività produttive, di supporto, overhead. I template Manifattura, Ospitalità, Servizi arrivano già configurati.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Collega con driver',
+      text: 'Metri quadri, ore, pezzi, headcount, percentuali, o driver calcolati automaticamente da Performa. Il timesheet dipendenti genera regole di allocazione senza intervento manuale.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 4,
+      name: 'Calcola. Poi scendi nei dettagli.',
+      text: "Cost-to-Serve per prodotto e per cliente, P&L multi-dimensione, saturation delle attività. Da qualsiasi numero risali con un click fino alla riga di prima nota che l'ha generato.",
+    },
+  ],
+};
+
 const pillars = [
   {
     icon: 'excel-out' as const,
@@ -88,7 +122,7 @@ const sectors = [
 ];
 ---
 
-<BaseLayout title={title} description={description} jsonLd={softwareLd}>
+<BaseLayout title={title} description={description} jsonLd={[softwareLd, howToLd]}>
   <Hero
     eyebrow="Activity-Based Costing SaaS"
     headline={'Il tuo studio di controllo di gestione.<br /><em>Un login</em> per tutti i tuoi clienti.'}

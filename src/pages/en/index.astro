@@ -74,6 +74,20 @@ const howSteps = [
   },
 ];
 
+const howToLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'How to build an ABC model in Performa',
+  description: 'From chart of accounts to unit cost, in four steps.',
+  inLanguage: 'en-GB',
+  step: howSteps.map((s, i) => ({
+    '@type': 'HowToStep',
+    position: i + 1,
+    name: s.title,
+    text: s.body,
+  })),
+};
+
 const pillars = [
   {
     icon: 'excel-out' as const,
@@ -130,7 +144,7 @@ const sectors = [
 ];
 ---
 
-<BaseLayout title={title} description={description} jsonLd={softwareLd}>
+<BaseLayout title={title} description={description} jsonLd={[softwareLd, howToLd]}>
   <Hero
     eyebrow="Activity-Based Costing SaaS"
     headline={'Your advisory firm.<br /><em>One login</em> for every client.'}

@@ -42,10 +42,10 @@ const principles = [
 ];
 
 const numbers = [
-  { n: '€ 307M+', label: 'costs allocated in production today' },
-  { n: '38', label: 'active client organizations' },
-  { n: '369', label: 'nodes in the largest live model' },
-  { n: '2024', label: 'first release into production' },
+  { n: '€ 307', unit: 'M+', label: 'costs allocated in production today' },
+  { n: '38', unit: '', label: 'active client organizations' },
+  { n: '369', unit: '', label: 'nodes in the largest live model' },
+  { n: '2024', unit: '', label: 'first release into production' },
 ];
 ---
 
@@ -105,7 +105,9 @@ const numbers = [
         {
           numbers.map((n) => (
             <div class="number-card">
-              <p class="number-card__n">{n.n}</p>
+              <p class="number-card__n">
+                {n.n}{n.unit && <span class="number-card__unit">{n.unit}</span>}
+              </p>
               <p class="number-card__label">{n.label}</p>
             </div>
           ))
@@ -273,6 +275,15 @@ const numbers = [
     letter-spacing: -0.02em;
     line-height: 1;
     margin-block-end: var(--p-space-2);
+  }
+
+  .number-card__unit {
+    font-size: 0.55em;
+    color: var(--p-fg-subtle);
+    font-family: var(--p-font-mono);
+    font-weight: 500;
+    margin-inline-start: 0.15em;
+    letter-spacing: 0;
   }
 
   .number-card__label {

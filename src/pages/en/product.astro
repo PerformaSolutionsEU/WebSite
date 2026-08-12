@@ -117,10 +117,10 @@ const features = [
 ];
 
 const scaleFacts = [
-  { n: '€ 307M+', label: 'costs already allocated in production' },
-  { n: '38', label: 'active client organizations' },
-  { n: '369', label: 'nodes in the largest live model' },
-  { n: '< 400ms', label: 'calc time on typical models (200 nodes, 500 edges)' },
+  { n: '€ 307', unit: 'M+', label: 'costs already allocated in production' },
+  { n: '38', unit: '', label: 'active client organizations' },
+  { n: '369', unit: '', label: 'nodes in the largest live model' },
+  { n: '< 400', unit: 'ms', label: 'calc time on typical models (200 nodes, 500 edges)' },
 ];
 ---
 
@@ -212,7 +212,9 @@ const scaleFacts = [
         {
           scaleFacts.map((f) => (
             <div class="scale-card">
-              <p class="scale-card__n">{f.n}</p>
+              <p class="scale-card__n">
+                {f.n}{f.unit && <span class="scale-card__unit">{f.unit}</span>}
+              </p>
               <p class="scale-card__label">{f.label}</p>
             </div>
           ))
@@ -431,6 +433,15 @@ const scaleFacts = [
     letter-spacing: -0.02em;
     line-height: 1;
     margin-block-end: var(--p-space-2);
+  }
+
+  .scale-card__unit {
+    font-size: 0.55em;
+    color: var(--p-fg-subtle);
+    font-family: var(--p-font-mono);
+    font-weight: 500;
+    margin-inline-start: 0.15em;
+    letter-spacing: 0;
   }
 
   .scale-card__label {

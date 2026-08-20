@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Icon from '@components/Icon.astro';
+import { withBase } from '@i18n/routes.mjs';
 
 const title = 'Settori — Performa';
 const description =
@@ -70,7 +71,7 @@ const sectors = [
               <h2 class="sector__label display">{s.label}</h2>
               <p class="sector__body">{s.pitch}</p>
               <p class="sector__detail">{s.detail}</p>
-              <a href={`/settori/${s.slug}`} class="sector__link">
+              <a href={withBase(`/settori/${s.slug}`)} class="sector__link">
                 Vai a {s.label}
                 <Icon name="arrow-right" size={16} />
               </a>
@@ -91,7 +92,7 @@ const sectors = [
             disponibili. In genere serve una settimana di lavoro insieme al
             tuo consulente per portare a regime un settore nuovo.
           </p>
-          <a href="/contatti" class="btn btn--ghost">
+          <a href={withBase('/contatti')} class="btn btn--ghost">
             Parliamo del tuo settore
             <Icon name="arrow-right" size={16} />
           </a>

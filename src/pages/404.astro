@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import { withBase } from '@i18n/routes.mjs';
 
 const title = 'Pagina non trovata — Performa';
 const description = 'La pagina che stai cercando non esiste o è stata spostata.';
@@ -15,8 +16,8 @@ const description = 'La pagina che stai cercando non esiste o è stata spostata.
         Nessuna di queste tre ragioni è colpa tua.
       </p>
       <div class="ctas">
-        <a href="/" class="btn btn--primary">Torna alla home</a>
-        <a href="/contatti" class="btn btn--secondary">Segnala un link rotto</a>
+        <a href={withBase('/')} class="btn btn--primary">Torna alla home</a>
+        <a href={withBase('/contatti')} class="btn btn--secondary">Segnala un link rotto</a>
       </div>
     </div>
   </section>

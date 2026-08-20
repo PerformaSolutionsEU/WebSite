@@ -4,6 +4,7 @@ import Hero from '@components/Hero.astro';
 import TrustBar from '@components/TrustBar.astro';
 import HowItWorks from '@components/HowItWorks.astro';
 import Icon from '@components/Icon.astro';
+import { withBase } from '@i18n/routes.mjs';
 
 const title = 'Performa — ABC SaaS for advisors and finance teams';
 const description =
@@ -149,8 +150,8 @@ const sectors = [
     eyebrow="Activity-Based Costing SaaS"
     headline={'Your advisory firm.<br /><em>One login</em> for every client.'}
     subheadline="ABC models that outlive next year's review. Full drill-down, integrated timesheets, AI Copilot, sector templates. Kaplan & Cooper's method without the six-figure EPM platform."
-    primaryCta={{ href: '/en/contact', label: 'Write to us' }}
-    secondaryCta={{ href: '/en/product', label: 'See how it works' }}
+    primaryCta={{ href: withBase('/en/contact'), label: 'Write to us' }}
+    secondaryCta={{ href: withBase('/en/product'), label: 'See how it works' }}
     flowLabels={flowLabels}
   >
     <p class="hero__aside">
@@ -219,7 +220,7 @@ const sectors = [
               <span class="sector__tag">{s.tag}</span>
               <h3 class="sector__label display">{s.label}</h3>
               <p class="sector__body">{s.body}</p>
-              <a href={`/en/sectors/${s.slug}`} class="sector__link">
+              <a href={withBase(`/en/sectors/${s.slug}`)} class="sector__link">
                 Go to {s.label}
                 <Icon name="arrow-right" size={16} />
               </a>
@@ -233,7 +234,7 @@ const sectors = [
           <strong>Real reading from the field:</strong> a 23-person joinery workshop
           discovered <strong>€89k of idle-capacity cost</strong> that had been silently
           inflating product costs for years. Four weeks on Performa.
-          <a href="/en/sectors/manufacturing">Read the case &rarr;</a>
+          <a href={withBase('/en/sectors/manufacturing')}>Read the case &rarr;</a>
         </p>
       </aside>
     </div>
@@ -288,7 +289,7 @@ const sectors = [
           from scratch, or just your curiosity. No form to fill, no qualification
           call: we answer directly, in English, by the next working day.
         </p>
-        <a href="/en/contact" class="btn btn--accent btn--lg">
+        <a href={withBase('/en/contact')} class="btn btn--accent btn--lg">
           Write to us
           <Icon name="arrow-right" size={18} />
         </a>

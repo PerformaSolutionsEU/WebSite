@@ -1,6 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import { getLocale, normalizePath } from '@i18n/routes.mjs';
+import { getLocale, normalizePath, withBase } from '@i18n/routes.mjs';
 
 interface Props {
   frontmatter: {
@@ -17,11 +17,9 @@ const { frontmatter } = Astro.props;
 const locale = getLocale(Astro.url.pathname);
 const inLanguage = locale === 'en' ? 'en-GB' : 'it-IT';
 
-const site = Astro.site?.toString() ?? 'https://performa.example';
-const canonicalUrl = new URL(
-  normalizePath(Astro.url.pathname) === '/' ? '' : normalizePath(Astro.url.pathname),
-  site,
-).toString();
+const site = Astro.site?.toString().replace(/\/$/, '') ?? 'https://performa.example';
+const currentPath = normalizePath(Astro.url.pathname);
+const canonicalUrl = `${site}${withBase(currentPath === '/' ? '/' : currentPath)}`;
 
 const articleLd = {
   '@context': 'https://schema.org',

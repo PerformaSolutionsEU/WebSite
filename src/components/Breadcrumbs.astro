@@ -1,13 +1,15 @@
 ---
 import { buildBreadcrumbItems } from '@i18n/breadcrumbs.mjs';
-import { getLocale } from '@i18n/routes.mjs';
+import { getLocale, withBase } from '@i18n/routes.mjs';
 
-const site = Astro.site?.toString() ?? 'https://performa.example';
-const items = buildBreadcrumbItems(Astro.url.pathname, site);
+const site = Astro.site?.toString().replace(/\/$/, '') ?? 'https://performa.example';
+const baseUrl = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.replace(/\/$/, '');
+const siteWithBase = site + baseUrl;
+const items = buildBreadcrumbItems(Astro.url.pathname, siteWithBase);
 const locale = getLocale(Astro.url.pathname);
 
-// Path-only href for internal navigation (avoid absolute URL in links)
-const toPath = (fullUrl: string) => fullUrl.replace(site.replace(/\/$/, ''), '') || '/';
+// Convert full URL back to relative path (base already included via siteWithBase)
+const toPath = (fullUrl: string) => fullUrl.replace(site, '') || '/';
 const ariaLabel = locale === 'en' ? 'Breadcrumbs' : 'Breadcrumb';
 ---
 

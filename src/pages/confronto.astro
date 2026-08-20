@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Icon from '@components/Icon.astro';
+import { withBase } from '@i18n/routes.mjs';
 
 const title = 'Confronto — Performa vs alternative';
 const description =
@@ -271,7 +272,7 @@ const cols = [
           contesto: proviamo a de-posizionarci onestamente prima ancora di
           venderci.
         </p>
-        <a href="/contatti" class="btn btn--accent btn--lg">
+        <a href={withBase('/contatti')} class="btn btn--accent btn--lg">
           Scrivici
           <Icon name="arrow-right" size={18} />
         </a>

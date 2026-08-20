@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import { withBase } from '@i18n/routes.mjs';
 
 const title = 'Page not found — Performa';
 const description = 'The page you were looking for does not exist or has been moved.';
@@ -15,8 +16,8 @@ const description = 'The page you were looking for does not exist or has been mo
         three is your fault.
       </p>
       <div class="ctas">
-        <a href="/en" class="btn btn--primary">Back to home</a>
-        <a href="/en/contact" class="btn btn--secondary">Report a broken link</a>
+        <a href={withBase('/en')} class="btn btn--primary">Back to home</a>
+        <a href={withBase('/en/contact')} class="btn btn--secondary">Report a broken link</a>
       </div>
     </div>
   </section>

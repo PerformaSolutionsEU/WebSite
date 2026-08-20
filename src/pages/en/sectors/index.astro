@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Icon from '@components/Icon.astro';
+import { withBase } from '@i18n/routes.mjs';
 
 const title = 'Sectors — Performa';
 const description =
@@ -62,7 +63,7 @@ const sectors = [
               <h2 class="sector__label display">{s.label}</h2>
               <p class="sector__body">{s.pitch}</p>
               <p class="sector__detail">{s.detail}</p>
-              <a href={`/en/sectors/${s.slug}`} class="sector__link">
+              <a href={withBase(`/en/sectors/${s.slug}`)} class="sector__link">
                 Go to {s.label}
                 <Icon name="arrow-right" size={16} />
               </a>
@@ -83,7 +84,7 @@ const sectors = [
             drivers. It typically takes a week's work together with your advisor
             to bring a new sector to steady state.
           </p>
-          <a href="/en/contact" class="btn btn--ghost">
+          <a href={withBase('/en/contact')} class="btn btn--ghost">
             Write to us about your sector
             <Icon name="arrow-right" size={16} />
           </a>

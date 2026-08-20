@@ -1,12 +1,12 @@
 ---
-import { getLocale, getAlternatePath } from '@i18n/routes.mjs';
+import { getLocale, getAlternatePath, normalizePath, withBase } from '@i18n/routes.mjs';
 import { t } from '@i18n/ui.mjs';
 
-const pathname = Astro.url.pathname;
+const pathname = normalizePath(Astro.url.pathname);
 const current = getLocale(pathname);
 
-const itHref = current === 'it' ? pathname : (getAlternatePath(pathname, 'it') ?? '/');
-const enHref = current === 'en' ? pathname : (getAlternatePath(pathname, 'en') ?? '/en');
+const itHref = withBase(current === 'it' ? pathname : (getAlternatePath(pathname, 'it') ?? '/'));
+const enHref = withBase(current === 'en' ? pathname : (getAlternatePath(pathname, 'en') ?? '/en'));
 ---
 
 <nav class="lang-switcher" aria-label={t(current, 'lang.switcher.aria')}>

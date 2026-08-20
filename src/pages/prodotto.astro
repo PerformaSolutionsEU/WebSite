@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Icon from '@components/Icon.astro';
+import { withBase } from '@i18n/routes.mjs';
 
 const title = 'Il prodotto — Performa';
 const description =
@@ -207,7 +208,7 @@ const scaleFacts = [
           Se hai un Excel di allocazione o un modello ABC che vuoi
           modernizzare, mandacelo. In 20 minuti capiamo se Performa fa per te.
         </p>
-        <a href="/contatti" class="btn btn--accent btn--lg">
+        <a href={withBase('/contatti')} class="btn btn--accent btn--lg">
           Scrivici
           <Icon name="arrow-right" size={18} />
         </a>

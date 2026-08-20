@@ -34,13 +34,24 @@ export const EN_TO_IT = /** @type {Record<string, string>} */ (
 );
 
 /**
- * Normalize a pathname: strip trailing slash, keep leading slash, "/" for root.
+ * Base path from build env, used to strip the prefix out of pathnames before
+ * routing lookups (so i18n maps keep working with `/prodotto` keys even when
+ * Astro.url.pathname includes `/WebSite/prodotto`).
+ */
+const BASE_STRIP = ((typeof process !== 'undefined' && process.env.PUBLIC_BASE) || '').replace(/\/$/, '');
+
+/**
+ * Normalize a pathname: strip trailing slash, strip base prefix if present,
+ * keep leading slash, "/" for root.
  * @param {string} pathname
  * @returns {string}
  */
 export function normalizePath(pathname) {
   if (!pathname) return '/';
-  const trimmed = pathname.replace(/\/+$/, '');
+  let trimmed = pathname.replace(/\/+$/, '');
+  if (BASE_STRIP && (trimmed === BASE_STRIP || trimmed.startsWith(BASE_STRIP + '/'))) {
+    trimmed = trimmed.slice(BASE_STRIP.length);
+  }
   return trimmed === '' ? '/' : trimmed;
 }
 
@@ -69,4 +80,24 @@ export function getAlternatePath(pathname, target) {
   if (current === 'it' && target === 'en') return IT_TO_EN[p] ?? null;
   if (current === 'en' && target === 'it') return EN_TO_IT[p] ?? null;
   return null;
+}
+
+/**
+ * Base path detected from build env (empty in dev, `/WebSite` in prod on GitHub Pages
+ * project page). Read once at module load; safe for SSG.
+ */
+const BASE = (typeof process !== 'undefined' && process.env.PUBLIC_BASE) || '';
+
+/**
+ * Prepend the deploy base path to an absolute internal path.
+ * Handles trailing/leading slash normalization. Leaves external URLs untouched.
+ * @param {string} path
+ * @returns {string}
+ */
+export function withBase(path) {
+  if (!path) return path;
+  if (/^(https?:|mailto:|tel:|#)/i.test(path)) return path;
+  const cleanBase = BASE.replace(/\/$/, '');
+  const cleanPath = path.startsWith('/') ? path : '/' + path;
+  return cleanBase + cleanPath;
 }

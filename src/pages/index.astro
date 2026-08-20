@@ -4,6 +4,7 @@ import Hero from '@components/Hero.astro';
 import TrustBar from '@components/TrustBar.astro';
 import HowItWorks from '@components/HowItWorks.astro';
 import Icon from '@components/Icon.astro';
+import { withBase } from '@i18n/routes.mjs';
 
 const title = 'Performa — Activity-Based Costing per PMI italiane';
 const description =
@@ -127,8 +128,8 @@ const sectors = [
     eyebrow="Activity-Based Costing SaaS"
     headline={'Il tuo studio di controllo di gestione.<br /><em>Un login</em> per tutti i tuoi clienti.'}
     subheadline="Modelli ABC che sopravvivono all'anno prossimo. Drill-down completo, timesheet integrato, Copilot AI, template per settore. Il metodo di Kaplan & Cooper senza la piattaforma EPM a sei zeri."
-    primaryCta={{ href: '/contatti', label: 'Scrivici' }}
-    secondaryCta={{ href: '/prodotto', label: 'Come funziona' }}
+    primaryCta={{ href: withBase('/contatti'), label: 'Scrivici' }}
+    secondaryCta={{ href: withBase('/prodotto'), label: 'Come funziona' }}
   >
     <p class="hero__aside">
       Non è per te? <a href="#positioning">Vedi quando non siamo la scelta giusta &rarr;</a>
@@ -191,7 +192,7 @@ const sectors = [
               <span class="sector__tag">{s.tag}</span>
               <h3 class="sector__label display">{s.label}</h3>
               <p class="sector__body">{s.body}</p>
-              <a href={`/settori/${s.slug}`} class="sector__link">
+              <a href={withBase(`/settori/${s.slug}`)} class="sector__link">
                 Vai a {s.label}
                 <Icon name="arrow-right" size={16} />
               </a>
@@ -205,7 +206,7 @@ const sectors = [
           <strong>Numero vero dal campo:</strong> una falegnameria di 23 persone ha
           scoperto <strong>€89k di costo idle di capacità</strong> che gonfiava in
           silenzio il costo dei prodotti da anni. Quattro settimane su Performa.
-          <a href="/settori/manifattura">Leggi il caso &rarr;</a>
+          <a href={withBase('/settori/manifattura')}>Leggi il caso &rarr;</a>
         </p>
       </aside>
     </div>
@@ -261,7 +262,7 @@ const sectors = [
           call di qualificazione: rispondiamo noi, in italiano, entro il giorno
           successivo.
         </p>
-        <a href="/contatti" class="btn btn--accent btn--lg">
+        <a href={withBase('/contatti')} class="btn btn--accent btn--lg">
           Scrivici
           <Icon name="arrow-right" size={18} />
         </a>

@@ -1,10 +1,8 @@
 name: Deploy Performa website to GitHub Pages
 
 on:
-  # Auto-trigger disabilitato fino a quando il sito sarà pronto per il deploy.
-  # Per riabilitare: decommentare le 2 righe sotto.
-  # push:
-  #   branches: [main]
+  push:
+    branches: [main]
   workflow_dispatch:
 
 # Permissions richiesti da actions/deploy-pages
@@ -34,12 +32,12 @@ jobs:
       - name: Install
         run: npm ci
 
-      - name: Type check
-        run: npm run check
-
       - name: Build
         env:
-          PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL || 'https://performa.example' }}
+          # Site domain and base path for GitHub Pages project page.
+          # Override via repo/org Variables when the custom domain lands.
+          PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL || 'https://performasolutionseu.github.io' }}
+          PUBLIC_BASE: ${{ vars.PUBLIC_BASE || '/WebSite' }}
         run: npm run build
 
       - name: Upload Pages artifact

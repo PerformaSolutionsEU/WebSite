@@ -1,6 +1,6 @@
 ---
 import LanguageSwitcher from '@components/LanguageSwitcher.astro';
-import { getLocale, getAlternatePath, normalizePath } from '@i18n/routes.mjs';
+import { getLocale, getAlternatePath, normalizePath, withBase } from '@i18n/routes.mjs';
 import { t } from '@i18n/ui.mjs';
 
 const currentPath = normalizePath(Astro.url.pathname);
@@ -15,11 +15,11 @@ const navItemsIt = [
 
 const navItems = navItemsIt.map(({ itPath, labelKey }) => {
   const href = locale === 'it' ? itPath : (getAlternatePath(itPath, 'en') ?? itPath);
-  return { href, label: t(locale, labelKey) };
+  return { href: withBase(href), label: t(locale, labelKey), match: href };
 });
 
-const brandHref = locale === 'en' ? '/en' : '/';
-const contactHref = locale === 'en' ? '/en/contact' : '/contatti';
+const brandHref = withBase(locale === 'en' ? '/en' : '/');
+const contactHref = withBase(locale === 'en' ? '/en/contact' : '/contatti');
 ---
 
 <header class="site-header">
@@ -45,7 +45,7 @@ const contactHref = locale === 'en' ? '/en/contact' : '/contatti';
               <a
                 href={item.href}
                 class="nav__link"
-                aria-current={currentPath === item.href ? 'page' : undefined}
+                aria-current={currentPath === item.match ? 'page' : undefined}
               >
                 {item.label}
               </a>

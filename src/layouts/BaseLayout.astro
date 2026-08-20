@@ -3,7 +3,7 @@ import '@styles/global.scss';
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
 import Breadcrumbs from '@components/Breadcrumbs.astro';
-import { getLocale, getAlternatePath, normalizePath } from '@i18n/routes.mjs';
+import { getLocale, getAlternatePath, normalizePath, withBase } from '@i18n/routes.mjs';
 import { t } from '@i18n/ui.mjs';
 import { buildBreadcrumbsLd } from '@i18n/breadcrumbs.mjs';
 
@@ -18,14 +18,16 @@ interface Props {
 
 const { title, description, canonical, jsonLd, ogImage, noindex } = Astro.props;
 
-const site = Astro.site?.toString() ?? 'https://performa.example';
+const site = Astro.site?.toString().replace(/\/$/, '') ?? 'https://performa.example';
 const currentPath = normalizePath(Astro.url.pathname);
 const locale = getLocale(currentPath);
 
-const canonicalUrl = canonical ?? new URL(currentPath === '/' ? '' : currentPath, site).toString();
-const ogImageUrl = ogImage ?? new URL('/og-image.png', site).toString();
+// site already includes deploy base (e.g. https://.../WebSite); currentPath is
+// base-stripped (e.g. /prodotto) — concat with base prefix to get canonical
+const toAbs = (p: string) => `${site}${withBase(p === '/' ? '/' : p)}`;
+const canonicalUrl = canonical ?? toAbs(currentPath);
+const ogImageUrl = ogImage ?? `${site}${withBase('/og-image.png')}`;
 
-const toAbs = (p: string) => new URL(p === '/' ? '' : p, site).toString();
 const itPath = getAlternatePath(currentPath, 'it');
 const enPath = getAlternatePath(currentPath, 'en');
 const alternates: { hreflang: string; href: string }[] = [];
@@ -62,7 +64,7 @@ const breadcrumbsLd = buildBreadcrumbsLd(currentPath, site);
       <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
     ))}
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

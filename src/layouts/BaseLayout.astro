@@ -28,6 +28,9 @@ const toAbs = (p: string) => `${site}${withBase(p === '/' ? '/' : p)}`;
 const canonicalUrl = canonical ?? toAbs(currentPath);
 const ogImageUrl = ogImage ?? `${site}${withBase('/og-image.png')}`;
 
+const baseUrl = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.replace(/\/$/, '');
+const siteRoot = site + baseUrl;
+
 const itPath = getAlternatePath(currentPath, 'it');
 const enPath = getAlternatePath(currentPath, 'en');
 const alternates: { hreflang: string; href: string }[] = [];
@@ -41,11 +44,11 @@ const organizationLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Performa',
-  url: site,
+  url: siteRoot,
   description: t(locale, 'seo.org.description'),
 };
 
-const breadcrumbsLd = buildBreadcrumbsLd(currentPath, site);
+const breadcrumbsLd = buildBreadcrumbsLd(currentPath, siteRoot);
 ---
 
 <!doctype html>

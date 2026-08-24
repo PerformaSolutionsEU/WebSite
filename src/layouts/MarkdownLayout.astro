@@ -10,6 +10,7 @@ interface Props {
     updatedAt?: string;
     articleType?: 'Article' | 'BlogPosting';
     faq?: Array<{ q: string; a: string }>;
+    image?: string;
   };
 }
 
@@ -27,11 +28,14 @@ const siteRoot = site + baseUrl;
 // Google Rich Results wants ISO 8601 with timezone — normalize date-only frontmatter to UTC midnight
 const toIsoDateTime = (d?: string) => (d ? new Date(d).toISOString() : undefined);
 
+const articleImage = frontmatter.image ?? `${site}${withBase('/og-image.png')}`;
+
 const articleLd = {
   '@context': 'https://schema.org',
   '@type': frontmatter.articleType ?? 'Article',
   headline: frontmatter.title,
   description: frontmatter.description,
+  image: articleImage,
   mainEntityOfPage: {
     '@type': 'WebPage',
     '@id': canonicalUrl,

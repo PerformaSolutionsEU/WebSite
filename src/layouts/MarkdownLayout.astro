@@ -10,6 +10,7 @@ interface Props {
     updatedAt?: string;
     articleType?: 'Article' | 'BlogPosting';
     faq?: Array<{ q: string; a: string }>;
+    image?: string;
   };
 }
 
@@ -21,11 +22,20 @@ const site = Astro.site?.toString().replace(/\/$/, '') ?? 'https://performa.exam
 const currentPath = normalizePath(Astro.url.pathname);
 const canonicalUrl = `${site}${withBase(currentPath === '/' ? '/' : currentPath)}`;
 
+const baseUrl = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.replace(/\/$/, '');
+const siteRoot = site + baseUrl;
+
+// Google Rich Results wants ISO 8601 with timezone — normalize date-only frontmatter to UTC midnight
+const toIsoDateTime = (d?: string) => (d ? new Date(d).toISOString() : undefined);
+
+const articleImage = frontmatter.image ?? `${site}${withBase('/og-image.png')}`;
+
 const articleLd = {
   '@context': 'https://schema.org',
   '@type': frontmatter.articleType ?? 'Article',
   headline: frontmatter.title,
   description: frontmatter.description,
+  image: articleImage,
   mainEntityOfPage: {
     '@type': 'WebPage',
     '@id': canonicalUrl,
@@ -33,15 +43,15 @@ const articleLd = {
   author: {
     '@type': 'Organization',
     name: 'Performa',
-    url: site,
+    url: siteRoot,
   },
   publisher: {
     '@type': 'Organization',
     name: 'Performa',
-    url: site,
+    url: siteRoot,
   },
-  datePublished: frontmatter.publishedAt,
-  dateModified: frontmatter.updatedAt ?? frontmatter.publishedAt,
+  datePublished: toIsoDateTime(frontmatter.publishedAt),
+  dateModified: toIsoDateTime(frontmatter.updatedAt ?? frontmatter.publishedAt),
   inLanguage,
 };
 

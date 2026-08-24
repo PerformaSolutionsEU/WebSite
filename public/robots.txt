@@ -1,5 +1,4 @@
 # Performa marketing site — crawler policy
-# Aggiornare Sitemap con dominio finale quando disponibile.
 
 User-agent: *
 Allow: /
@@ -29,4 +28,4 @@ Allow: /
 User-agent: Applebot-Extended
 Allow: /
 
-Sitemap: https://performa.example/sitemap-index.xml
+Sitemap: https://www.performasolutions.eu/sitemap-index.xml

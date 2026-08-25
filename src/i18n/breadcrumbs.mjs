@@ -9,7 +9,7 @@ const LABELS = {
   it: {
     '/': 'Home',
     '/prodotto': 'Prodotto',
-    '/activity-based-costing': 'ABC',
+    '/activity-based-costing': "Cos'è l'ABC",
     '/settori': 'Settori',
     '/settori/manifattura': 'Manifattura',
     '/settori/ospitalita': 'Ospitalità',
@@ -24,7 +24,7 @@ const LABELS = {
   en: {
     '/en': 'Home',
     '/en/product': 'Product',
-    '/en/activity-based-costing': 'ABC',
+    '/en/activity-based-costing': 'What is ABC',
     '/en/sectors': 'Sectors',
     '/en/sectors/manufacturing': 'Manufacturing',
     '/en/sectors/hospitality': 'Hospitality',

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Icon from '@components/Icon.astro';
+import PageIntro from '@components/PageIntro.astro';
 import { withBase } from '@i18n/routes.mjs';
 
 const title = 'The product — Performa';
@@ -126,21 +127,11 @@ const scaleFacts = [
 ---
 
 <BaseLayout title={title} description={description} jsonLd={productLd}>
-  <section class="section section--intro">
-    <div class="container">
-      <div class="intro">
-        <span class="eyebrow">The product</span>
-        <h1 class="display intro__title">
-          What's <em>inside</em> Performa.
-        </h1>
-        <p class="intro__lead">
-          A graph-based calculation engine, a sector-typed UI, an AI Copilot.
-          Under the hood of every ABC model built on Performa, in ten minutes
-          of reading.
-        </p>
-      </div>
-    </div>
-  </section>
+  <PageIntro
+    eyebrow="The product"
+    title={"What's <em>inside</em> Performa."}
+    lead="A graph-based calculation engine, a sector-typed UI, an AI Copilot. Under the hood of every ABC model built on Performa, in ten minutes of reading."
+  />
 
   <!-- Engine philosophy -->
   <section class="section section--engine" aria-labelledby="engine-heading">
@@ -258,36 +249,6 @@ const scaleFacts = [
     flex-direction: column;
     gap: var(--p-space-4);
     align-items: flex-start;
-  }
-
-  .section--intro {
-    padding-block: clamp(4rem, 8vw, 7rem) clamp(2rem, 4vw, 3rem);
-  }
-
-  .intro {
-    display: flex;
-    flex-direction: column;
-    gap: var(--p-space-4);
-    align-items: flex-start;
-    max-width: 44rem;
-  }
-
-  .intro__title {
-    font-size: clamp(2.5rem, 4vw + 1rem, 4.5rem);
-    line-height: var(--p-lh-tight);
-    color: var(--p-fg);
-
-    :global(em) {
-      color: var(--p-accent);
-      font-style: italic;
-    }
-  }
-
-  .intro__lead {
-    font-size: var(--p-fs-body-lg);
-    color: var(--p-fg-muted);
-    line-height: 1.55;
-    text-wrap: pretty;
   }
 
   .section--engine {

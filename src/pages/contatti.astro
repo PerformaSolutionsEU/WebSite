@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Icon from '@components/Icon.astro';
+import PageIntro from '@components/PageIntro.astro';
 
 const title = 'Contatti — Performa';
 const description =
@@ -47,31 +48,22 @@ const startingQuestions: Array<{ q: string; a: string }> = [
     acceptedAnswer: { '@type': 'Answer', text: item.a },
   })),
 }]}>
-  <section class="section section--intro">
-    <div class="container-narrow intro">
-      <span class="eyebrow">Contatti</span>
-      <h1 class="display intro__title">
-        Nessun form.<br />
-        <em>Rispondiamo</em> entro il giorno lavorativo successivo.
-      </h1>
-      <p class="intro__lead">
-        Nessun form da compilare, nessuna call di qualificazione da mezz'ora
-        prima di parlare con qualcuno. Portaci il tuo Excel di allocazione
-        peggiore, un modello che vuoi rifare da capo, o solo la curiosità.
-      </p>
-
-      <div class="intro__cta">
-        <a href={mailto} class="btn btn--accent btn--lg">
-          {email}
-          <Icon name="arrow-right" size={18} />
-        </a>
-      </div>
-      <p class="intro__note">
-        Il click apre il tuo client email precompilato. Nessun tracciamento,
-        nessun cookie.
-      </p>
+  <PageIntro
+    eyebrow="Contatti"
+    title={"Nessun form.<br /><em>Rispondiamo</em> entro il giorno lavorativo successivo."}
+    lead="Nessun form da compilare, nessuna call di qualificazione da mezz'ora prima di parlare con qualcuno. Portaci il tuo Excel di allocazione peggiore, un modello che vuoi rifare da capo, o solo la curiosità."
+  >
+    <div class="intro__cta">
+      <a href={mailto} class="btn btn--accent btn--lg">
+        {email}
+        <Icon name="arrow-right" size={18} />
+      </a>
     </div>
-  </section>
+    <p class="intro__note">
+      Il click apre il tuo client email precompilato. Nessun tracciamento,
+      nessun cookie.
+    </p>
+  </PageIntro>
 
   <section class="section section--faq" aria-labelledby="faq-heading">
     <div class="container-narrow">
@@ -101,36 +93,6 @@ const startingQuestions: Array<{ q: string; a: string }> = [
 </BaseLayout>
 
 <style lang="scss">
-  .section--intro {
-    padding-block: clamp(4rem, 8vw, 7rem) clamp(3rem, 5vw, 4rem);
-  }
-
-  .intro {
-    display: flex;
-    flex-direction: column;
-    gap: var(--p-space-4);
-    align-items: flex-start;
-  }
-
-  .intro__title {
-    font-size: clamp(2.25rem, 4vw + 0.75rem, 4rem);
-    line-height: var(--p-lh-tight);
-    color: var(--p-fg);
-
-    :global(em) {
-      color: var(--p-accent);
-      font-style: italic;
-    }
-  }
-
-  .intro__lead {
-    font-size: var(--p-fs-body-lg);
-    color: var(--p-fg-muted);
-    line-height: 1.55;
-    text-wrap: pretty;
-    max-width: 36rem;
-  }
-
   .intro__cta {
     margin-block-start: var(--p-space-4);
   }

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Icon from '@components/Icon.astro';
+import PageIntro from '@components/PageIntro.astro';
 import { withBase } from '@i18n/routes.mjs';
 
 const title = 'Compare — Performa vs alternatives';
@@ -82,23 +83,11 @@ function annotate(value: string): { display: string; srLabel: string | null } {
 ---
 
 <BaseLayout title={title} description={description}>
-  <section class="section section--intro">
-    <div class="container">
-      <div class="intro">
-        <span class="eyebrow">Compare</span>
-        <h1 class="display intro__title">
-          The <em>honest</em> comparison.<br />
-          By category, not by brand.
-        </h1>
-        <p class="intro__lead">
-          Four families of real alternatives if you're evaluating Performa,
-          with the honesty to say where Performa is <strong>not</strong> the
-          right choice. The real competitor is Excel: every active Performa
-          client today came from there.
-        </p>
-      </div>
-    </div>
-  </section>
+  <PageIntro
+    eyebrow="Compare"
+    title={"The <em>honest</em> comparison.<br />By category, not by brand."}
+    lead={"Four families of real alternatives if you're evaluating Performa, with the honesty to say where Performa is <strong>not</strong> the right choice. The real competitor is Excel: every active Performa client today came from there."}
+  />
 
   <!-- Cluster -->
   <section class="section section--clusters" aria-labelledby="clusters-heading">
@@ -274,38 +263,6 @@ function annotate(value: string): { display: string; srLabel: string | null } {
     flex-direction: column;
     gap: var(--p-space-4);
     align-items: flex-start;
-  }
-
-  .section--intro {
-    padding-block: clamp(4rem, 8vw, 7rem) clamp(3rem, 5vw, 4rem);
-  }
-
-  .intro {
-    max-width: 48rem;
-    display: flex;
-    flex-direction: column;
-    gap: var(--p-space-4);
-  }
-
-  .intro__title {
-    font-size: clamp(2.5rem, 4vw + 1rem, 4.5rem);
-    line-height: var(--p-lh-tight);
-    color: var(--p-fg);
-
-    :global(em) {
-      color: var(--p-accent);
-      font-style: italic;
-    }
-  }
-
-  .intro__lead {
-    font-size: var(--p-fs-body-lg);
-    color: var(--p-fg-muted);
-    line-height: 1.55;
-
-    strong {
-      color: var(--p-fg);
-    }
   }
 
   .section--clusters {

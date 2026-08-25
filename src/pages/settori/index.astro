@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Icon from '@components/Icon.astro';
+import PageIntro from '@components/PageIntro.astro';
 import { withBase } from '@i18n/routes.mjs';
 
 const title = 'Settori — Performa';
@@ -44,19 +45,11 @@ const sectors = [
 ---
 
 <BaseLayout title={title} description={description}>
-  <section class="section section--intro">
-    <div class="container-narrow">
-      <span class="eyebrow">Settori</span>
-      <h1 class="display intro__title">
-        Quattro template pronti.<br /><em>Zero</em> implementatori certificati.
-      </h1>
-      <p class="intro__lead">
-        Ogni template arriva con node type, campi custom e driver tipici del
-        settore già configurati. Più un template <em>Custom</em> per modellare
-        da zero qualsiasi verticale non presente in questa lista.
-      </p>
-    </div>
-  </section>
+  <PageIntro
+    eyebrow="Settori"
+    title={"Quattro template pronti.<br /><em>Zero</em> implementatori certificati."}
+    lead={"Ogni template arriva con node type, campi custom e driver tipici del settore già configurati. Più un template <em>Custom</em> per modellare da zero qualsiasi verticale non presente in questa lista."}
+  />
 
   <section class="section section--grid">
     <div class="container">
@@ -103,34 +96,6 @@ const sectors = [
 </BaseLayout>
 
 <style lang="scss">
-  .section--intro {
-    padding-block: clamp(4rem, 8vw, 7rem) clamp(2rem, 4vw, 3rem);
-  }
-
-  .intro__title {
-    font-size: clamp(2.5rem, 4vw + 1rem, 4.5rem);
-    line-height: var(--p-lh-tight);
-    color: var(--p-fg);
-    margin-block-end: var(--p-space-6);
-
-    :global(em) {
-      color: var(--p-accent);
-      font-style: italic;
-    }
-  }
-
-  .intro__lead {
-    font-size: var(--p-fs-body-lg);
-    color: var(--p-fg-muted);
-    line-height: 1.55;
-
-    :global(em) {
-      color: var(--p-fg);
-      font-style: italic;
-      font-family: var(--p-font-display);
-    }
-  }
-
   .section--grid {
     padding-block: clamp(3rem, 5vw, 4rem) clamp(4rem, 8vw, 7rem);
   }

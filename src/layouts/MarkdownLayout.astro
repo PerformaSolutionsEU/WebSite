@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import PageIntro from '@components/PageIntro.astro';
 import { getLocale, normalizePath, withBase } from '@i18n/routes.mjs';
 
 interface Props {
@@ -11,6 +12,15 @@ interface Props {
     articleType?: 'Article' | 'BlogPosting';
     faq?: Array<{ q: string; a: string }>;
     image?: string;
+    /**
+     * When set, the page renders a PageIntro block (eyebrow + h1 + lead) coherent
+     * with the rest of the marketing site. In that case the .mdx body MUST NOT
+     * start with an H1 — the H1 is generated from `title`.
+     * Set for commercial content (ABC, sector pages); leave undefined for
+     * documents (privacy, accessibility).
+     */
+    eyebrow?: string;
+    lead?: string;
   };
 }
 
@@ -18,7 +28,7 @@ const { frontmatter } = Astro.props;
 const locale = getLocale(Astro.url.pathname);
 const inLanguage = locale === 'en' ? 'en-GB' : 'it-IT';
 
-const site = Astro.site?.toString().replace(/\/$/, '') ?? 'https://performa.example';
+const site = Astro.site?.toString().replace(/\/$/, '') ?? 'https://www.performasolutions.eu';
 const currentPath = normalizePath(Astro.url.pathname);
 const canonicalUrl = `${site}${withBase(currentPath === '/' ? '/' : currentPath)}`;
 
@@ -72,6 +82,8 @@ const faqLd = frontmatter.faq && frontmatter.faq.length
   : null;
 
 const layoutJsonLd = faqLd ? [articleLd, faqLd] : articleLd;
+
+const hasIntro = Boolean(frontmatter.eyebrow);
 ---
 
 <BaseLayout
@@ -79,15 +91,40 @@ const layoutJsonLd = faqLd ? [articleLd, faqLd] : articleLd;
   description={frontmatter.description}
   jsonLd={layoutJsonLd}
 >
-  <article class="article container-narrow">
-    <div class="prose">
-      <slot />
-    </div>
-  </article>
+  {hasIntro ? (
+    <>
+      <PageIntro
+        eyebrow={frontmatter.eyebrow!}
+        title={frontmatter.title}
+        lead={frontmatter.lead}
+      />
+      <article class="article-body container">
+        <div class="prose">
+          <slot />
+        </div>
+      </article>
+    </>
+  ) : (
+    <article class="article container-narrow">
+      <div class="prose">
+        <slot />
+      </div>
+    </article>
+  )}
 </BaseLayout>
 
 <style>
+  /* Documents (privacy, accessibility): reading-mode centered column */
   .article {
     padding-block: var(--p-space-16) var(--p-space-24);
+  }
+
+  /* Commercial content (ABC, sector deep-dives): left-aligned body under PageIntro */
+  .article-body {
+    padding-block: var(--p-space-8) var(--p-space-24);
+  }
+
+  .article-body .prose {
+    max-width: 44rem;
   }
 </style>

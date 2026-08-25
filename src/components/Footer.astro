@@ -26,8 +26,9 @@ const columns = [
     ],
   },
   {
-    titleKey: 'footer.col.contact',
+    titleKey: 'footer.col.company',
     links: [
+      { itPath: '/chi-siamo', labelKey: 'footer.link.about' },
       { itPath: '/contatti', labelKey: 'footer.link.contact' },
     ],
   },
@@ -82,10 +83,7 @@ const columns = [
 
     <div class="site-footer__meta">
       <p>© {year} Performa. {t(locale, 'footer.copyright')}</p>
-      <!-- TODO: Ragione sociale + P.IVA quando arrivano da amministrazione -->
-      <p class="meta-legal">
-        <span class="tag">[RAGIONE SOCIALE]</span> · P.IVA <span class="tag">[P.IVA]</span>
-      </p>
+      {/* TODO: reintrodurre riga con Ragione sociale + P.IVA quando amministrazione fornisce i dati definitivi */}
     </div>
   </div>
 </footer>
@@ -182,15 +180,5 @@ const columns = [
     padding-block-start: var(--p-space-6);
     border-block-start: 1px solid rgba(255, 255, 255, 0.08);
     color: var(--p-slate-400);
-  }
-
-  .tag {
-    display: inline-block;
-    padding: 0.1em 0.4em;
-    background: rgba(255, 255, 255, 0.06);
-    color: var(--p-slate-300);
-    border-radius: 0.25rem;
-    font-family: var(--p-font-mono);
-    font-size: 0.75em;
   }
 </style>

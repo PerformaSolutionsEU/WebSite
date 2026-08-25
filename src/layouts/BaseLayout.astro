@@ -18,7 +18,7 @@ interface Props {
 
 const { title, description, canonical, jsonLd, ogImage, noindex } = Astro.props;
 
-const site = Astro.site?.toString().replace(/\/$/, '') ?? 'https://performa.example';
+const site = Astro.site?.toString().replace(/\/$/, '') ?? 'https://www.performasolutions.eu';
 const currentPath = normalizePath(Astro.url.pathname);
 const locale = getLocale(currentPath);
 

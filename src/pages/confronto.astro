@@ -36,10 +36,10 @@ const clusters = [
   {
     label: 'Altre soluzioni SaaS italiane di controllo di gestione',
     names: 'Vari vendor italiani',
-    forte: 'Presenza sul mercato italiano, lingua e supporto locale.',
+    forte: 'Presenza consolidata sul mercato italiano, supporto in lingua locale.',
     debole: 'Nella nostra ricognizione: nessuno copre in modo integrato timesheet dipendente, driver calcolati sofisticati, allocation patterns riusabili e copertura completa dei costi (personale + ammortamenti + imputazioni manuali oltre alle fatture). Modelli ABC parziali.',
     quando: 'Se ti basta un aggregatore di fatture con vista per cliente/prodotto.',
-    performa: 'Se hai bisogno di un modello ABC completo con timesheet, ammortamenti, driver calcolati, allocation patterns e drill-down — le differenze diventano evidenti già in fase di demo comparativa.',
+    performa: 'Se hai bisogno di un modello ABC completo con timesheet, ammortamenti, driver calcolati, allocation patterns e drill-down — le differenze diventano evidenti già al primo confronto tecnico.',
   },
   {
     label: 'Excel + macro + PowerBI',
@@ -223,7 +223,7 @@ const cols = [
 
   <!-- Anti-vendita -->
   <section class="section section--anti">
-    <div class="container-narrow anti">
+    <div class="container anti">
       <span class="eyebrow eyebrow--dark">Onestà come arma</span>
       <h2 class="display anti__title">
         Quando <em>non</em> siamo la scelta giusta.
@@ -253,7 +253,7 @@ const cols = [
         Performa esiste per chi sta in mezzo: il <strong>consulente di
         controllo di gestione</strong> che serve molte PMI, il <strong>CFO
         che vuole un modello ABC serio</strong> senza acquistare un'intera
-        piattaforma EPM. I modelli in produzione oggi arrivano fino a 369 nodi
+        piattaforma EPM. I modelli più grandi oggi arrivano fino a 369 nodi
         e 340 regole di allocazione — la scala regge.
       </p>
     </div>
@@ -521,6 +521,14 @@ const cols = [
     display: flex;
     flex-direction: column;
     gap: var(--p-space-4);
+    align-items: flex-start;
+  }
+
+  .anti__title,
+  .anti__list,
+  .anti__closer {
+    max-width: 56rem;
+    width: 100%;
   }
 
   .anti__title {

@@ -173,12 +173,12 @@ const sectors = [
       <div class="section__head">
         <span class="eyebrow">Settori</span>
         <h2 id="sectors-heading" class="section-title">
-          Quattro template. Zero implementatori certificati.
+          Quattro template pronti. Zero implementatori certificati.
         </h2>
         <p class="section-lead">
           Node type, campi custom e driver tipici del settore già configurati.
-          Il quinto — <em>Custom</em> — è tuo, per modellare da zero qualsiasi
-          verticale.
+          Più un template <em>Custom</em> per modellare da zero qualsiasi
+          verticale non presente qui sotto.
         </p>
       </div>
 
@@ -214,7 +214,7 @@ const sectors = [
 
   <!-- Anti-vendita / positioning -->
   <section id="positioning" class="section section--positioning" aria-labelledby="pos-heading">
-    <div class="container-narrow positioning">
+    <div class="container positioning">
       <span class="eyebrow eyebrow--dark">Onestà come arma</span>
       <h2 id="pos-heading" class="section-title">
         Quando <em>non</em> siamo la scelta giusta.
@@ -238,7 +238,7 @@ const sectors = [
           Performa esiste per chi sta in mezzo: il <strong>consulente di controllo
           di gestione</strong> che serve molte PMI, il <strong>CFO che vuole un
           modello ABC serio</strong> senza acquistare un'intera piattaforma EPM.
-          I modelli in produzione oggi arrivano fino a 369 nodi e 340 regole di
+          I modelli più grandi oggi arrivano fino a 369 nodi e 340 regole di
           allocazione — la scala regge.
         </p>
       </div>
@@ -259,7 +259,7 @@ const sectors = [
         <p class="cta__lead">
           Portaci il tuo Excel di allocazione peggiore, un modello che vuoi
           rifare da capo, o solo la curiosità. Nessun form da compilare, nessuna
-          call di qualificazione: rispondiamo noi, in italiano, entro il giorno
+          call di qualificazione: rispondiamo noi entro il giorno lavorativo
           successivo.
         </p>
         <a href={withBase('/contatti')} class="btn btn--accent btn--lg">
@@ -574,6 +574,7 @@ const sectors = [
     display: flex;
     flex-direction: column;
     gap: var(--p-space-4);
+    align-items: flex-start;
 
     .section-title {
       max-width: 34rem;
@@ -584,6 +585,8 @@ const sectors = [
     display: grid;
     gap: var(--p-space-6);
     margin-block-start: var(--p-space-4);
+    max-width: 56rem;
+    width: 100%;
 
     p {
       font-size: var(--p-fs-body-lg);
@@ -601,6 +604,8 @@ const sectors = [
     border-inline-start: 3px solid var(--p-accent);
     background: var(--p-bg-elevated);
     border-radius: 0 var(--p-radius) var(--p-radius) 0;
+    width: 100%;
+    max-width: 56rem;
   }
 
   .eyebrow--dark {

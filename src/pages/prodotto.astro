@@ -37,8 +37,8 @@ const engine = [
   },
   {
     icon: 'layers' as const,
-    title: 'Externally, è una UI tipizzata per settore.',
-    body: `Sopra al motore, la UI mostra schermate industry-specific: cantiere, hotel, studio, RSA — ognuna con i campi custom che quel settore richiede. Il grafo generico che sta sotto rende il sistema flessibile senza sacrificare l'esperienza settoriale.`,
+    title: 'Verso l\'esterno, è una UI tipizzata per settore.',
+    body: `Sopra al motore, la UI mostra schermate specifiche per settore: cantiere, hotel, studio, RSA — ognuna con i campi custom che quel settore richiede. Il grafo generico che sta sotto rende il sistema flessibile senza sacrificare l'esperienza settoriale.`,
   },
 ];
 
@@ -86,9 +86,9 @@ const features = [
 ];
 
 const scaleFacts = [
-  { n: '€ 307', unit: 'M+', label: 'costi già allocati in produzione' },
+  { n: '€ 307', unit: 'M+', label: 'costi già allocati con Performa' },
   { n: '38', unit: '', label: 'organizzazioni cliente attive' },
-  { n: '369', unit: '', label: 'nodi nel modello più grande in produzione' },
+  { n: '369', unit: '', label: 'nodi nel modello più grande' },
   { n: '< 400', unit: 'ms', label: 'tempo calcolo su modelli tipici (200 nodi, 500 edge)' },
 ];
 ---
@@ -174,7 +174,7 @@ const scaleFacts = [
       <div class="section__head">
         <span class="eyebrow">Scala &amp; prestazioni</span>
         <h2 id="scale-heading" class="section-title">
-          I numeri reali del prodotto <em>oggi in produzione</em>.
+          I numeri reali del prodotto <em>oggi</em>.
         </h2>
       </div>
       <div class="scale-grid">
@@ -190,10 +190,10 @@ const scaleFacts = [
         }
       </div>
       <p class="scale-note">
-        Numeri aggiornati al 10 luglio 2026, misurati sul database di produzione.
+        Numeri aggiornati al 10 luglio 2026, misurati sui modelli attivi.
         La capacità architetturale supporta fino a 500 nodi per singolo scenario,
         5.000 voci di costo, 2.000 regole di allocazione — margine ampio rispetto
-        ai modelli più grandi attualmente attivi.
+        ai modelli più grandi attualmente in uso.
       </p>
     </div>
   </section>

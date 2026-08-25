@@ -213,7 +213,7 @@ function annotate(value: string): { display: string; srLabel: string | null } {
 
   <!-- Anti-selling -->
   <section class="section section--anti">
-    <div class="container-narrow anti">
+    <div class="container anti">
       <span class="eyebrow eyebrow--dark">Honesty as a weapon</span>
       <h2 class="display anti__title">
         When we are <em>not</em> the right choice.
@@ -238,7 +238,7 @@ function annotate(value: string): { display: string; srLabel: string | null } {
         Performa exists for those in between: the <strong>management accounting
         advisor</strong> serving multiple SMBs, the <strong>CFO who wants a
         serious ABC model</strong> without buying an entire EPM platform. The
-        models in production today reach 369 nodes and 340 allocation rules —
+        largest models today reach 369 nodes and 340 allocation rules —
         the engine holds.
       </p>
     </div>
@@ -503,6 +503,14 @@ function annotate(value: string): { display: string; srLabel: string | null } {
     display: flex;
     flex-direction: column;
     gap: var(--p-space-4);
+    align-items: flex-start;
+  }
+
+  .anti__title,
+  .anti__list,
+  .anti__closer {
+    max-width: 56rem;
+    width: 100%;
   }
 
   .anti__title {

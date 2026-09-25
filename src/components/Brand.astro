@@ -35,48 +35,103 @@ interface Props {
   label?: string;
   /** `auto` segue il tema; `light` e `dark` la impongono, per superfici che non cambiano. */
   variant?: 'auto' | 'light' | 'dark';
+  /**
+   * Sotto i 900px monta il solo marchio al posto del lockup. Serve dove il
+   * marchio divide la riga con altro — l'header — e non dove ha la riga tutta
+   * per se', come il footer.
+   */
+  compact?: boolean;
 }
 
-const { height = 30, href, label, variant = 'auto' } = Astro.props;
+const { height = 30, href, label, variant = 'auto', compact = false } = Astro.props;
 
-const ratio = manifest['logo.svg'].ratio;
-const width = Math.round(height * ratio);
+const lockupRatio = manifest['logo.svg'].ratio;
+const markRatio = manifest['mark.svg'].ratio;
 
-const light = withBase('/logo.svg');
-const dark = withBase('/logo-dark.svg');
-const fixed = variant === 'dark' ? dark : light;
+const src = {
+  lockupLight: withBase('/logo.svg'),
+  lockupDark: withBase('/logo-dark.svg'),
+  markLight: withBase('/mark.svg'),
+  markDark: withBase('/mark-reverse.svg'),
+};
 const alt = href ? '' : (label ?? 'Performa');
 const Tag = href ? 'a' : 'span';
 ---
 
-<Tag href={href} aria-label={href ? label : undefined} class="brand-lockup">
-  {variant === 'auto' ? (
-    <picture>
-      <source srcset={dark} media="(prefers-color-scheme: dark)" />
-      <img src={light} alt={alt} width={width} height={height} />
-    </picture>
-  ) : (
-    <img src={fixed} alt={alt} width={width} height={height} />
+<Tag href={href} aria-label={href ? label : undefined} class:list={['brand', { compact }]}>
+  <span class="brand__lockup">
+    {variant === 'auto' ? (
+      <picture>
+        <source srcset={src.lockupDark} media="(prefers-color-scheme: dark)" />
+        <img src={src.lockupLight} alt={alt} width={Math.round(height * lockupRatio)} height={height} />
+      </picture>
+    ) : (
+      <img
+        src={variant === 'dark' ? src.lockupDark : src.lockupLight}
+        alt={alt}
+        width={Math.round(height * lockupRatio)}
+        height={height}
+      />
+    )}
+  </span>
+
+  {compact && (
+    <span class="brand__mark">
+      {variant === 'auto' ? (
+        <picture>
+          <source srcset={src.markDark} media="(prefers-color-scheme: dark)" />
+          <img src={src.markLight} alt={alt} width={Math.round(height * markRatio)} height={height} />
+        </picture>
+      ) : (
+        <img
+          src={variant === 'dark' ? src.markDark : src.markLight}
+          alt={alt}
+          width={Math.round(height * markRatio)}
+          height={height}
+        />
+      )}
+    </span>
   )}
 </Tag>
 
 <style>
-  .brand-lockup {
+  .brand {
     display: inline-flex;
     align-items: center;
     text-decoration: none;
+
+    /* Un marchio non lo ridimensiona il layout. Senza questo il flex del
+       contenitore lo comprime quando lo spazio stringe, e il logo si
+       rimpicciolisce da solo invece che cedere il passo a cio' che gli sta
+       accanto. */
+    flex-shrink: 0;
   }
 
-  .brand-lockup picture,
-  .brand-lockup img {
+  .brand picture,
+  .brand img {
     display: block;
   }
 
   /* width e height stanno sull'immagine per riservare lo spazio ed evitare lo
-     spostamento del layout al caricamento. Qui si lascia che la larghezza
-     comandi se un contenitore stringe. */
-  .brand-lockup img {
+     spostamento del layout al caricamento. */
+  .brand img {
     height: auto;
-    max-width: 100%;
+  }
+
+  .brand__mark {
+    display: none;
+  }
+
+  /* Sotto i 900px il lockup intero pesa 222px in una riga che deve contenere
+     anche menu, selettore di lingua e pulsante. Il marchio da solo ne occupa
+     30 e libera lo spazio che serve alla navigazione per restare su una riga. */
+  @media (max-width: 900px) {
+    .brand.compact .brand__lockup {
+      display: none;
+    }
+
+    .brand.compact .brand__mark {
+      display: block;
+    }
   }
 </style>

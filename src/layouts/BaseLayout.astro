@@ -67,7 +67,10 @@ const breadcrumbsLd = buildBreadcrumbsLd(currentPath, siteRoot);
       <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
     ))}
 
-    <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+    {/* app-icon.svg e' generato dal sistema di marca e copiato da
+        `install.mjs --dest`, quindi si aggiorna insieme al marchio. Il vecchio
+        favicon.svg era un placeholder disegnato a mano, rimosso. */}
+    <link rel="icon" type="image/svg+xml" href={withBase('/app-icon.svg')} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

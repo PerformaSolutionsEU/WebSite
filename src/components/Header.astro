@@ -1,5 +1,6 @@
 ---
 import LanguageSwitcher from '@components/LanguageSwitcher.astro';
+import Brand from '@components/Brand.astro';
 import { getLocale, getAlternatePath, normalizePath, withBase } from '@i18n/routes.mjs';
 import { t } from '@i18n/ui.mjs';
 
@@ -24,18 +25,7 @@ const contactHref = withBase(locale === 'en' ? '/en/contact' : '/contatti');
 
 <header class="site-header">
   <div class="container-wide site-header__inner">
-    <a href={brandHref} class="brand" aria-label={t(locale, 'brand.aria')}>
-      <span class="brand__mark" aria-hidden="true">
-        <!-- Placeholder wordmark: sostituire con SVG di Antonella -->
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="7" cy="7" r="2.5" fill="currentColor" opacity="0.35" />
-          <circle cx="17" cy="7" r="2.5" fill="currentColor" opacity="0.35" />
-          <circle cx="12" cy="17" r="3" fill="currentColor" />
-          <path d="M7 9L12 15L17 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-        </svg>
-      </span>
-      <span class="brand__name">Performa</span>
-    </a>
+    <Brand href={brandHref} label={t(locale, 'brand.aria')} height={30} />
 
     <nav class="nav" aria-label={t(locale, 'nav.aria')}>
       <ul class="nav__list">
@@ -94,33 +84,11 @@ const contactHref = withBase(locale === 'en' ? '/en/contact' : '/contatti');
     gap: var(--p-space-4);
   }
 
-  .brand {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--p-space-3);
-    color: var(--p-fg);
-    text-decoration: none;
-    font-family: var(--p-font-sans);
-    font-weight: 700;
-    font-size: 1.25rem;
-    letter-spacing: -0.02em;
-
-    &:hover {
-      color: var(--p-fg);
-      text-decoration: none;
-    }
-  }
-
-  .brand__mark {
-    display: inline-grid;
-    place-items: center;
-    width: 2.25rem;
-    height: 2.25rem;
-    border-radius: var(--p-radius);
-    background: var(--p-brand-700);
-    color: #ffffff;
-  }
-
+  /* Le regole .brand e .brand__mark vivevano qui quando il marchio era un
+     placeholder inline piu' il nome come testo. Ora il lockup e' un componente
+     con i suoi stili: gli stili con scope di Astro non attraversano il confine
+     fra componenti, quindi lasciarle qui significherebbe tenere regole morte
+     che sembrano attive. */
   .nav {
     flex: 1;
     display: flex;

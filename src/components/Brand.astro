@@ -1,0 +1,82 @@
+---
+/**
+ * Lockup Performa. Unico punto in cui il marchio compare nel sito: header e
+ * footer montano questo, non due copie dello stesso SVG.
+ *
+ * I file arrivano dal sistema di marca del prodotto e sono generati, non
+ * disegnati qui. Per aggiornarli, dal repo Performa:
+ *
+ *   node docs/marketing/brand/install.mjs --dest <questo-repo>/public
+ *
+ * Tre dettagli che sembrano dettagli e non lo sono:
+ *
+ * 1. Gli SVG sono PRE-COLORATI. Un SVG caricato via <img> e' un documento
+ *    isolato e non eredita il `color` della pagina: `currentColor` non
+ *    funziona e il fondo scuro vuole un file suo. Niente `filter` per
+ *    invertire, appiattirebbe il marchio.
+ * 2. La variante segue la SUPERFICIE, non il tema. `auto` lascia scegliere a
+ *    prefers-color-scheme ed e' giusto dove il fondo cambia col tema, come
+ *    l'header. Il footer invece e' una fascia scura in entrambi i temi, quindi
+ *    vuole `dark` sempre: seguire il tema li' metterebbe il lockup petrolio su
+ *    fondo slate in tema chiaro.
+ * 3. Il rapporto d'aspetto si legge da brand-manifest.json, copiato insieme ai
+ *    vettori. Scriverlo a mano qui vorrebbe dire avere un numero che invecchia
+ *    al primo ritocco del marchio, in un repo che non se ne accorge.
+ */
+import { withBase } from '@i18n/routes.mjs';
+import manifest from '../../public/brand-manifest.json';
+
+interface Props {
+  /** Altezza resa in px. La larghezza segue il rapporto del lockup. */
+  height?: number;
+  /** Se passato, il lockup diventa un link. */
+  href?: string;
+  /** Etichetta accessibile. Su un link l'alt resta vuoto per non farlo annunciare due volte. */
+  label?: string;
+  /** `auto` segue il tema; `light` e `dark` la impongono, per superfici che non cambiano. */
+  variant?: 'auto' | 'light' | 'dark';
+}
+
+const { height = 30, href, label, variant = 'auto' } = Astro.props;
+
+const ratio = manifest['logo.svg'].ratio;
+const width = Math.round(height * ratio);
+
+const light = withBase('/logo.svg');
+const dark = withBase('/logo-dark.svg');
+const fixed = variant === 'dark' ? dark : light;
+const alt = href ? '' : (label ?? 'Performa');
+const Tag = href ? 'a' : 'span';
+---
+
+<Tag href={href} aria-label={href ? label : undefined} class="brand-lockup">
+  {variant === 'auto' ? (
+    <picture>
+      <source srcset={dark} media="(prefers-color-scheme: dark)" />
+      <img src={light} alt={alt} width={width} height={height} />
+    </picture>
+  ) : (
+    <img src={fixed} alt={alt} width={width} height={height} />
+  )}
+</Tag>
+
+<style>
+  .brand-lockup {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .brand-lockup picture,
+  .brand-lockup img {
+    display: block;
+  }
+
+  /* width e height stanno sull'immagine per riservare lo spazio ed evitare lo
+     spostamento del layout al caricamento. Qui si lascia che la larghezza
+     comandi se un contenitore stringe. */
+  .brand-lockup img {
+    height: auto;
+    max-width: 100%;
+  }
+</style>

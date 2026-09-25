@@ -1,4 +1,5 @@
 ---
+import Brand from '@components/Brand.astro';
 import { getLocale, getAlternatePath, normalizePath, withBase } from '@i18n/routes.mjs';
 import { t } from '@i18n/ui.mjs';
 
@@ -46,16 +47,10 @@ const columns = [
   <div class="container-wide">
     <div class="site-footer__grid">
       <div class="site-footer__brand">
+        {/* variant="dark" e non "auto": la fascia del footer e' slate-900 in
+            entrambi i temi, quindi il lockup qui non deve seguire il tema. */}
         <div class="brand-row">
-          <span class="brand-mark" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="7" cy="7" r="2.5" fill="currentColor" opacity="0.35" />
-              <circle cx="17" cy="7" r="2.5" fill="currentColor" opacity="0.35" />
-              <circle cx="12" cy="17" r="3" fill="currentColor" />
-              <path d="M7 9L12 15L17 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-            </svg>
-          </span>
-          <span class="brand-name display">Performa</span>
+          <Brand variant="dark" height={26} />
         </div>
         <p class="brand-desc">{t(locale, 'footer.brand.desc')}</p>
       </div>
@@ -112,28 +107,12 @@ const columns = [
     }
   }
 
+  /* Resta solo la spaziatura: il lockup si disegna e si colora da se'. Le
+     vecchie .brand-mark e .brand-name servivano al placeholder inline piu' il
+     nome come testo, e non sarebbero comunque piu' applicate — gli stili con
+     scope di Astro non attraversano il confine fra componenti. */
   .brand-row {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--p-space-3);
-    color: #ffffff;
     margin-block-end: var(--p-space-3);
-  }
-
-  .brand-mark {
-    display: inline-grid;
-    place-items: center;
-    width: 2rem;
-    height: 2rem;
-    border-radius: var(--p-radius);
-    background: var(--p-brand-700);
-  }
-
-  .brand-name {
-    color: #ffffff;
-    font-size: 1.25rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
   }
 
   .brand-desc {

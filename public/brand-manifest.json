@@ -1,0 +1,68 @@
+{
+	"mark.svg": {
+		"width": 399.46,
+		"height": 399.43,
+		"ratio": 1.0001,
+		"note": "marchio, superfici chiare"
+	},
+	"mark-reverse.svg": {
+		"width": 399.46,
+		"height": 399.43,
+		"ratio": 1.0001,
+		"note": "marchio, fondi di marca e scuri"
+	},
+	"mark-mono.svg": {
+		"width": 399.46,
+		"height": 399.43,
+		"ratio": 1.0001,
+		"note": "stampa a un colore"
+	},
+	"logo.svg": {
+		"width": 13980.2418,
+		"height": 1887.5,
+		"ratio": 7.4068,
+		"note": "logo prodotto, superfici chiare"
+	},
+	"logo-dark.svg": {
+		"width": 13980.2418,
+		"height": 1887.5,
+		"ratio": 7.4068,
+		"note": "logo prodotto, aside e fondi scuri"
+	},
+	"logo-solutions.svg": {
+		"width": 15017.4195,
+		"height": 2924.5998,
+		"ratio": 5.1349,
+		"note": "firma aziendale, superfici chiare"
+	},
+	"logo-solutions-dark.svg": {
+		"width": 15017.4195,
+		"height": 2924.5998,
+		"ratio": 5.1349,
+		"note": "firma aziendale, fondi scuri"
+	},
+	"logo-small.svg": {
+		"width": 13980.2418,
+		"height": 1887.5,
+		"ratio": 7.4068,
+		"note": "identico a logo.svg — compatibilita' con Logo.tsx"
+	},
+	"logo-small-dark.svg": {
+		"width": 13980.2418,
+		"height": 1887.5,
+		"ratio": 7.4068,
+		"note": "identico a logo-dark.svg — compatibilita' con Logo.tsx"
+	},
+	"app-icon.svg": {
+		"width": 512,
+		"height": 512,
+		"ratio": 1,
+		"note": "favicon, app icon, avatar"
+	},
+	"og-card.svg": {
+		"width": 1200,
+		"height": 630,
+		"ratio": 1.9048,
+		"note": "anteprima Open Graph, 1200x630"
+	}
+}

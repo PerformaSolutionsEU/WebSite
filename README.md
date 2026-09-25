@@ -32,6 +32,24 @@ npm run preview        # preview della build locale
 npm run check          # type-check + a11y hints via astro check
 ```
 
+## Marchio
+
+Gli asset di marca **non si disegnano qui**: sono generati dal sistema di marca del repo Performa e copiati. Per aggiornarli, da quel repo:
+
+```powershell
+node docs/marketing/brand/install.mjs --dest ..\performa-website\public
+```
+
+Copia i vettori più `brand-manifest.json`, che porta larghezza, altezza e rapporto di ogni file: `Brand.astro` legge da lì il rapporto d'aspetto, così non è un numero scritto a mano che invecchia al primo ritocco del marchio.
+
+Tre regole da non violare:
+
+- **Il marchio si monta solo via [`src/components/Brand.astro`](src/components/Brand.astro)**, mai incollando un SVG. Header e footer ne sono i due consumatori.
+- **Gli SVG sono pre-colorati.** Un SVG caricato via `<img>` è un documento isolato: non eredita il `color` della pagina, quindi `currentColor` non funziona e il fondo scuro vuole un file suo. Mai `filter` per invertire — appiattisce il marchio.
+- **La variante segue la superficie, non il tema.** `variant="auto"` lascia scegliere a `prefers-color-scheme`, giusto dove il fondo cambia col tema (header). Il footer è `slate-900` in entrambi i temi e vuole `variant="dark"` sempre.
+
+La favicon è `app-icon.svg`, il quadrato con il proprio fondo: un marchio trasparente in petrolio non tiene su una barra schede scura.
+
 ## Struttura
 
 ```
@@ -39,7 +57,10 @@ performa-website/
 ├─ public/
 │  ├─ robots.txt        # crawler policy (allow AI: GPTBot, ClaudeBot, PerplexityBot, Google-Extended)
 │  ├─ llms.txt          # riassunto per LLM (GEO)
-│  └─ favicon.svg
+│  ├─ logo*.svg         # generati dal sistema di marca — non modificare a mano
+│  ├─ mark*.svg
+│  ├─ app-icon.svg      # marchio su quadrato, serve anche da favicon
+│  └─ brand-manifest.json
 ├─ src/
 │  ├─ components/       # componenti .astro riutilizzabili
 │  ├─ layouts/          # BaseLayout, MarkdownLayout

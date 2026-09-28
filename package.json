@@ -4,6 +4,9 @@
   "version": "0.1.0",
   "private": true,
   "description": "Sito vetrina di Performa — Activity-Based Costing SaaS per PMI italiane",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -13,10 +16,12 @@
     "check": "astro check"
   },
   "dependencies": {
-    "astro": "^5.1.0",
-    "@astrojs/mdx": "^4.0.0",
-    "@astrojs/react": "^4.1.0",
-    "@astrojs/sitemap": "^3.2.0",
+    "@astrojs/markdown-remark": "^7.3.1",
+    "@astrojs/markdown-satteri": "^0.4.2",
+    "@astrojs/mdx": "^8.0.2",
+    "@astrojs/react": "^7.0.0",
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.3.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sass": "^1.83.0"

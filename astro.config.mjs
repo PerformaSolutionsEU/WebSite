@@ -4,7 +4,7 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import { buildSitemapLinks } from './src/i18n/sitemap-links.mjs';
 
-const SITE = process.env.PUBLIC_SITE_URL ?? 'https://performa.example';
+const SITE = process.env.PUBLIC_SITE_URL ?? 'https://www.performasolutions.eu';
 const BASE = process.env.PUBLIC_BASE || undefined; // undefined = '/' at root
 
 /**

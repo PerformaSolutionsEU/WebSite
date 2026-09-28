@@ -1,0 +1,137 @@
+---
+/**
+ * Lockup Performa. Unico punto in cui il marchio compare nel sito: header e
+ * footer montano questo, non due copie dello stesso SVG.
+ *
+ * I file arrivano dal sistema di marca del prodotto e sono generati, non
+ * disegnati qui. Per aggiornarli, dal repo Performa:
+ *
+ *   node docs/marketing/brand/install.mjs --dest <questo-repo>/public
+ *
+ * Tre dettagli che sembrano dettagli e non lo sono:
+ *
+ * 1. Gli SVG sono PRE-COLORATI. Un SVG caricato via <img> e' un documento
+ *    isolato e non eredita il `color` della pagina: `currentColor` non
+ *    funziona e il fondo scuro vuole un file suo. Niente `filter` per
+ *    invertire, appiattirebbe il marchio.
+ * 2. La variante segue la SUPERFICIE, non il tema. `auto` lascia scegliere a
+ *    prefers-color-scheme ed e' giusto dove il fondo cambia col tema, come
+ *    l'header. Il footer invece e' una fascia scura in entrambi i temi, quindi
+ *    vuole `dark` sempre: seguire il tema li' metterebbe il lockup petrolio su
+ *    fondo slate in tema chiaro.
+ * 3. Il rapporto d'aspetto si legge da brand-manifest.json, copiato insieme ai
+ *    vettori. Scriverlo a mano qui vorrebbe dire avere un numero che invecchia
+ *    al primo ritocco del marchio, in un repo che non se ne accorge.
+ */
+import { withBase } from '@i18n/routes.mjs';
+import manifest from '../../public/brand-manifest.json';
+
+interface Props {
+  /** Altezza resa in px. La larghezza segue il rapporto del lockup. */
+  height?: number;
+  /** Se passato, il lockup diventa un link. */
+  href?: string;
+  /** Etichetta accessibile. Su un link l'alt resta vuoto per non farlo annunciare due volte. */
+  label?: string;
+  /** `auto` segue il tema; `light` e `dark` la impongono, per superfici che non cambiano. */
+  variant?: 'auto' | 'light' | 'dark';
+  /**
+   * Sotto i 900px monta il solo marchio al posto del lockup. Serve dove il
+   * marchio divide la riga con altro — l'header — e non dove ha la riga tutta
+   * per se', come il footer.
+   */
+  compact?: boolean;
+}
+
+const { height = 30, href, label, variant = 'auto', compact = false } = Astro.props;
+
+const lockupRatio = manifest['logo.svg'].ratio;
+const markRatio = manifest['mark.svg'].ratio;
+
+const src = {
+  lockupLight: withBase('/logo.svg'),
+  lockupDark: withBase('/logo-dark.svg'),
+  markLight: withBase('/mark.svg'),
+  markDark: withBase('/mark-reverse.svg'),
+};
+const alt = href ? '' : (label ?? 'Performa');
+const Tag = href ? 'a' : 'span';
+---
+
+<Tag href={href} aria-label={href ? label : undefined} class:list={['brand', { compact }]}>
+  <span class="brand__lockup">
+    {variant === 'auto' ? (
+      <picture>
+        <source srcset={src.lockupDark} media="(prefers-color-scheme: dark)" />
+        <img src={src.lockupLight} alt={alt} width={Math.round(height * lockupRatio)} height={height} />
+      </picture>
+    ) : (
+      <img
+        src={variant === 'dark' ? src.lockupDark : src.lockupLight}
+        alt={alt}
+        width={Math.round(height * lockupRatio)}
+        height={height}
+      />
+    )}
+  </span>
+
+  {compact && (
+    <span class="brand__mark">
+      {variant === 'auto' ? (
+        <picture>
+          <source srcset={src.markDark} media="(prefers-color-scheme: dark)" />
+          <img src={src.markLight} alt={alt} width={Math.round(height * markRatio)} height={height} />
+        </picture>
+      ) : (
+        <img
+          src={variant === 'dark' ? src.markDark : src.markLight}
+          alt={alt}
+          width={Math.round(height * markRatio)}
+          height={height}
+        />
+      )}
+    </span>
+  )}
+</Tag>
+
+<style>
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+
+    /* Un marchio non lo ridimensiona il layout. Senza questo il flex del
+       contenitore lo comprime quando lo spazio stringe, e il logo si
+       rimpicciolisce da solo invece che cedere il passo a cio' che gli sta
+       accanto. */
+    flex-shrink: 0;
+  }
+
+  .brand picture,
+  .brand img {
+    display: block;
+  }
+
+  /* width e height stanno sull'immagine per riservare lo spazio ed evitare lo
+     spostamento del layout al caricamento. */
+  .brand img {
+    height: auto;
+  }
+
+  .brand__mark {
+    display: none;
+  }
+
+  /* Sotto i 900px il lockup intero pesa 222px in una riga che deve contenere
+     anche menu, selettore di lingua e pulsante. Il marchio da solo ne occupa
+     30 e libera lo spazio che serve alla navigazione per restare su una riga. */
+  @media (max-width: 900px) {
+    .brand.compact .brand__lockup {
+      display: none;
+    }
+
+    .brand.compact .brand__mark {
+      display: block;
+    }
+  }
+</style>

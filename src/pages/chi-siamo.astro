@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Icon from '@components/Icon.astro';
+import PageIntro from '@components/PageIntro.astro';
 import { withBase } from '@i18n/routes.mjs';
 
 const title = 'Chi siamo — Performa';
@@ -42,29 +43,19 @@ const principles = [
 ];
 
 const numbers = [
-  { n: '€ 307', unit: 'M+', label: 'costi allocati oggi in produzione' },
+  { n: '€ 307', unit: 'M+', label: 'costi allocati dai clienti Performa' },
   { n: '38', unit: '', label: 'organizzazioni cliente attive' },
   { n: '369', unit: '', label: 'nodi nel modello più grande' },
-  { n: '2024', unit: '', label: 'anno di prima messa in produzione' },
+  { n: '2024', unit: '', label: 'anno di primo rilascio' },
 ];
 ---
 
 <BaseLayout title={title} description={description}>
-  <section class="section section--intro">
-    <div class="container">
-      <div class="intro">
-        <span class="eyebrow">Chi siamo</span>
-        <h1 class="display intro__title">
-          Un motore ABC italiano <em>fatto per essere usato</em>.
-        </h1>
-        <p class="intro__lead">
-          Performa nasce dal problema concreto di chi costruisce modelli di
-          Activity-Based Costing quotidianamente e non ha voluto vederli morire,
-          per l'ennesima volta, dentro un file Excel non versionato.
-        </p>
-      </div>
-    </div>
-  </section>
+  <PageIntro
+    eyebrow="Chi siamo"
+    title={"Un motore ABC italiano <em>fatto per essere usato</em>."}
+    lead="Performa nasce dal problema concreto di chi costruisce modelli di Activity-Based Costing quotidianamente e non ha voluto vederli morire, per l'ennesima volta, dentro un file Excel non versionato."
+  />
 
   <section class="section section--principles" aria-labelledby="principles-heading">
     <div class="container">
@@ -98,7 +89,7 @@ const numbers = [
       <div class="section__head">
         <span class="eyebrow">Dove siamo oggi</span>
         <h2 id="numbers-heading" class="section-title">
-          I numeri di Performa <em>in produzione</em>.
+          I numeri <em>di oggi</em>.
         </h2>
       </div>
       <div class="numbers">
@@ -114,9 +105,8 @@ const numbers = [
         }
       </div>
       <p class="numbers-note">
-        Dati al 10 luglio 2026. Performa è in fase di crescita: piccola base
-        clienti, ma prodotto stabile e in uso quotidiano. Cerchiamo consulenti
-        e aziende disposti a lavorare insieme sul modello — non spettatori.
+        Dati al 10 luglio 2026. Cerchiamo consulenti e aziende disposti a
+        lavorare insieme sul modello — non spettatori.
       </p>
     </div>
   </section>
@@ -126,7 +116,7 @@ const numbers = [
       <div class="cta">
         <span class="eyebrow eyebrow--inverse">Contatto diretto</span>
         <h2 class="display cta__title">
-          Parliamo, in italiano.
+          Parliamo direttamente.
         </h2>
         <p class="cta__lead">
           Nessun form da compilare, nessun bot. Scrivici e ti rispondiamo entro
@@ -149,34 +139,6 @@ const numbers = [
     flex-direction: column;
     gap: var(--p-space-4);
     align-items: flex-start;
-  }
-
-  .section--intro {
-    padding-block: clamp(4rem, 8vw, 7rem) clamp(2rem, 4vw, 3rem);
-  }
-
-  .intro {
-    max-width: 48rem;
-    display: flex;
-    flex-direction: column;
-    gap: var(--p-space-4);
-  }
-
-  .intro__title {
-    font-size: clamp(2.5rem, 4vw + 1rem, 4.5rem);
-    line-height: var(--p-lh-tight);
-    color: var(--p-fg);
-
-    :global(em) {
-      color: var(--p-accent);
-      font-style: italic;
-    }
-  }
-
-  .intro__lead {
-    font-size: var(--p-fs-body-lg);
-    color: var(--p-fg-muted);
-    line-height: 1.55;
   }
 
   .section--principles {

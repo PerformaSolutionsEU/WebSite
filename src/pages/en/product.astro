@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Icon from '@components/Icon.astro';
+import PageIntro from '@components/PageIntro.astro';
 import { withBase } from '@i18n/routes.mjs';
 
 const title = 'The product — Performa';
@@ -118,29 +119,19 @@ const features = [
 ];
 
 const scaleFacts = [
-  { n: '€ 307', unit: 'M+', label: 'costs already allocated in production' },
+  { n: '€ 307', unit: 'M+', label: 'costs already allocated with Performa' },
   { n: '38', unit: '', label: 'active client organizations' },
-  { n: '369', unit: '', label: 'nodes in the largest live model' },
+  { n: '369', unit: '', label: 'nodes in the largest model' },
   { n: '< 400', unit: 'ms', label: 'calc time on typical models (200 nodes, 500 edges)' },
 ];
 ---
 
 <BaseLayout title={title} description={description} jsonLd={productLd}>
-  <section class="section section--intro">
-    <div class="container">
-      <div class="intro">
-        <span class="eyebrow">The product</span>
-        <h1 class="display intro__title">
-          What's <em>inside</em> Performa.
-        </h1>
-        <p class="intro__lead">
-          A graph-based calculation engine, a sector-typed UI, an AI Copilot.
-          Under the hood of every ABC model built on Performa, in ten minutes
-          of reading.
-        </p>
-      </div>
-    </div>
-  </section>
+  <PageIntro
+    eyebrow="The product"
+    title={"What's <em>inside</em> Performa."}
+    lead="A graph-based calculation engine, a sector-typed UI, an AI Copilot. Under the hood of every ABC model built on Performa, in ten minutes of reading."
+  />
 
   <!-- Engine philosophy -->
   <section class="section section--engine" aria-labelledby="engine-heading">
@@ -206,7 +197,7 @@ const scaleFacts = [
       <div class="section__head">
         <span class="eyebrow">Scale &amp; performance</span>
         <h2 id="scale-heading" class="section-title">
-          The real numbers of the product <em>in production today</em>.
+          The real numbers of the product <em>today</em>.
         </h2>
       </div>
       <div class="scale-grid">
@@ -222,10 +213,10 @@ const scaleFacts = [
         }
       </div>
       <p class="scale-note">
-        Numbers as of July 10, 2026, measured on the production database.
+        Numbers as of July 10, 2026, measured on active models.
         Architectural capacity supports up to 500 nodes per scenario, 5,000
         cost items, 2,000 allocation rules — comfortable headroom beyond the
-        largest models currently live.
+        largest models currently in use.
       </p>
     </div>
   </section>
@@ -258,36 +249,6 @@ const scaleFacts = [
     flex-direction: column;
     gap: var(--p-space-4);
     align-items: flex-start;
-  }
-
-  .section--intro {
-    padding-block: clamp(4rem, 8vw, 7rem) clamp(2rem, 4vw, 3rem);
-  }
-
-  .intro {
-    display: flex;
-    flex-direction: column;
-    gap: var(--p-space-4);
-    align-items: flex-start;
-    max-width: 44rem;
-  }
-
-  .intro__title {
-    font-size: clamp(2.5rem, 4vw + 1rem, 4.5rem);
-    line-height: var(--p-lh-tight);
-    color: var(--p-fg);
-
-    :global(em) {
-      color: var(--p-accent);
-      font-style: italic;
-    }
-  }
-
-  .intro__lead {
-    font-size: var(--p-fs-body-lg);
-    color: var(--p-fg-muted);
-    line-height: 1.55;
-    text-wrap: pretty;
   }
 
   .section--engine {

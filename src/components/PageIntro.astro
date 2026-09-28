@@ -1,0 +1,78 @@
+---
+/**
+ * PageIntro — intestazione uniforme per tutte le pagine top-level.
+ *
+ * Sostituisce le intro custom duplicate in prodotto/confronto/chi-siamo/
+ * settori/contatti (IT + EN) e viene riusata da MarkdownLayout per le
+ * pagine .mdx "commerciali" (ABC + settori).
+ *
+ * Regole non negoziabili nascoste al chiamante:
+ *  - Container fisso .container (76rem), mai container-narrow
+ *  - Flex column con align-items: flex-start (previene bug eyebrow-stretch)
+ *  - Padding-block uniforme, tipografia uniforme
+ *  - Eyebrow render come pill compatta
+ *
+ * Il headline supporta HTML (per <em> accent); il resto è testo puro.
+ */
+interface Props {
+  eyebrow: string;
+  title: string;
+  lead?: string;
+}
+
+const { eyebrow, title, lead } = Astro.props;
+---
+
+<section class="page-intro">
+  <div class="container">
+    <div class="page-intro__inner">
+      <span class="eyebrow">{eyebrow}</span>
+      <h1 class="display page-intro__title" set:html={title} />
+      {lead && <p class="page-intro__lead" set:html={lead} />}
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .page-intro {
+    padding-block: clamp(4rem, 8vw, 7rem) clamp(2rem, 4vw, 3rem);
+  }
+
+  .page-intro__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--p-space-4);
+    align-items: flex-start;
+    max-width: 48rem;
+  }
+
+  .page-intro__title {
+    font-size: clamp(2.5rem, 4vw + 1rem, 4.5rem);
+    line-height: var(--p-lh-tight);
+    color: var(--p-fg);
+
+    :global(em) {
+      color: var(--p-accent);
+      font-style: italic;
+    }
+  }
+
+  .page-intro__lead {
+    font-size: var(--p-fs-body-lg);
+    color: var(--p-fg-muted);
+    line-height: 1.55;
+    text-wrap: pretty;
+    max-width: 36rem;
+
+    :global(strong) {
+      color: var(--p-fg);
+    }
+
+    :global(em) {
+      color: var(--p-fg);
+      font-style: italic;
+      font-family: var(--p-font-display);
+    }
+  }
+</style>

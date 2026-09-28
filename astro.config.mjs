@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import { unified } from '@astrojs/markdown-remark';
 import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
@@ -42,12 +43,16 @@ export default defineConfig({
     format: 'directory',
   },
   markdown: {
-    rehypePlugins: [rehypeBasePath()],
-  },
-  integrations: [
-    mdx({
+    // Astro 7 renders Markdown with Sätteri by default, and Sätteri has no
+    // remark/rehype stage. rehypeBasePath() is a rehype plugin, so the pipeline is
+    // pinned back to unified. MDX inherits this processor — it must not declare
+    // rehypePlugins of its own.
+    processor: unified({
       rehypePlugins: [rehypeBasePath()],
     }),
+  },
+  integrations: [
+    mdx(),
     react(),
     sitemap({
       i18n: {

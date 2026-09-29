@@ -9,10 +9,11 @@ Fonti di verità del progetto (vivono nel repo principale [Performa](../Performa
 
 ## Stack
 
-- **[Astro 7](https://astro.build/)** — SSG puro, HTML pre-renderizzato, isole React opzionali. Richiede Node ≥ 22.12.
+- **[Astro 7](https://astro.build/)** — SSG puro, HTML pre-renderizzato. Richiede Node ≥ 22.12.
 - **MDX** per contenuti long-form (pillar SEO, landing settori). Astro 7 renderizza il Markdown con Sätteri;
   qui la pipeline resta su `unified` (`@astrojs/markdown-remark`) perché `astro.config.mjs` usa un plugin rehype.
-- **React 19** per componenti interattivi (usato solo se strettamente necessario)
+- **Nessun framework UI.** Il sito è HTML e CSS statici: non ci sono isole idratate.
+  Se una pagina avrà bisogno di interattività vera, `npx astro add react` rimette l'integrazione in un minuto.
 - **SCSS** con design tokens condivisi con l'app Performa
 - **Deploy**: GitHub Pages via GitHub Actions
 
@@ -32,6 +33,17 @@ npm run build          # output statico in ./dist
 npm run preview        # preview della build locale
 npm run check          # type-check + a11y hints via astro check
 ```
+
+## CI
+
+`.github/workflows/ci.yml` gira su ogni pull request e su ogni push a `dev`:
+`npm run check`, build, e link check sull'output servito. `npm run check` è
+bloccante ed è verde — se torna rosso, è una regressione, non rumore di fondo.
+
+`.github/workflows/deploy.yml` gira **solo su `main`**: il merge su `main` è la
+pubblicazione. Le variabili `PUBLIC_SITE_URL` e `PUBLIC_BASE` sono repo Variables;
+i default nel workflow descrivono la produzione (dominio custom, base `/`), così
+se le variabili sparissero il build resterebbe corretto.
 
 ## Marchio
 

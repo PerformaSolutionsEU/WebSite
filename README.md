@@ -33,6 +33,17 @@ npm run preview        # preview della build locale
 npm run check          # type-check + a11y hints via astro check
 ```
 
+## CI
+
+`.github/workflows/ci.yml` gira su ogni pull request e su ogni push a `dev`:
+`npm run check`, build, e link check sull'output servito. `npm run check` è
+bloccante ed è verde — se torna rosso, è una regressione, non rumore di fondo.
+
+`.github/workflows/deploy.yml` gira **solo su `main`**: il merge su `main` è la
+pubblicazione. Le variabili `PUBLIC_SITE_URL` e `PUBLIC_BASE` sono repo Variables;
+i default nel workflow descrivono la produzione (dominio custom, base `/`), così
+se le variabili sparissero il build resterebbe corretto.
+
 ## Marchio
 
 Gli asset di marca **non si disegnano qui**: sono generati dal sistema di marca del repo Performa e copiati. Per aggiornarli, da quel repo:

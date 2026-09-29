@@ -9,10 +9,11 @@ Fonti di verità del progetto (vivono nel repo principale [Performa](../Performa
 
 ## Stack
 
-- **[Astro 7](https://astro.build/)** — SSG puro, HTML pre-renderizzato, isole React opzionali. Richiede Node ≥ 22.12.
+- **[Astro 7](https://astro.build/)** — SSG puro, HTML pre-renderizzato. Richiede Node ≥ 22.12.
 - **MDX** per contenuti long-form (pillar SEO, landing settori). Astro 7 renderizza il Markdown con Sätteri;
   qui la pipeline resta su `unified` (`@astrojs/markdown-remark`) perché `astro.config.mjs` usa un plugin rehype.
-- **React 19** per componenti interattivi (usato solo se strettamente necessario)
+- **Nessun framework UI.** Il sito è HTML e CSS statici: non ci sono isole idratate.
+  Se una pagina avrà bisogno di interattività vera, `npx astro add react` rimette l'integrazione in un minuto.
 - **SCSS** con design tokens condivisi con l'app Performa
 - **Deploy**: GitHub Pages via GitHub Actions
 

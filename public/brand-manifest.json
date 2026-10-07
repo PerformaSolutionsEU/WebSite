@@ -1,68 +1,71 @@
 {
 	"mark.svg": {
-		"width": 399.46,
-		"height": 399.43,
-		"ratio": 1.0001,
+		"width": 865,
+		"height": 906,
+		"ratio": 0.9547,
 		"note": "marchio, superfici chiare"
 	},
 	"mark-reverse.svg": {
-		"width": 399.46,
-		"height": 399.43,
-		"ratio": 1.0001,
-		"note": "marchio, fondi di marca e scuri"
-	},
-	"mark-mono.svg": {
-		"width": 399.46,
-		"height": 399.43,
-		"ratio": 1.0001,
-		"note": "stampa a un colore"
+		"width": 906,
+		"height": 906,
+		"ratio": 1,
+		"note": "marchio su tile chiara, fondi di marca e scuri"
 	},
 	"logo.svg": {
-		"width": 13980.2418,
-		"height": 1887.5,
-		"ratio": 7.4068,
+		"width": 15329.6,
+		"height": 2718,
+		"ratio": 5.64,
 		"note": "logo prodotto, superfici chiare"
 	},
 	"logo-dark.svg": {
-		"width": 13980.2418,
-		"height": 1887.5,
-		"ratio": 7.4068,
+		"width": 15328.3143,
+		"height": 3235.7143,
+		"ratio": 4.7372,
 		"note": "logo prodotto, aside e fondi scuri"
 	},
+	"logo-small.svg": {
+		"width": 14687.6,
+		"height": 2718,
+		"ratio": 5.4038,
+		"note": "logo prodotto sotto i 40px, superfici chiare"
+	},
+	"logo-small-dark.svg": {
+		"width": 15328.3143,
+		"height": 3235.7143,
+		"ratio": 4.7372,
+		"note": "logo prodotto sotto i 40px, fondi scuri"
+	},
 	"logo-solutions.svg": {
-		"width": 15017.4195,
+		"width": 15575.6499,
 		"height": 2924.5998,
-		"ratio": 5.1349,
+		"ratio": 5.3257,
 		"note": "firma aziendale, superfici chiare"
 	},
 	"logo-solutions-dark.svg": {
-		"width": 15017.4195,
+		"width": 15017.1998,
 		"height": 2924.5998,
-		"ratio": 5.1349,
+		"ratio": 5.1348,
 		"note": "firma aziendale, fondi scuri"
-	},
-	"logo-small.svg": {
-		"width": 13980.2418,
-		"height": 1887.5,
-		"ratio": 7.4068,
-		"note": "identico a logo.svg — compatibilita' con Logo.tsx"
-	},
-	"logo-small-dark.svg": {
-		"width": 13980.2418,
-		"height": 1887.5,
-		"ratio": 7.4068,
-		"note": "identico a logo-dark.svg — compatibilita' con Logo.tsx"
 	},
 	"app-icon.svg": {
 		"width": 512,
 		"height": 512,
 		"ratio": 1,
-		"note": "favicon, app icon, avatar"
+		"note": "app icon e icone PWA, 512"
+	},
+	"app-icon-small.svg": {
+		"width": 512,
+		"height": 512,
+		"ratio": 1,
+		"note": "favicon 16/32/48 — variante piccola, angoli piu' stretti"
 	},
 	"og-card.svg": {
 		"width": 1200,
 		"height": 630,
 		"ratio": 1.9048,
 		"note": "anteprima Open Graph, 1200x630"
+	},
+	"_rules": {
+		"smallMaxHeight": 40
 	}
 }

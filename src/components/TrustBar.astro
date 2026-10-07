@@ -1,13 +1,18 @@
 ---
+import type { ComponentProps } from 'astro/types';
 import Icon from './Icon.astro';
 
+/** Derived from Icon's own Props, so adding a glyph never needs a second edit here. */
+type IconName = ComponentProps<typeof Icon>['name'];
+
 interface Signal {
-  icon: string;
+  icon: IconName;
   label: string;
 }
 
 interface Props {
-  signals?: Signal[];
+  /** readonly so callers can declare their list with `as const` and keep the icon literals. */
+  signals?: readonly Signal[];
   ariaLabel?: string;
 }
 

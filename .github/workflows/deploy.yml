@@ -34,10 +34,14 @@ jobs:
 
       - name: Build
         env:
-          # Site domain and base path for GitHub Pages project page.
-          # Override via repo/org Variables when the custom domain lands.
-          PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL || 'https://performasolutionseu.github.io' }}
-          PUBLIC_BASE: ${{ vars.PUBLIC_BASE || '/WebSite' }}
+          # The site is served from a custom domain at the root, so the defaults
+          # below describe production. They are deliberately the SAFE case: if the
+          # repo Variables ever disappear, the build still produces root-relative
+          # links instead of silently prefixing every internal href with a project
+          # path that does not exist on this domain.
+          # Set PUBLIC_BASE to '/WebSite' only to build for the github.io project page.
+          PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL || 'https://www.performasolutions.eu' }}
+          PUBLIC_BASE: ${{ vars.PUBLIC_BASE || '/' }}
         run: npm run build
 
       - name: Upload Pages artifact

@@ -2,6 +2,8 @@
 // Minimal inline SVG icons (Lucide-style, MIT license style).
 // Aggiungere qui i nuovi glifi. Nessuna dipendenza esterna.
 
+import type { HTMLAttributes } from 'astro/types';
+
 interface Props {
   name:
     | 'excel-out'
@@ -23,7 +25,10 @@ interface Props {
 
 const { name, size = 24, label, class: className } = Astro.props;
 const strokeWidth = 1.75;
-const attrs = {
+// Typed against the <svg> attribute surface: without the annotation the object
+// literal widens 'aria-hidden' and role to plain string, which the spread then
+// rejects.
+const attrs: HTMLAttributes<'svg'> = {
   width: size,
   height: size,
   viewBox: '0 0 24 24',

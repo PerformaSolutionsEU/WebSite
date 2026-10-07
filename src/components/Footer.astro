@@ -8,7 +8,7 @@ const locale = getLocale(currentPath);
 const year = new Date().getFullYear();
 
 /** Resolve an IT path to the current locale (falls back to IT if untranslated), then prefix with base. */
-const localize = (itPath) =>
+const localize = (itPath: string) =>
   withBase(locale === 'it' ? itPath : (getAlternatePath(itPath, 'en') ?? itPath));
 
 const columns = [

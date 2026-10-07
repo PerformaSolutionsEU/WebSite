@@ -1,0 +1,28 @@
+version: 2
+
+updates:
+  # npm. Grouped and monthly on purpose: this is a static marketing site with a
+  # small dependency tree, and one reviewed PR a month beats a stream of single
+  # bumps nobody opens. Majors stay out of the group so they arrive as their own
+  # PR — the Astro 5 -> 7 migration showed they need a read of the upgrade guide,
+  # not a merge button.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 3
+    groups:
+      minor-and-patch:
+        update-types:
+          - minor
+          - patch
+    labels:
+      - dependencies
+
+  # The deploy and CI workflows pin action majors; this keeps them current.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    labels:
+      - dependencies

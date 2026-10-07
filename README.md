@@ -53,15 +53,25 @@ Gli asset di marca **non si disegnano qui**: sono generati dal sistema di marca 
 node docs/marketing/brand/install.mjs --dest ..\performa-website\public
 ```
 
-Copia i vettori più `brand-manifest.json`, che porta larghezza, altezza e rapporto di ogni file: `Brand.astro` legge da lì il rapporto d'aspetto, così non è un numero scritto a mano che invecchia al primo ritocco del marchio.
+Copia gli SVG, le icone raster e `brand-manifest.json`, che porta misure e soglie: `Brand.astro` legge da lì sia i rapporti d'aspetto sia la soglia del master piccolo, così non sono numeri scritti a mano che invecchiano al primo ritocco del marchio.
 
-Tre regole da non violare:
+Cinque regole da non violare:
 
 - **Il marchio si monta solo via [`src/components/Brand.astro`](src/components/Brand.astro)**, mai incollando un SVG. Header e footer ne sono i due consumatori.
 - **Gli SVG sono pre-colorati.** Un SVG caricato via `<img>` è un documento isolato: non eredita il `color` della pagina, quindi `currentColor` non funziona e il fondo scuro vuole un file suo. Mai `filter` per invertire — appiattisce il marchio.
 - **La variante segue la superficie, non il tema.** `variant="auto"` lascia scegliere a `prefers-color-scheme`, giusto dove il fondo cambia col tema (header). Il footer è `slate-900` in entrambi i temi e vuole `variant="dark"` sempre.
+- **Chiaro e scuro non hanno lo stesso rapporto.** Dal marchio depositato il 2026-10-07 il simbolo è un'illustrazione cromata che sui fondi scuri sta dentro una tile quadrata, mentre nudo è più largo che alto. Ogni variante porta il rapporto del file che monta davvero, anche sulle `<source>`: leggerne uno solo renderebbe il lockup scuro un quinto più alto di quello chiaro, con un salto visibile al cambio di tema.
+- **Gli SVG incorporano un raster e non si scalano all'infinito.** Oltre i 256px di altezza del simbolo serve un master più grande da `prepare-master.mjs`, nel repo Performa. Sotto la soglia del manifest si monta il master piccolo, che lascia fuori i quadratini della dissolvenza e pesa un terzo: header e footer ci stanno entrambi sotto.
 
-La favicon è `app-icon.svg`, il quadrato con il proprio fondo: un marchio trasparente in petrolio non tiene su una barra schede scura.
+La favicon è `favicon.ico` (16/32/48) più `logo192.png` per `apple-touch-icon`, generati dal sistema di marca e copiati con tutto il resto. **Niente favicon SVG**: da quando il simbolo è raster, un SVG che lo incorpora ha gli stessi pixel di un PNG con un terzo di peso in più, e la scaricherebbe ogni pagina.
+
+### Anteprima Open Graph
+
+```
+npm run build && npm run og
+```
+
+`og-image.png` è uno **scatto dell'hero**, non un disegno a parte. Si rigenera con [`scripts/capture-og.mjs`](scripts/capture-og.mjs), che serve `dist/` e lo fotografa col Chromium di Playwright. Va rilanciato quando cambia l'hero o il marchio: finché si faceva a mano, quell'immagine scadeva in silenzio — nessuno va a guardare le anteprime dei propri link.
 
 ## Struttura
 
@@ -72,7 +82,9 @@ performa-website/
 │  ├─ llms.txt          # riassunto per LLM (GEO)
 │  ├─ logo*.svg         # generati dal sistema di marca — non modificare a mano
 │  ├─ mark*.svg
-│  ├─ app-icon.svg      # marchio su quadrato, serve anche da favicon
+│  ├─ favicon.ico       # 16/32/48, generata dal sistema di marca
+│  ├─ logo192/512.png   # apple-touch-icon e icone grandi
+│  ├─ og-image.png      # scatto dell'hero — si rigenera con `npm run og`
 │  └─ brand-manifest.json
 ├─ src/
 │  ├─ components/       # componenti .astro riutilizzabili

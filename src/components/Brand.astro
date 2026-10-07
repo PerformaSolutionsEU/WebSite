@@ -8,7 +8,7 @@
  *
  *   node docs/marketing/brand/install.mjs --dest <questo-repo>/public
  *
- * Tre dettagli che sembrano dettagli e non lo sono:
+ * Cinque dettagli che sembrano dettagli e non lo sono:
  *
  * 1. Gli SVG sono PRE-COLORATI. Un SVG caricato via <img> e' un documento
  *    isolato e non eredita il `color` della pagina: `currentColor` non
@@ -19,9 +19,18 @@
  *    l'header. Il footer invece e' una fascia scura in entrambi i temi, quindi
  *    vuole `dark` sempre: seguire il tema li' metterebbe il lockup petrolio su
  *    fondo slate in tema chiaro.
- * 3. Il rapporto d'aspetto si legge da brand-manifest.json, copiato insieme ai
- *    vettori. Scriverlo a mano qui vorrebbe dire avere un numero che invecchia
+ * 3. Misure e soglie si leggono da brand-manifest.json, copiato insieme ai
+ *    disegni. Scriverle a mano qui vorrebbe dire avere numeri che invecchiano
  *    al primo ritocco del marchio, in un repo che non se ne accorge.
+ * 4. Dal marchio depositato il 2026-10-07 chiaro e scuro NON hanno lo stesso
+ *    rapporto: sui fondi scuri il marchio sta dentro una tile quadrata, mentre
+ *    nudo e' piu' largo che alto. Ogni variante porta quindi il rapporto del
+ *    file che monta davvero — leggerne uno solo renderebbe il lockup scuro un
+ *    quinto piu' alto di quello chiaro, con un salto visibile al cambio di
+ *    tema. Per questo le misure stanno anche sulle <source>, non solo sull'<img>.
+ * 5. Sotto la soglia del manifest si monta il master piccolo, che lascia fuori
+ *    i quadratini della dissolvenza — a quelle misure sono sporco — e pesa un
+ *    terzo. Header e footer ci stanno entrambi sotto.
  */
 import { withBase } from '@i18n/routes.mjs';
 import manifest from '../../public/brand-manifest.json';
@@ -45,15 +54,31 @@ interface Props {
 
 const { height = 30, href, label, variant = 'auto', compact = false } = Astro.props;
 
-const lockupRatio = manifest['logo.svg'].ratio;
-const markRatio = manifest['mark.svg'].ratio;
+/**
+ * Le chiavi del manifest che sono disegni. `_rules` porta le soglie e non ha
+ * misure: tenerla fuori dal tipo fa fallire in compilazione un nome di file
+ * sbagliato, invece di restituire `undefined` a chi chiede un rapporto.
+ */
+type Drawing = Exclude<keyof typeof manifest, '_rules'>;
 
-const src = {
-  lockupLight: withBase('/logo.svg'),
-  lockupDark: withBase('/logo-dark.svg'),
-  markLight: withBase('/mark.svg'),
-  markDark: withBase('/mark-reverse.svg'),
-};
+// Il master piccolo entra sotto la soglia dichiarata dal sistema di marca.
+const lockupBase = height <= manifest._rules.smallMaxHeight ? 'logo-small' : 'logo';
+
+const file = {
+  lockupLight: `${lockupBase}.svg`,
+  lockupDark: `${lockupBase}-dark.svg`,
+  markLight: 'mark.svg',
+  markDark: 'mark-reverse.svg',
+} satisfies Record<string, Drawing>;
+
+type Slot = keyof typeof file;
+
+const src = Object.fromEntries(
+  Object.entries(file).map(([k, name]) => [k, withBase(`/${name}`)]),
+) as Record<Slot, string>;
+
+/** Larghezza resa del file richiesto, all'altezza chiesta dal chiamante. */
+const widthOf = (key: Slot) => Math.round(height * manifest[file[key]].ratio);
 const alt = href ? '' : (label ?? 'Performa');
 const Tag = href ? 'a' : 'span';
 ---
@@ -62,14 +87,19 @@ const Tag = href ? 'a' : 'span';
   <span class="brand__lockup">
     {variant === 'auto' ? (
       <picture>
-        <source srcset={src.lockupDark} media="(prefers-color-scheme: dark)" />
-        <img src={src.lockupLight} alt={alt} width={Math.round(height * lockupRatio)} height={height} />
+        <source
+          srcset={src.lockupDark}
+          media="(prefers-color-scheme: dark)"
+          width={widthOf('lockupDark')}
+          height={height}
+        />
+        <img src={src.lockupLight} alt={alt} width={widthOf('lockupLight')} height={height} />
       </picture>
     ) : (
       <img
         src={variant === 'dark' ? src.lockupDark : src.lockupLight}
         alt={alt}
-        width={Math.round(height * lockupRatio)}
+        width={widthOf(variant === 'dark' ? 'lockupDark' : 'lockupLight')}
         height={height}
       />
     )}
@@ -79,14 +109,19 @@ const Tag = href ? 'a' : 'span';
     <span class="brand__mark">
       {variant === 'auto' ? (
         <picture>
-          <source srcset={src.markDark} media="(prefers-color-scheme: dark)" />
-          <img src={src.markLight} alt={alt} width={Math.round(height * markRatio)} height={height} />
+          <source
+            srcset={src.markDark}
+            media="(prefers-color-scheme: dark)"
+            width={widthOf('markDark')}
+            height={height}
+          />
+          <img src={src.markLight} alt={alt} width={widthOf('markLight')} height={height} />
         </picture>
       ) : (
         <img
           src={variant === 'dark' ? src.markDark : src.markLight}
           alt={alt}
-          width={Math.round(height * markRatio)}
+          width={widthOf(variant === 'dark' ? 'markDark' : 'markLight')}
           height={height}
         />
       )}
@@ -122,9 +157,9 @@ const Tag = href ? 'a' : 'span';
     display: none;
   }
 
-  /* Sotto i 900px il lockup intero pesa 222px in una riga che deve contenere
-     anche menu, selettore di lingua e pulsante. Il marchio da solo ne occupa
-     30 e libera lo spazio che serve alla navigazione per restare su una riga. */
+  /* Sotto i 900px il lockup pesa 162px in una riga che deve contenere anche
+     menu, selettore di lingua e pulsante. Il marchio da solo ne occupa 29 e
+     libera lo spazio che serve alla navigazione per restare su una riga. */
   @media (max-width: 900px) {
     .brand.compact .brand__lockup {
       display: none;
